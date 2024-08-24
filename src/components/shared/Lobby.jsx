@@ -1,7 +1,7 @@
-import { useMemo, useState } from "react";
-import { useRef } from "react";
+import { useEffect } from "react";
+import { useState } from "react";
 import styled from "styled-components";
-import { SCREENS } from "../../constants/screens";
+import { WEEK_TO_LOBBY } from "../../constants/weekToLobby";
 import { CURRENT_WEEK, useProgress } from "../../contexts/ProgressContext";
 import { useSizeRatio } from "../../hooks/useSizeRatio";
 import { Block } from "./Block";
@@ -9,7 +9,7 @@ import { Button } from "./Button";
 import { FlexWrapper } from "./FlexWrapper"
 import { LockWeek } from "./icons/LockWeek";
 import { LobbyHeader } from "./LobbyHeader"
-import { FirstRulesModal, MissedWeekModal } from "./modals";
+import { FirstRulesModal, MissedWeekModal, RefreshCoinsModal, WaitModal } from "./modals";
 
 const currentShadow = 'inset -4px -4px 6px 0 rgba(0, 0, 0, 0.25), inset 4px 4px 6px 0 rgba(255, 255, 255, 0.25)';
 const passedShadow = 'inset -4px -4px 6px 0 rgba(0, 0, 0, 0.25), inset 4px 4px 6px 0 rgba(0, 0, 0, 0.25)';
@@ -63,25 +63,16 @@ const WeekButton = styled(Button)`
     }
 `;
 
-const WEEK_TO_LEVEL = {
-    1: SCREENS.LOBBY1,
-    2: SCREENS.LOBBY2,
-    3: SCREENS.LOBBY3,
-    4: SCREENS.LOBBY4,
-}
-
-export const Lobby = ({ activeWeek, passedLevels, levelScreens, isShowRules}) => {
+export const Lobby = ({ activeWeek, levelScreens, isShowRules}) => {
     const ratio = useSizeRatio();
-    const [isModal, setIsModal] = useState(isShowRules);
-    const {next, passedWeeks} = useProgress();
+    const {next, passedWeeks, passedWeekLevels, user, setUserInfo} = useProgress();
+    const [isModal, setIsModal] = useState(isShowRules && !user.seenRules);
+    const [isNextWeekModal, setIsNextWeekModal] = useState(user.isFromGame && activeWeek === CURRENT_WEEK && passedWeeks.includes(activeWeek));
+    const [isPrevWeekModal, setIsPrevWeekModal] = useState(user.isVip && user.isFromGame && passedWeeks.includes(activeWeek) && activeWeek < CURRENT_WEEK);
+    const passedLevels = passedWeekLevels[activeWeek];
     const currentLevel = passedLevels.length + 1 > 3 ? 3 : passedLevels.length + 1;
-    const lastWeek = useMemo(() => passedWeeks.length + 1 > 4 ? 4 : passedWeeks.length + 1, [passedWeeks]);
-    const [isMissedModal, setIsMissedModal] = useState(isShowRules ? false : passedWeeks.length + 1 < CURRENT_WEEK);
-    const levelsRef = useRef();
-    const leafsRef = useRef();
-    const coinsRef = useRef();
-    const profileRef = useRef();
-    const rulesRef = useRef();
+    const lastWeek = passedWeeks.length + 1 > 4 ? 4 : passedWeeks.length + 1;
+    const [isMissedModal, setIsMissedModal] = useState(isShowRules || user.seenWeekInfo ? false : passedWeeks.length + 1 < CURRENT_WEEK);
 
     const handleClickLevel = (level) => {
         if (currentLevel !== level) return;
@@ -92,13 +83,29 @@ export const Lobby = ({ activeWeek, passedLevels, levelScreens, isShowRules}) =>
     const handleClickWeek = (w) => {
         if (w > lastWeek || w === activeWeek) return;
 
-        next(WEEK_TO_LEVEL[w]);
+        next(WEEK_TO_LOBBY[w]);
     };
 
     const handleCloseModal = () => {
         setIsModal(false);
+        setUserInfo({seenRules: true});
+        if (passedWeeks.length + 1 < CURRENT_WEEK) setIsMissedModal(true);
+    }
 
-        if (passedWeeks.length + 1 < CURRENT_WEEK)  setIsMissedModal(true);
+    const handleClosePrevWeekModal = () => {
+        setUserInfo({isFromGame: false});
+        setIsPrevWeekModal(false);
+    }
+
+    const handleCloseWeekModal = () => {
+        setUserInfo({seenWeekInfo: true});
+        setIsMissedModal(false);
+    }
+
+    const handleCloseNextWeekModal = () => {
+        setUserInfo({isFromGame: false});
+        console.log('ale');
+        setIsNextWeekModal(false);
     }
 
     const levels = Array.from({length: 3}, (v, i) => i + 1);
@@ -106,8 +113,8 @@ export const Lobby = ({ activeWeek, passedLevels, levelScreens, isShowRules}) =>
 
     return (
         <FlexWrapper>
-            <LobbyHeader leafsRef={leafsRef} coinsRef={coinsRef} profileRef={profileRef} rulesRef={rulesRef}/>
-            <Levels $ratio={ratio} ref={levelsRef}>
+            <LobbyHeader/>
+            <Levels $ratio={ratio}>
                 {
                     levels.map((level) => (
                         <ButtonStyled
@@ -143,7 +150,9 @@ export const Lobby = ({ activeWeek, passedLevels, levelScreens, isShowRules}) =>
                 </WeeksBlock>
             </BlockStyled>
             {isModal && <FirstRulesModal onClose={handleCloseModal} />}
-            {isMissedModal && <MissedWeekModal onClose={() => setIsMissedModal(false)}/>}
+            {isMissedModal && <MissedWeekModal onClose={handleCloseWeekModal}/>}
+            {isPrevWeekModal && <RefreshCoinsModal onClose={handleClosePrevWeekModal}/>}
+            {isNextWeekModal && <WaitModal onClose={handleCloseNextWeekModal}/>}
         </FlexWrapper>
     )
 }

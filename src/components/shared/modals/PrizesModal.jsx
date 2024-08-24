@@ -42,7 +42,7 @@ const ProgressCircle  = styled.div`
     height: ${({$ratio}) => $ratio * 7}px;
     border-radius: 50%;
     background-color: var(--color-${({$isActive}) => $isActive ? 'green2' : 'green'});
-    opacity: ${({$isActive}) => $isActive ? 1 : 0.2};
+    opacity: ${({$isActive}) => $isActive ? 1 : 0.3};
     transition: background-color 0.2s;
 
     & + & {

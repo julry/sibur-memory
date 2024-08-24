@@ -1,6 +1,5 @@
 import styled from "styled-components";
-import { useSizeRatio } from "../../hooks/useSizeRatio";
-import { IconButton, BackButton } from "./Button";
+import { IconButton } from "./Button";
 import { PointsButton } from "./PointsButton";
 import { useProgress } from "../../contexts/ProgressContext";
 import { SCREENS } from "../../constants/screens";
@@ -28,31 +27,28 @@ const Block = styled.div`
     display: flex;
 `;
 
-const BackButtonStyled = styled(BackButton)`
-    opacity: ${({$isHidden}) => $isHidden ? 0 : 1};
-`;
- 
-const VipPoints = styled.div`
+const VipPoints = styled(PointsButton)`
     margin-left: calc(var(--spacing_x1) * 1.5);
 `;
 
-export const LobbyHeader = ({ onClickModalButton }) => {
-    const { user, setModal, next, $whiteStarRef, $redStarRef } = useProgress();
+export const LobbyHeader = () => {
+    const { user, setModal, next, setUserInfo, currentScreen, } = useProgress();
+
+    const handleClick = () => {
+        setUserInfo({lastPage: currentScreen});
+        next(SCREENS.PROFILE);
+    }
 
     return (
         <Wrapper>
             <Block>
-                <div ref={$whiteStarRef}>
                     <PointsButton type="coin" color="white"/>
-                </div>
                 {user.isVip && (
-                    <VipPoints ref={$redStarRef}>
-                        <PointsButton type="leaf" color="red"/>
-                    </VipPoints>
+                    <VipPoints type="leaf" color="red"/>
                 )}
             </Block>
             <Block>
-                <IconButtonStyled icon={{width: 17, height: 21}} onClick={() => onClickModalButton({type: 'profile'})}>
+                <IconButtonStyled icon={{width: 17, height: 21}} onClick={handleClick}>
                     <svg viewBox="0 0 17 21" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M14.45 11.9C15.1263 11.9 15.7749 12.1687 16.2531 12.6469C16.7313 13.1251 17 13.7737 17 14.45V15.0577C17 18.0982 13.4215 20.4 8.5 20.4C3.5785 20.4 0 18.218 0 15.0577V14.45C0 13.7737 0.26866 13.1251 0.746878 12.6469C1.2251 12.1687 1.8737 11.9 2.55 11.9H14.45ZM14.45 13.175H2.55C2.23318 13.175 1.92771 13.2929 1.69311 13.5059C1.45851 13.7188 1.31158 14.0114 1.28095 14.3267L1.275 14.45V15.0577C1.275 17.3306 4.15565 19.125 8.5 19.125C12.6871 19.125 15.6018 17.3357 15.7216 15.1946L15.725 15.0577V14.45C15.725 14.1332 15.6071 13.8277 15.3941 13.5931C15.1812 13.3585 14.8886 13.2116 14.5733 13.1809L14.45 13.175ZM8.5 0C9.16974 -9.97992e-09 9.83292 0.131915 10.4517 0.388214C11.0704 0.644513 11.6327 1.02018 12.1062 1.49376C12.5798 1.96733 12.9555 2.52955 13.2118 3.14831C13.4681 3.76707 13.6 4.43026 13.6 5.1C13.6 5.76974 13.4681 6.43292 13.2118 7.05168C12.9555 7.67044 12.5798 8.23267 12.1062 8.70624C11.6327 9.17982 11.0704 9.55548 10.4517 9.81178C9.83292 10.0681 9.16974 10.2 8.5 10.2C7.1474 10.2 5.85019 9.66268 4.89376 8.70624C3.93732 7.74981 3.4 6.4526 3.4 5.1C3.4 3.7474 3.93732 2.45019 4.89376 1.49376C5.85019 0.53732 7.1474 2.01554e-08 8.5 0ZM8.5 1.275C7.48555 1.275 6.51264 1.67799 5.79532 2.39532C5.07799 3.11264 4.675 4.08555 4.675 5.1C4.675 6.11445 5.07799 7.08736 5.79532 7.80468C6.51264 8.52201 7.48555 8.925 8.5 8.925C9.51445 8.925 10.4874 8.52201 11.2047 7.80468C11.922 7.08736 12.325 6.11445 12.325 5.1C12.325 4.08555 11.922 3.11264 11.2047 2.39532C10.4874 1.67799 9.51445 1.275 8.5 1.275Z" fill="white"/>
                     </svg>

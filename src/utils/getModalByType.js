@@ -37,17 +37,9 @@ export const getModalByType = (type) => {
         case 'prizes':
             Component = PrizesModal;
             break; 
-        // case 'movement':
-        //     Component = MovementModal;
-        //     break;
-        // case 'tg':
-        //     Component = TgModal;
-        //     break;
-        
         default:
             return;
     }
 
-    console.log('fds');
     return <Component />
 } 

@@ -1,5 +1,6 @@
 import styled from "styled-components";
-import { IconButton, BackButton } from "./Button";
+import { IconButton } from "./Button";
+import { BackButton } from "./BackButton";
 import { useProgress } from "../../contexts/ProgressContext";
 import { useSizeRatio } from "../../hooks/useSizeRatio";
 
@@ -17,7 +18,7 @@ const Wrapper = styled.div`
     font-size: ${({$ratio}) => $ratio * 25};
 `;
 
-export const LobbyHeader = ({ onBack }) => {
+export const GameHeader = ({ onBack }) => {
     const ratio = useSizeRatio();
     const { setModal, gamePoints } = useProgress();
 

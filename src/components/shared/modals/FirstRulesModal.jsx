@@ -134,7 +134,7 @@ export const FirstRulesModal = (props) => {
         
         if (part === 2)  {
             return (
-                <BlockStyled $isBottom={part===5} hasCloseIcon onClose={() => setParts(prev => prev + 1)} $ratio={ratio}>
+                <BlockStyled hasCloseIcon onClose={() => setParts(prev => prev + 1)} $ratio={ratio}>
                     <List>
                         <ul>
                             <li>
@@ -163,7 +163,7 @@ export const FirstRulesModal = (props) => {
         
         if (part === 3)  {
             return (
-                <BlockStyled $isBottom={part===5} $ratio={ratio} hasCloseIcon onClose={() => setParts(prev => prev + 1)}>
+                <BlockStyled $ratio={ratio} hasCloseIcon onClose={() => setParts(prev => prev + 1)}>
                     <p>
                         Листики ты получаешь за первый заход на каждой неделе, когда появляются новые уровни.{' '}
                         Чем больше листиков, тем больше шанс выйграть IPhone 16.{'\n\n'}
@@ -261,7 +261,7 @@ export const FirstRulesModal = (props) => {
     }
 
     return (
-        <Modal>
+        <Modal isDisabledAnimation>
             <Darken {...getProps()}/>
             {user.isVip ? getVipContent() : getUnvipContent()}
             <ProgressWrapper>

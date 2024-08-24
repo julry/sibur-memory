@@ -3,7 +3,7 @@ import { useSizeRatio } from "../../hooks/useSizeRatio";
 
 const Wrapper = styled.input`
     padding: var(--spacing_small) var(--spacing_x4);
-    font-size: ${({$ratio}) => $ratio * 14}px;
+    font-size: var(--font_lg);
     outline: none;
     border: none;
     border-radius: var(--border-radius-sm);

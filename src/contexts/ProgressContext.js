@@ -5,18 +5,17 @@ import {getUrlParam} from "../utils/getUrlParam";
 
 const INITIAL_USER = {
     id: '13526413',
-    name: 'Иванов Иван Иванович',
+    name: 'Иванов Иван',
     email: 'ivan2001@mail.ru',
-    university: 'РХТУ Факультет нефтегазохимии и полимерных материалов',
+    university: 'ННГУ им. Лобачевского',
+    fac: 'Факультет химических технологий, промышленной экологии и биотехнологий',
     isVip: true,
     seenRules: true,
     isTgConnected: false,
     weekLeafes: [],
-    //ubrat' posle api
-    isJustEntered: true,
 };
 
-export const CURRENT_WEEK = 3;
+export const CURRENT_WEEK = 1;
 
 const INITIAL_STATE = {
     screen: SCREENS.INTRO,
@@ -25,6 +24,9 @@ const INITIAL_STATE = {
     weekPoints: 0,
     user: INITIAL_USER,
     passedWeeks: [],
+    passedLevelsWeek1: [],
+    passedLevelsWeek2: [],
+    passedLevelsWeek3: [],
 }
 
 const ProgressContext = createContext(INITIAL_STATE)
@@ -42,6 +44,9 @@ export function ProgressProvider(props) {
     const [gamePoints, setGamePoints] = useState(0);
     const [user, setUser] = useState(INITIAL_STATE.user);
     const [passedWeeks, setPassedWeeks] = useState(INITIAL_STATE.passedWeeks);
+    const [passedLevelsWeek1, setPassedLevelsWeek1] = useState(INITIAL_STATE.passedLevelsWeek1);
+    const [passedLevelsWeek2, setPassedLevelsWeek2] = useState(INITIAL_STATE.passedLevelsWeek2);
+    const [passedLevelsWeek3, setPassedLevelsWeek3] = useState(INITIAL_STATE.passedLevelsWeek3);
     const [hasPassedThisTry, setHasPassedThisTry] = useState(false); 
     const screen = screens[currentScreen];
     const $whiteStarRef = useRef();
@@ -59,6 +64,24 @@ export function ProgressProvider(props) {
 
     const setUserInfo = (user) => {
         setUser(prev => ({...prev, ...user}));
+    }
+
+    const passLevel = (level, week) => {
+        const addLevel = (arr) => arr.includes(level) ? arr : [...arr, level];
+
+        switch (week) {
+            case 1: 
+                setPassedLevelsWeek1(addLevel)
+                break; 
+            case 2: 
+                setPassedLevelsWeek2(addLevel)
+                break; 
+            case 3: 
+                setPassedLevelsWeek3(addLevel)
+                break;
+            default:
+                break;
+        }
     }
 
     const addGamePoint = () => setGamePoints(prev => prev + 1);
@@ -85,7 +108,13 @@ export function ProgressProvider(props) {
         $whiteStarRef,
         $redStarRef,
         hasPassedThisTry,
-        setHasPassedThisTry
+        setHasPassedThisTry,
+        passedWeekLevels: {
+            1: passedLevelsWeek1,
+            2: passedLevelsWeek2,
+            3: passedLevelsWeek3,
+        },
+        passLevel
     }
 
     return (

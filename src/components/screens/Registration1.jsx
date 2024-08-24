@@ -39,7 +39,7 @@ export const Registration1 = () => {
     }
 
     const handleNext = () => {
-        setUserInfo({university: `${univ.name} ${fac}`, isVip: !!fac || fac === 'other'});
+        setUserInfo({university: univ.name, isVip: !!fac && fac !== 'Другое', fac: fac && fac !== 'Другое' ? '' : fac });
         next();
     }
 

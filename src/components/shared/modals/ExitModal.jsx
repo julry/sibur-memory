@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { SCREENS } from "../../../constants/screens";
+import { WEEK_TO_LOBBY } from "../../../constants/weekToLobby";
 import { useProgress } from "../../../contexts/ProgressContext";
 import { Block } from "../Block";
 import { Button } from "../Button";
@@ -26,13 +27,6 @@ const ButtonWrapper = styled.div`
         width: calc((100% - var(--spacing_x2)) / 2);
     }
 `;
-
-const WEEK_TO_LOBBY = {
-    1: SCREENS.LOBBY1,
-    2: SCREENS.LOBBY2,
-    3: SCREENS.LOBBY3,
-    4: SCREENS.LOBBY4,
-}
 
 export const ExitModal = () => {
     const { next, modal } = useProgress();

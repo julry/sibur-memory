@@ -26,22 +26,23 @@ const StarWrapper = styled(IconButton)`
     }
 `;
 
-export const PointsButton = ({type, text, ...props}) => {
+export const PointsButton = ({text, type = "coin", isShowAmount = true, ...props}) => {
     const ratio = useSizeRatio();
-    const { user, points, weekPoints, gamePoints, vipPoints } = useProgress();
+    const { user, points, weekPoints, vipPoints } = useProgress();
 
     const getAmount = () => {
         if (user.isVip) {
-            if (type === 'coin') return `${weekPoints + gamePoints}/34`;
-            else return `${vipPoints}/5`;
+            if (type === 'coin') return isShowAmount ? `${weekPoints}/34` : weekPoints;
+            else return isShowAmount ? `${vipPoints}/5` : vipPoints;
         }
-        return `${points + gamePoints}/151`;
+        return isShowAmount ? `${points}/151` : points;
     }
 
     return (
         <StarWrapper {...props} $ratio={ratio} $type={type}>
             <p>{text ?? getAmount()}</p>
             {type === 'coin' ? <Coin /> : <Leaf />}
+            {props.children}
         </StarWrapper>
     )
 }

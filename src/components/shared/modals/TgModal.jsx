@@ -9,7 +9,9 @@ const Content = styled(Block)`
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    padding: var(--spacing_x5);
+    padding-left: var(--spacing_x5);
+    padding-right: var(--spacing_x5);
+    text-align: center;
 `;
 
 const ButtonStyled = styled(Button)`
@@ -17,26 +19,34 @@ const ButtonStyled = styled(Button)`
 `;
 
 export const TgModal = (props) => {
-    const { user, setVipPoints, setPoints, modal, setModal, setUserInfo } = useProgress();
+    const { user, setVipPoints, modal, setModal, setUserInfo } = useProgress();
 
     const handleClick = () => {
         if (!user.isTgConnected) {
             if (user.isVip) setVipPoints(prev => prev + 1);
-            else setPoints(prev => prev + 1);
             setUserInfo({isTgConnected: true});
         }
-        setModal({visible: false});
+
+        props.onClose();
     }
 
     return (
         <Modal isDarken isDisabledAnimation={modal.isDisabledAnimation}>
-            <Content hasCloseIcon onClose={() => setModal({visible: false})}>
+            <Content hasCloseIcon onClose={props.onClose}>
                 <p>
-                    У нас есть полезный <b>tg-канал</b> про карьерные возможности.{'\n'}
-                    Переходи в <b>бот</b>, чтобы получить ссылку, и заработай ещё одну{' '}
-                    <b>красную звезду</b> — так ты будешь на шаг ближе к главному призу.
+                    В нашем <b>tg-боте</b> ты можешь следить за <b>обновлениями</b> игры 
+                    и находить ответы на возможные вопросы. Там же мы огласим ID <b>победителей</b> розыгрыша!{'\n\n'}
+                    {user?.isVip ? (
+                        <>
+                            Кстати, в боте можно подписаться на полезный канал про карьерные возможности и получить <b>дополнительный листик</b>.
+                        </>
+                    ) : (
+                        <>
+                            Кстати, в боте можно подписаться на <b>полезный</b> канал про карьерные возможности и быть в курсе классных стажировок!
+                        </>
+                    )}
                 </p>
-                <ButtonStyled color="red" onClick={handleClick}>Перейти</ButtonStyled>
+                <ButtonStyled onClick={handleClick}>Перейти</ButtonStyled>
             </Content>
         </Modal>
     )

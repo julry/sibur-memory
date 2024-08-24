@@ -46,8 +46,3 @@ export const IconButton = ({icon = {}, color = 'green2', ...props}) => {
 
     return <IconWrapper {...props} $svgWidth={width} $svgHeight={height} $color={color} $ratio={ratio} />
 }
-
-export const BackButton = styled(IconButton)`
-    width: auto;
-    padding: 0 var(--spacing_x2);
-`;

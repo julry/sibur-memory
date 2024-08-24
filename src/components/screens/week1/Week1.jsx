@@ -1,4 +1,4 @@
-import { WeekScreen } from "../shared/WeekScreen";
+import { WeekScreen } from "../../shared/WeekScreen";
 
 export const Week1 = () => (
     <WeekScreen
