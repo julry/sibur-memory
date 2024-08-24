@@ -4,8 +4,6 @@ import { useSizeRatio } from "../../../hooks/useSizeRatio";
 import { Block } from "../Block";
 import { Modal } from "./Modal";
 import { Button } from "../Button";
-import { WhiteStarPart } from "./WhiteStarPart";
-import { RedStarPart } from "./RedStarPart";
 import { useState } from "react";
 
 const Content = styled(Block)`
@@ -13,22 +11,22 @@ const Content = styled(Block)`
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    padding: var(--spacing_x5);
+    text-align: center;
+`;
+
+const ButtonStyled = styled(Button)`
+    margin-top: var(--spacing_x5);
 `;
 
 const ButtonsWrapper = styled.div`
     display: flex;
     justify-content: space-between;
-    margin: var(--spacing_x4) 0 0;
     align-items: center;
+    width: 100%;
 
     & button {
         width: calc((100% - var(--spacing_x3) + (var(--spacing_x1) / 2))/2);
     }
-`;
-
-const ButtonStyled = styled(Button)`
-    margin: var(--spacing_x4) 0 0;
 `;
 
 const ProgressWrapper = styled.div`
@@ -36,17 +34,19 @@ const ProgressWrapper = styled.div`
     width: 100%;
     justify-content: center;
     align-items: center;
+    margin: var(--spacing_x5) 0;
 `;
 
 const ProgressCircle  = styled.div`
-    width: ${({$ratio}) => $ratio * 6}px;
-    height: ${({$ratio}) => $ratio * 6}px;
+    width: ${({$ratio}) => $ratio * 7}px;
+    height: ${({$ratio}) => $ratio * 7}px;
     border-radius: 50%;
-    background-color: var(--color-${({$isActive}) => $isActive ? 'red' : 'black'});
+    background-color: var(--color-${({$isActive}) => $isActive ? 'green2' : 'green'});
+    opacity: ${({$isActive}) => $isActive ? 1 : 0.2};
     transition: background-color 0.2s;
 
     & + & {
-        margin-left:  ${({$ratio}) => $ratio * 2.5}px;
+        margin-left:  ${({$ratio}) => $ratio * 7}px;
     }
 `;
 
@@ -54,7 +54,7 @@ export const PrizesModal = () => {
     const ratio = useSizeRatio();
     const [part, setPart] = useState(0);
     const { user, setModal } = useProgress();
-    const amount = 2;
+    const amount = 3;
     const progress = Array.from({length: amount}, (v, i) => i);
 
     const Progress = () => (
@@ -65,58 +65,78 @@ export const PrizesModal = () => {
         </ProgressWrapper>
     );
 
-    const handleSetRedStarPart = () => {
-        setPart(prev => prev + 1)
-    }
-
     const getContent = () => {
+        let content;
         switch (part) {
             case 0: 
-                return (
-                    <WhiteStarPart>
-                        <p>
-                            За прохождение уровней и за правильные ответы на вопросы после них,{' '}
-                            ты получаешь <b>белые звёзды</b>. Собирай каждую неделю больше 15 звёзд и участвуй{' '}
-                            в <b>еженедельном розыгрыше</b>.
-                            {'\n\n'}
-                            Жди каждый понедельник письмо на почту или следи за уведомлениями от tg-бота. 
-                            {'\n\n'}
-                            Призы можно будет забрать на стойке Альфа-Банка в твоём вузе{' '}
-                            до пятницы следующей недели. Не забудь студенческий.
-                        </p>
-                        <ButtonStyled color="red" onClick={handleSetRedStarPart}>Далее</ButtonStyled>
-                        <Progress />
-                    </WhiteStarPart>
+                content = (
+                    <p>
+                        <b>Давай расскажем, что тебя ждёт:</b>{'\n\n'}
+                        Всё, что нужно, — <b>переворачивать карточки</b> про карьеру в СИБУРе 
+                        и <b>искать одинаковые</b>. Каждую неделю будут открываться 
+                        3 новых уровня.
+                    </p>
                 );
+                break;
+
             case 1: 
-                return (
-                    <RedStarPart>
-                        <ButtonsWrapper>
-                            <Button color="pink" onClick={() => setPart(prev => prev - 1)}>Назад</Button>
-                            <Button color="red" onClick={() => setModal({visible: false})}>Далее</Button>
-                        </ButtonsWrapper>
-                        <Progress />
-                    </RedStarPart>
+                content = (
+                    <p>
+                        <b>В конце каждой недели</b> будут разыгрываться призы и мерч.
+                        {'\n\n'}
+                        Чтобы участвовать{'\n'}
+                        в еженедельном розыгрыше, необходимо набрать <b>минимум</b>{'\n'}
+                        <b>20 монеток</b>. Всего тебя ждёт{'\n'}
+                        <b>4 недели игр</b>.
+                    </p>
                 )
+                break;
+            case 2: 
+                content = (
+                    <p>
+                       Следи за уведомлениями{'\n'}в <b>Telegram-боте</b>. Если станешь победителем — ищи{' '}
+                       <b>стойку СИБУРа в своем вузе</b>, чтобы забрать призы. {'\n\n'}
+                       <b>Важно</b>:{'\n'}
+                        с собой необходимо будет взять студенческий!
+                    </p>
+                )
+                break;
+
             default: break;
         }
+
+        return (
+            <Content isWhite>
+                {content}
+                <Progress />
+                {part === 0 ? (
+                    <Button onClick={() => setPart(prev => prev + 1)}>Далее</Button>
+                ) : (
+                    <ButtonsWrapper>
+                        <Button color="green2" onClick={() => setPart(prev => prev - 1)}>Назад</Button>
+                        <Button onClick={() => part === 2 ? setModal({visible: false}) : setPart(prev => prev + 1)}>Далее</Button>
+                    </ButtonsWrapper>
+                )}
+                
+            </Content>
+        )
     }
 
     return (
         <Modal isDarken isDisabledAnimation>
             {user?.isVip ? getContent() : (
-                <Content>
+                <Content isWhite>
                     <p>
-                        За прохождение уровней и за правильные ответы на вопросы после них, ты получаешь белые{' '}
-                        звёзды.{'\n'}Собирай каждую неделю больше <b>15 звёзд</b> и участвуй в розыгрыше.{' '}
-                        В конце всех недель игры мы направим письма на почты победителей, а также пришлём{' '}
-                        список ID счастливчиков в <b>tg-бот</b>!{'\n\n'}
-                        Призы можно будет забрать на стойке Альфа-Банка в твоём вузе до <b>10 октября</b>.{' '}
-                        Главное — показать студенческий.
+                        <b>Давай расскажем, что тебя ждёт:</b>{'\n\n'}
+                        Всё, что нужно, — <b>переворачивать карточки</b> про карьеру в СИБУРе 
+                        и <b>искать одинаковые</b>. Каждую неделю будут открываться 
+                        3 новых уровня.{'\n\n'}
+                        Всего тебя ждёт <b>4 недели игр</b>.{'\n'} 
+                        В конце будут разыгрываться призы среди игроков, набравших <b>минимум 75 баллов</b>.
                     </p>
-                    <ButtonStyled color="red" onClick={() => setModal({visible: false})}>Далее</ButtonStyled>
+                    <ButtonStyled onClick={() => setModal({visible: false})}>Далее</ButtonStyled>
                 </Content>
             )}
         </Modal>
     )
-}
+};

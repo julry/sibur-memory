@@ -1,6 +1,9 @@
 // import { Game1 } from "../components/screens/Game1";
 import { Intro } from "../components/screens/Intro";
 import { Lobby1 } from "../components/screens/Lobby1";
+import { Lobby2 } from "../components/screens/Lobby2";
+import { Lobby3 } from "../components/screens/Lobby3";
+import { Lobby4 } from "../components/screens/Lobby4";
 import { Login } from "../components/screens/Login";
 import { Registration1 } from "../components/screens/Registration1";
 import { Registration2 } from "../components/screens/Registration2";
@@ -24,6 +27,9 @@ export const screens = {
     [SCREENS.START]: Start,
     [SCREENS.WEEK1]: Week1,
     [SCREENS.LOBBY1]: Lobby1,
+    [SCREENS.LOBBY2]: Lobby2,
+    [SCREENS.LOBBY3]: Lobby3,
+    [SCREENS.LOBBY4]: Lobby4,
 };
 
 export const preloadImages = [];

@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { SCREENS } from "../../../constants/screens";
 import { useProgress } from "../../../contexts/ProgressContext";
-import { useSizeRatio } from "../../../hooks/useSizeRatio";
 import { Block } from "../Block";
 import { Button } from "../Button";
 import { Modal } from "./Modal";
@@ -11,7 +10,6 @@ const Content = styled(Block)`
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    padding: var(--spacing_x5);
 `;
 
 const Text = styled.p`
@@ -25,35 +23,39 @@ const ButtonWrapper = styled.div`
     justify-content: space-between;
 
     & button {
-        width: calc((100% - ${({$ratio}) => $ratio * 10}px) / 2);
+        width: calc((100% - var(--spacing_x2)) / 2);
     }
 `;
 
-export const ExitModal = (props) => {
-    const ratio = useSizeRatio();
+const WEEK_TO_LOBBY = {
+    1: SCREENS.LOBBY1,
+    2: SCREENS.LOBBY2,
+    3: SCREENS.LOBBY3,
+    4: SCREENS.LOBBY4,
+}
+
+export const ExitModal = () => {
     const { next, modal } = useProgress();
 
-    const { isLobby } = modal;
+    const { week, setModal } = modal;
 
     const handleQuit = () => {
-        props?.onClose();
+        setModal({visible: false});
 
-        if (isLobby) next(SCREENS.LOBBY);
-
-        else next(SCREENS.LIBRARY);
+        next(WEEK_TO_LOBBY[week]);
     }
 
     const handleCancel = () => {
-        props?.onClose();
+        setModal({visible: false});
     }
 
     return (
         <Modal isDarken>
-            <Content>
-                <Text>Если ты сейчас выйдешь из леса, то потеряешь прогресс на текущем уровне. Точно хочешь выйти?</Text>
-                <ButtonWrapper $ratio={ratio}>
-                    <Button color="pink" onClick={handleQuit}>Да</Button>
-                    <Button color="red" onClick={handleCancel}>Нет</Button>
+            <Content isWhite>
+                <Text>Если ты сейчас выйдешь в меню, то потеряешь прогресс на текущем уровне. Точно хочешь выйти?</Text>
+                <ButtonWrapper>
+                    <Button color="red" onClick={handleQuit}>В меню</Button>
+                    <Button onClick={handleCancel}>Остаться</Button>
                 </ButtonWrapper>
             </Content>
         </Modal>

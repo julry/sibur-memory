@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { preloadImages } from "../constants/screensComponents";
 import { useProgress } from "../contexts/ProgressContext";
 import { useImagePreloader } from "../hooks/useImagePreloader";
+import {getModalByType} from "../utils/getModalByType";
 
 const Wrapper = styled.div`
     position: relative;
@@ -11,7 +12,7 @@ const Wrapper = styled.div`
 `;
 
 export function ScreenContent() {
-    const {screen} = useProgress();
+    const {screen, modal} = useProgress();
     const Screen = useMemo(() => screen, [screen]);
     useImagePreloader(preloadImages);
 
@@ -24,8 +25,11 @@ export function ScreenContent() {
     }, [])
 
     return Screen && (
-        <Wrapper>
-            <Screen />
-        </Wrapper>
+        <>
+            <Wrapper>
+               <Screen />
+            </Wrapper>
+            {modal.visible && getModalByType(modal.type)}
+        </>
     )
 }

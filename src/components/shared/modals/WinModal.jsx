@@ -60,7 +60,7 @@ export const WinModal = (props) => {
 
     return (
         <WhiteStarModalWrapper {...props}>
-            {user.isVip && additionalPoints > 0 && <StarButtonStyled color="red" text={`+${additionalPoints}`}/>}
+            {/* {user.isVip && additionalPoints > 0 && <StarButtonStyled color="red" text={`+${additionalPoints}`}/>} */}
             <Text>
                 {customText}
             </Text>

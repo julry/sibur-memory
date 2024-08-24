@@ -11,6 +11,7 @@ const Wrapper = styled.button`
     padding: ${({$ratio}) => $ratio * 11}px 0;
     border-radius: var(--border-radius-sm);
     cursor: pointer;
+    flex-shrink: 0;
 
     &:disabled {
         opacity: 0.5;
@@ -24,6 +25,7 @@ const IconWrapper = styled(Wrapper)`
     width: ${({$ratio}) => $ratio * 36}px;
     height: ${({$ratio}) => $ratio * 36}px;
     padding: 0;
+    flex-shrink: 0;
     border-radius: 50%;
 
     & svg:first-of-type {
