@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { useProgress } from "../../../contexts/ProgressContext";
 import { useSizeRatio } from "../../../hooks/useSizeRatio";
 import { Block } from "../Block";
 import { Modal } from "./Modal";

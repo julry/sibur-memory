@@ -1,6 +1,6 @@
 import { 
-    GameRulesModal,
-    PrizesModal
+    PrizesModal,
+    TgModal
 } from "../components/shared/modals";
 
 export const getModalByType = (type) => {
@@ -31,8 +31,8 @@ export const getModalByType = (type) => {
         // case 'refreshStars':
         //     Component = RefreshStarsModal;
         //     break;
-        case 'gameRules':
-            Component = GameRulesModal;
+        case 'tg':
+            Component = TgModal;
             break;
         case 'prizes':
             Component = PrizesModal;

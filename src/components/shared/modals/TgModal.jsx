@@ -3,6 +3,7 @@ import { useProgress } from "../../../contexts/ProgressContext";
 import { Block } from "../Block";
 import { Modal } from "./Modal";
 import { Button } from "../Button";
+import { BackButton } from "../BackButton";
 
 const Content = styled(Block)`
     position: absolute;
@@ -18,8 +19,14 @@ const ButtonStyled = styled(Button)`
     margin: var(--spacing_x4) 0 0;
 `;
 
-export const TgModal = (props) => {
-    const { user, setVipPoints, modal, setUserInfo } = useProgress();
+const BackButtonStyled = styled(BackButton)`
+    position: absolute;
+    top: var(--spacing_x4);
+    left: var(--spacing_x4);
+`;
+
+export const TgModal = () => {
+    const { user, setVipPoints, modal, setUserInfo, setModal } = useProgress();
 
     const handleClick = () => {
         if (!user.isTgConnected) {
@@ -27,12 +34,13 @@ export const TgModal = (props) => {
             setUserInfo({isTgConnected: true});
         }
 
-        props.onClose();
+        setModal({visible: false});
     }
 
     return (
         <Modal isDarken isDisabledAnimation={modal.isDisabledAnimation}>
-            <Content hasCloseIcon onClose={props.onClose}>
+            <BackButtonStyled onClick={() => setModal({visible: false})}/>
+            <Content>
                 <p>
                     В нашем <b>tg-боте</b> ты можешь следить за <b>обновлениями</b> игры 
                     и находить ответы на возможные вопросы. Там же мы огласим ID <b>победителей</b> розыгрыша!{'\n\n'}

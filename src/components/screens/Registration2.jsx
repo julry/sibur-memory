@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { SCREENS } from "../../constants/screens";
 import { Button } from "../shared/Button";
 import { Input } from "../shared/Input";
-import { useProgress } from "../../contexts/ProgressContext";
+import { CURRENT_WEEK, useProgress } from "../../contexts/ProgressContext";
 import { useState } from "react";
 import { Block } from "../shared/Block";
 import { Logo } from "../shared/Logo";
@@ -91,7 +91,7 @@ export const Registration2 = () => {
     const [isAgreed, setIsAgreed] = useState('');
 
     const handleClick = () => {
-        setUserInfo({name: `${surname} ${name}`, email});
+        setUserInfo({name: `${surname} ${name}`, email, registerWeek: CURRENT_WEEK});
         //send data to serv => user + name, email
         next();
     }
