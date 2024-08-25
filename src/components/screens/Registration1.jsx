@@ -7,6 +7,8 @@ import { faculties, universities } from "../../constants/universities";
 import { Block } from "../shared/Block";
 import { Logo } from "../shared/Logo";
 import { FlexWrapper } from "../shared/FlexWrapper";
+import { BackButton } from "../shared/BackButton";
+import { SCREENS } from "../../constants/screens";
 
 const Wrapper = styled(FlexWrapper)`
     padding: var(--spacing_x7) var(--spacing_x4) 0;
@@ -23,6 +25,12 @@ const Text = styled.p`
 
 const SelectStyled = styled(Select)`
     margin-top: var(--spacing_small);
+`;
+
+const BackButtonStyled = styled(BackButton)`
+    position: absolute;
+    top: var(--spacing_x4);
+    left: var(--spacing_x4);
 `;
 
 export const Registration1 = () => {
@@ -47,6 +55,7 @@ export const Registration1 = () => {
     return (
         <Wrapper>
             <Logo />
+            <BackButtonStyled onClick={()=> next(SCREENS.INTRO)}/>
             <Block>
                 <Text>
                     Выбери свой ВУЗ и факультет{'\n\n'}

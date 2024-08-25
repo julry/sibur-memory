@@ -6,11 +6,14 @@ import { Button } from "../Button";
 import { PointsButton } from "../PointsButton";
 import { useSizeRatio } from "../../../hooks/useSizeRatio";
 
-const Content = styled(Block)`
+const Wrapper = styled.div`
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+`;
+
+const Content = styled(Block)`
     padding-left: var(--spacing_x5);
     padding-right: var(--spacing_x5);
     text-align: center;
@@ -38,13 +41,15 @@ export const NewWeek = (props) => {
 
     return (
         <Modal isDarken isDisabledAnimation>
-            <Content isWhite>
-                <Text>
-                    Держи листик за заход{'\n'}на новой неделе!
-                </Text>
-                <PointsButton type="leaf" text={1} />
+            <Wrapper>
+                <Content isWhite>
+                    <Text>
+                        Держи листик за заход{'\n'}на новой неделе!
+                    </Text>
+                    <PointsButton type="leaf" text={1} />
+                </Content>
                 <ButtonStyled $ratio={ratio} onClick={handleClick}>Далее</ButtonStyled>
-            </Content>
+            </Wrapper>
         </Modal>
     )
 }
