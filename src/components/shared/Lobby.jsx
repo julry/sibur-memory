@@ -1,5 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components";
+import { SCREENS } from "../../constants/screens";
 import { WEEK_TO_LOBBY } from "../../constants/weekToLobby";
 import { CURRENT_WEEK, useProgress } from "../../contexts/ProgressContext";
 import { useSizeRatio } from "../../hooks/useSizeRatio";
@@ -74,7 +75,7 @@ export const Lobby = ({ activeWeek, levelScreens, isShowRules}) => {
     const [isMissedModal, setIsMissedModal] = useState(isShowRules || user.seenWeekInfo ? false : passedWeeks.length + 1 < CURRENT_WEEK);
 
     const handleClickLevel = (level) => {
-        if (currentLevel !== level) return;
+        if (currentLevel !== level || passedLevels.includes(level)) return;
 
         next(levelScreens[level]);
     }
@@ -103,7 +104,6 @@ export const Lobby = ({ activeWeek, levelScreens, isShowRules}) => {
 
     const handleCloseNextWeekModal = () => {
         setUserInfo({isFromGame: false});
-        console.log('ale');
         setIsNextWeekModal(false);
     }
 

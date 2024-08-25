@@ -9,6 +9,7 @@ export const Lobby2 = () => {
                 1: SCREENS.GAME2_1,
                 2: SCREENS.GAME2_2,
                 3: SCREENS.GAME2_3,
+                cards: SCREENS.LIBRARY2
             }} 
         />
     )

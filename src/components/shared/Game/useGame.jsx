@@ -17,6 +17,7 @@ export default function useMemoryGame(
   selectedDeck = [],
 ) {
     const [deck, setDeck] = useState(initBoard(selectedDeck));
+    const [isPicked, setIsPicked] = useState(false);
     const [cardSelectedOne, setCardSelectedOne] = useState(null);
     const [cardSelectedTwo, setCardSelectedTwo] = useState(null);
     const [matches, setMatches] = useState(0);
@@ -32,8 +33,8 @@ export default function useMemoryGame(
 
     const completePhase = () => {
         setTimeout(() => {
-        setCardSelectedOne(null)
-        setCardSelectedTwo(null)
+            setCardSelectedOne(null)
+            setCardSelectedTwo(null)
         }, DELAY_TIME)
     }
 
@@ -41,22 +42,23 @@ export default function useMemoryGame(
         setIsLast(true);
     }
 
-    const handleSelection = (card) =>
-        cardSelectedOne && cardSelectedOne.id !== card.id
-        ? setCardSelectedTwo(card)
-        : setCardSelectedOne(card)
+    const handleSelection = (card) => {
+        if (cardSelectedOne && cardSelectedTwo) return;
+        if (cardSelectedOne && cardSelectedOne.id !== card.id) setCardSelectedTwo(card);
+        else setCardSelectedOne(card)
+    }
 
     const checkSelection = useCallback(() => {
         if (cardSelectedOne && cardSelectedTwo) {
         if (isSameCard(cardSelectedOne, cardSelectedTwo)) {
-            setCardInfo(cardSelectedOne);
+            setTimeout(() => setCardInfo(cardSelectedOne), DELAY_TIME * 0.95);
             setMatches((prevValue) => prevValue + 1)
             setDeck((prevCards) =>
-            prevCards.map((card) =>
-                isSameCard(card, cardSelectedOne)
-                ? { ...card, matched: true }
-                : card
-            )
+                prevCards.map((card) =>
+                    isSameCard(card, cardSelectedOne)
+                    ? { ...card, matched: true }
+                    : card
+                )
             )
         }
 

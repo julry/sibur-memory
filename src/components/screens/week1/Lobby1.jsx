@@ -9,6 +9,7 @@ export const Lobby1 = () => {
                 1: SCREENS.GAME1_1,
                 2: SCREENS.GAME1_2,
                 3: SCREENS.GAME1_3,
+                cards: SCREENS.LIBRARY1
             }} 
             isShowRules={true}
         />

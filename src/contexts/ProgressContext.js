@@ -29,7 +29,7 @@ const INITIAL_STATE = {
     passedLevelsWeek3: [],
 }
 
-const ProgressContext = createContext(INITIAL_STATE)
+const ProgressContext = createContext(INITIAL_STATE);
 
 export function ProgressProvider(props) {
     const {children} = props

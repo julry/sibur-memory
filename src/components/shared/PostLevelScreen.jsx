@@ -39,19 +39,21 @@ const CoinsStyled = styled(PointsButton)`
     margin-top: var(--spacing_x4);
 `;
 
-export const PostLevelScreen = ({level, text, week, isLast, points = 3}) => {
+export const PostLevelScreen = ({ level, text, week, isLast }) => {
     const { passLevel, user, setPoints, setWeekPoints, next, gamePoints, setGamePoints, setPassedWeeks } = useProgress();
 
     const handleNext = () => {
         if (!user.isVip) {
-            setPoints(prev => prev + points + gamePoints);
+            setPoints(prev => prev + gamePoints);
         }
 
-        setWeekPoints(prev => prev + points + gamePoints);
+        setWeekPoints(prev => prev + gamePoints);
         setGamePoints(0);
+
         if (isLast) {
             setPassedWeeks(prev => prev.includes(week) ? prev : [...prev, week]);
         }
+        
         passLevel(level, week);
         next();
     }
@@ -62,7 +64,7 @@ export const PostLevelScreen = ({level, text, week, isLast, points = 3}) => {
             <BackButtonStyled onClick={() => next(WEEK_TO_LOBBY[week])}/>
             <BlockStyled isWhite>
                 {text}
-                <CoinsStyled text={points + gamePoints}/>
+                <CoinsStyled text={ gamePoints }/>
             </BlockStyled>
             <ButtonStyled onClick={handleNext}>
                 Продолжить

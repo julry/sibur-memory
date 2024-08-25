@@ -58,7 +58,7 @@ export const Game = ({level, week, showRules, initialCards, points}) => {
                 onCardClick={handleSelection}
                 cards={deck}
             />
-            {cardInfo && <CardInfo card={cardInfo} isLast={isLast} onClose={() => setCardInfo()}/>}
+            {cardInfo && <CardInfo card={cardInfo} isLast={isLast} onClose={() => setCardInfo()} points={points}/>}
             {isRulesModal && <GameRulesModal isFirstTime={isFirstTime} onClose={handleCloseRules} />}
             {isExitModal && <ExitModal week={week} onClose={() => setIsExitModal(false)} />}
         </Wrapper>
