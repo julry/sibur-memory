@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { SCREENS } from "../../constants/screens";
 import { Button } from "../shared/Button";
 import { Select } from "../shared/Select";
 import { useProgress } from "../../contexts/ProgressContext";

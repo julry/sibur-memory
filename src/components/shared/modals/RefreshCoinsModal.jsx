@@ -1,8 +1,5 @@
 import styled from "styled-components";
-import { SCREENS } from "../../../constants/screens";
-import { useProgress } from "../../../contexts/ProgressContext";
 import { Block } from "../Block";
-import { Button } from "../Button";
 import { Modal } from "./Modal";
 
 const Content = styled(Block)`
@@ -11,9 +8,6 @@ const Content = styled(Block)`
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
-`;
-const Text = styled.p`
-    font-size: var(--font_md);
 `;
 
 export const RefreshCoinsModal = (props) => {

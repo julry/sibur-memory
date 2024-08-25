@@ -15,7 +15,7 @@ const INITIAL_USER = {
     weekLeafes: [],
 };
 
-export const CURRENT_WEEK = 1;
+export const CURRENT_WEEK = 2;
 
 const INITIAL_STATE = {
     screen: SCREENS.INTRO,

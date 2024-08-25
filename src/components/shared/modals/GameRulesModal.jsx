@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { useProgress } from "../../../contexts/ProgressContext";
 import { useSizeRatio } from "../../../hooks/useSizeRatio";
 import { Block } from "../Block";
 import { Modal } from "./Modal";
@@ -11,6 +10,7 @@ const Content = styled(FlexWrapper)`
     height: 100%;
     align-items: center;
     justify-content: center;
+    text-align: center;
 `;
 
 const ButtonStyled = styled(Button)`
@@ -18,25 +18,24 @@ const ButtonStyled = styled(Button)`
     width: ${({$ratio}) => $ratio * 343}px;
 `;
 
-export const GameRulesModal = () => {
+export const GameRulesModal = ({onClose, isFirstTime}) => {
     const ratio = useSizeRatio();
-    const { setModal, modal } = useProgress();
 
     return (
         <Modal isDarken>
             <Content>
-                <Block isWhite hasCloseIcon={!modal.isFirstTime} onClose={() => setModal({visible: false})}>
+                <Block isWhite hasCloseIcon={!isFirstTime} onClose={onClose}>
                     <p>
                         <b>Находи пары</b> одинаковых картинок, <b>переворачивая</b> по две карточки.{'\n'}
                         Если картинки не совпадут, 
                         то перевернутся обратно. {'\n\n'}
-                        За <b>золотыми карточками</b> скрыты <b>вопросы</b> — если правильно ответишь, то получишь дополнительные баллы.{'\n'}
-                        {modal.isFirstTime ? '\n' : '\n\n'}
+                        За <b>золотыми карточками</b> скрыты <b>вопросы</b> — если правильно ответишь, то получишь дополнительные баллы.
+                        {isFirstTime ? '\n' : '\n\n'}
                         При выходе из игры прогресс текущего уровня не сохранится.
-                        {modal.isFirstTime ? '\n\n Чтобы не потерять результат внутри уровня, нужно найти пары для всех карточек.' : ''}
+                        {isFirstTime ? '\n\n Чтобы не потерять результат внутри уровня, нужно найти пары для всех карточек.' : ''}
                     </p>
                 </Block>
-                <ButtonStyled $ratio={ratio} onClick={() => setModal({visible: false})}>Понятно</ButtonStyled>
+                {isFirstTime && <ButtonStyled $ratio={ratio} onClick={onClose}>Понятно</ButtonStyled>}
             </Content>
         </Modal>
     )

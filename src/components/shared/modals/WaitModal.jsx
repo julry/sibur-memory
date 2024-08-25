@@ -1,8 +1,5 @@
 import styled from "styled-components";
-import { SCREENS } from "../../../constants/screens";
-import { useProgress } from "../../../contexts/ProgressContext";
 import { Block } from "../Block";
-import { Button } from "../Button";
 import { Modal } from "./Modal";
 
 const Content = styled(Block)`

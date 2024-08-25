@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { SCREENS } from "../../../constants/screens";
 import { WEEK_TO_LOBBY } from "../../../constants/weekToLobby";
 import { useProgress } from "../../../contexts/ProgressContext";
 import { Block } from "../Block";
@@ -28,19 +27,17 @@ const ButtonWrapper = styled.div`
     }
 `;
 
-export const ExitModal = () => {
-    const { next, modal } = useProgress();
-
-    const { week, setModal } = modal;
+export const ExitModal = ({ week, onClose }) => {
+    const { next } = useProgress();
 
     const handleQuit = () => {
-        setModal({visible: false});
+        onClose?.();
 
         next(WEEK_TO_LOBBY[week]);
     }
 
     const handleCancel = () => {
-        setModal({visible: false});
+        onClose?.();
     }
 
     return (

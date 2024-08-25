@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useState } from "react";
 import styled from "styled-components";
 import { WEEK_TO_LOBBY } from "../../constants/weekToLobby";

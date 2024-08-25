@@ -19,7 +19,7 @@ const ButtonStyled = styled(Button)`
 `;
 
 export const TgModal = (props) => {
-    const { user, setVipPoints, modal, setModal, setUserInfo } = useProgress();
+    const { user, setVipPoints, modal, setUserInfo } = useProgress();
 
     const handleClick = () => {
         if (!user.isTgConnected) {
