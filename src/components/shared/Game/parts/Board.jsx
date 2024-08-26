@@ -4,6 +4,8 @@ import { Card } from "./Card";
 
 const Wrapper = styled.div`
     --cardSize: ${({$ratio}) => $ratio * 80}px;
+    --imageSmall: ${({$ratio}) => $ratio * 70}px;
+    --cardBorder: ${({$ratio}) => $ratio * 10}px;
     display: grid;
     grid-template-columns: repeat(4, var(--cardSize));
     grid-template-rows: repeat(4, var(--cardSize));

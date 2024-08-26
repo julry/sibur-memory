@@ -1,4 +1,5 @@
 import fdsf from '../../../assets/images/intro.png';
+import rw from '../../../assets/images/bg.png';
 
 export const cards11 = [
     { 
@@ -50,6 +51,7 @@ export const cards11 = [
         id: 'task', 
         infoText: 'Чтобы стать успешным лаборантом, нужно работать с образцами материалов и проводить опыты днём и ночью?',
         isTask: true,
+        image: rw, 
         buttons: [
             {
                 text: 'Да',
