@@ -72,7 +72,7 @@ export const PostGame = ({ text, week }) => {
                 <p>
                     Твои результаты — «{weekPoints}» баллов. 
                 </p>
-                <br/><br/>
+                <br/>
                 {isLastWeek ? lastWeekText : continueText}
             </BlockStyled>
             {!isLastWeek && (
