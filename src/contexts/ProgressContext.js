@@ -14,6 +14,7 @@ const INITIAL_USER = {
     isTgConnected: false,
     weekLeafes: [],
     isJustEntered: false,
+    registerWeek: 2,
 };
 
 export const CURRENT_WEEK = 2;
