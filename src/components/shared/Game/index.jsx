@@ -47,11 +47,12 @@ export const Game = ({level, week, showRules, initialCards, points}) => {
         cardInfo, 
         isLast,
         setCardInfo,
+        matches
     } = useMemoryGame(initialCards);
 
     return (
         <Wrapper>
-            <GameHeader onBack={()=>setIsExitModal(true)} onClickRules={()=>setIsRulesModal(true)}/>
+            <GameHeader onBack={()=>setIsExitModal(true)} onClickRules={()=>setIsRulesModal(true)} matches={matches}/>
             <Title $ratio={ratio}>Уровень {level}</Title>
             <Board
                 flippedCards={[cardSelectedOne, cardSelectedTwo]}
