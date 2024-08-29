@@ -141,7 +141,9 @@ export const Registration2 = () => {
                     </span>
                 </RadioButtonLabel>
             </Block>
-            <ButtonStyled color="green" onClick={handleClick} disabled={!name || !email || !isAgreed}>Отправить</ButtonStyled>
+            <ButtonStyled color="green" onClick={handleClick} disabled={!name || !email || !isAgreed || !surname}>
+                Отправить
+            </ButtonStyled>
         </Wrapper>
     )
 }

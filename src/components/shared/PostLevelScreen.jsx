@@ -42,7 +42,8 @@ const CoinsStyled = styled(PointsButton)`
 export const PostLevelScreen = ({ level, text, week, isLast }) => {
     const { passLevel, user, setPoints, setWeekPoints, next, gamePoints, setGamePoints, setPassedWeeks } = useProgress();
 
-    const handleNext = () => {
+
+    const setLevelPoints = () => {
         if (!user.isVip) {
             setPoints(prev => prev + gamePoints);
         }
@@ -55,13 +56,21 @@ export const PostLevelScreen = ({ level, text, week, isLast }) => {
         }
         
         passLevel(level, week);
+    }
+
+    const handleNext = () => {
+        setLevelPoints();
         next();
     }
 
+    const handlePrev = () => {
+        setLevelPoints();
+        next(WEEK_TO_LOBBY[week])
+    }
 
     return (
         <Wrapper $level={level}>
-            <BackButtonStyled onClick={() => next(WEEK_TO_LOBBY[week])}/>
+            <BackButtonStyled onClick={handlePrev}/>
             <BlockStyled isWhite>
                 {text}
                 <CoinsStyled text={ gamePoints }/>

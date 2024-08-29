@@ -18,6 +18,8 @@ const Wrapper = styled(Modal)`
 const BlockStyled = styled(Block)`
     padding-left: var(--spacing_x5);
     padding-right: var(--spacing_x5);
+    max-height: calc(100% -  4 * var(--spacing_x5));
+    overflow-y: auto;
 `;
 
 const Image = styled.img`

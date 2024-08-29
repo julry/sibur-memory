@@ -77,6 +77,10 @@ const InfoSign = styled.svg`
     margin-left: ${({$hasMargin}) => $hasMargin ? 'calc(var(--spacing_small) / 2)' : 0} !important;
 `;
 
+const PointsButtonStyled = styled(PointsButton)`
+    margin-top: var(--spacing_x5);
+`;
+
 export const Profile = () => {
     const ratio = useSizeRatio();
     const [isTg, setIsTg] = useState(false);
@@ -126,9 +130,9 @@ export const Profile = () => {
                         </PointsButton>
                     </>
                 ) : (
-                    <PointsButton isShowAmount={false} onClick={() => setIsCoinModal(true)}>
+                    <PointsButtonStyled isShowAmount={false} onClick={() => setIsCoinModal(true)}>
                             <Info />
-                    </PointsButton>
+                    </PointsButtonStyled>
                 )}
             </BlockStyled>
             {isTg && (<TgModal onClose={() => setIsTg(false)}/>)}

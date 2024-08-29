@@ -4,7 +4,7 @@ import { useSizeRatio } from "../../hooks/useSizeRatio";
 const Wrapper = styled.div`
     position: relative;
     border-radius: var(--border-radius-lg);
-    padding: ${({$hasCloseIcon}) => $hasCloseIcon ? 'calc(2 * var(--spacing_x5) + var(--spacing_x1))' : 'var(--spacing_x5)'} var(--spacing_x3) var(--spacing_x5);
+    padding: ${({$hasCloseIcon}) => $hasCloseIcon ? 'calc(2 * var(--spacing_x5) + var(--spacing_x1))' : 'var(--spacing_x5)'} var(--spacing_x3) ${({$hasCloseIcon}) => $hasCloseIcon ? 'calc(2 * var(--spacing_x5) - var(--spacing_x1))' : 'var(--spacing_x5)'};
     background-color: ${({$isWhite}) => $isWhite ? 'var(--color-white)' : 'rgba(0, 49, 60, 0.9)'};
     color: var(--color-white${({$isWhite}) => $isWhite ? '-text' : ''});
     width: ${({$ratio}) => $ratio * 343}px;

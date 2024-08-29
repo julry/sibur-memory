@@ -47,8 +47,9 @@ const WeekButton = styled(Button)`
     height: ${({$ratio}) => $ratio * 50}px;
     ${({$unavailabe}) => $unavailabe ? 'background: #001418; opacity: 0.6' : ''};
     ${({$locked}) => $locked ? 'padding: 0; background: transparent' : ''};
-    box-shadow: ${({$unavailabe, $passed}) => $unavailabe ? 'none' : $passed ? passedShadow : currentShadow};
-
+    box-shadow: ${({$unavailabe, $current}) => $unavailabe ? 'none' : $current ? currentShadow : passedShadow};
+    cursor: ${({$unavailabe, $locked}) => $locked || $unavailabe ? 'auto' : 'pointer'};
+    
     & + & {
         margin-left: var(--spacing_small);
     }
@@ -148,8 +149,8 @@ export const Lobby = ({ activeWeek, levelScreens, isShowRules}) => {
                         <WeekButton 
                             key={`week${w}`}
                             $ratio={ratio}
-                            $passed={w < lastWeek}
-                            $unavailabe={w > lastWeek && w <= CURRENT_WEEK}
+                            $current={w === activeWeek}
+                            $unavailabe={w > lastWeek}
                             $locked={w > CURRENT_WEEK}
                             onClick={() => handleClickWeek(w)}
                         >

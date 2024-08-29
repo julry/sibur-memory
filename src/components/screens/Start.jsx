@@ -134,7 +134,7 @@ export const Start = () => {
         if (part === 0) {
             setPart((prev) => prev + 1);
 
-            if (!user.weekLeafes.includes[1]) {
+            if (!user.weekLeafes.includes(1)) {
                 setVipPoints(prev => prev + 1);
                 setUserInfo({weekLeafes: [...user.weekLeafes, 1]});
             }
@@ -163,7 +163,7 @@ export const Start = () => {
                 ) : getContent()}
                 <ButtonsWrapper $isMargin={part === 0}>
                     {rulesPart > 0 && (
-                        <Button color="green2" onClick={() => setRulesPart((prev) => prev + 1)}>Назад</Button>
+                        <Button color="green2" onClick={() => setRulesPart((prev) => prev - 1)}>Назад</Button>
                     )}
                     <Button onClick={handleNext}>Далее</Button>
                 </ButtonsWrapper>
