@@ -1,9 +1,7 @@
 {
   "files": {
     "main.css": "./static/css/main.905e945e.css",
-    "main.js": "./static/js/main.56fd2626.js",
-    "static/media/bg.png": "./static/media/bg.fa063eb5b400dff9eebe.png",
-    "static/media/intro.png": "./static/media/intro.5a9bdd5ce3bbd24071d6.png",
+    "main.js": "./static/js/main.84d74a5c.js",
     "static/media/prof.png": "./static/media/prof.ae6972e980bb3d31d4ce.png",
     "static/media/safity.png": "./static/media/safity.7b07a5ce952f0a923620.png",
     "static/media/work.png": "./static/media/work.7e71fdfc52bc8c3b0702.png",
@@ -55,15 +53,17 @@
     "static/media/plain.png": "./static/media/plain.d3c4ceeffeff6569b937.png",
     "static/media/level1bg.png": "./static/media/level1bg.cc90d87e0e9d25f14108.png",
     "static/media/lab.png": "./static/media/lab.fbf5b7375d026a2cb295.png",
+    "static/media/bg.png": "./static/media/bg.ea4cbb9a378d81274036.png",
+    "static/media/intro.png": "./static/media/intro.0fae5a90f9cbf30c073f.png",
     "static/media/logo.svg": "./static/media/logo.b262b82343387c3e7208cffef99d48d3.svg",
     "static/media/cardShirt.svg": "./static/media/cardShirt.083ed0bdff1643116ebad30d7c03173c.svg",
     "static/media/icon-arrow.svg": "./static/media/icon-arrow.9e3a7b11babe292f77028e4814884daf.svg",
     "index.html": "./index.html",
     "main.905e945e.css.map": "./static/css/main.905e945e.css.map",
-    "main.56fd2626.js.map": "./static/js/main.56fd2626.js.map"
+    "main.84d74a5c.js.map": "./static/js/main.84d74a5c.js.map"
   },
   "entrypoints": [
     "static/css/main.905e945e.css",
-    "static/js/main.56fd2626.js"
+    "static/js/main.84d74a5c.js"
   ]
 }
