@@ -8,6 +8,7 @@ import { Block } from "../shared/Block";
 import { Logo } from "../shared/Logo";
 import { useSizeRatio } from "../../hooks/useSizeRatio";
 import { FlexWrapper } from "../shared/FlexWrapper";
+import { emailRegExp } from "../../constants/regexp";
 
 const Wrapper = styled(FlexWrapper)`
     padding: var(--spacing_x7) var(--spacing_x4) 0;
@@ -20,6 +21,7 @@ const Text = styled.p`
 
 const InputStyled = styled(Input)`
     margin-top: var(--spacing_small);
+    ${({$isIncorrect}) => $isIncorrect ? 'border: 1px solid var(--color-red); color: var(--color-red)' : ''}
 `;
 
 const ButtonStyled = styled(Button)`
@@ -89,6 +91,21 @@ export const Registration2 = () => {
     const [surname, setSurname] = useState('');
     const [email, setEmail] = useState('');
     const [isAgreed, setIsAgreed] = useState('');
+    const [isCorrect, setIsCorrect] = useState(true);
+    
+    const handleBlur = () => {
+        if (email.match(emailRegExp) || !email) {
+            setIsCorrect(true);
+        } else {
+            setIsCorrect(false);
+        }
+    };
+
+    const handleChange = (e) => {
+        // if (isSending) return;
+        setIsCorrect(true);
+        setEmail(e.target.value);
+    };
 
     const handleClick = () => {
         setUserInfo({name: `${surname} ${name}`, email, registerWeek: CURRENT_WEEK});
@@ -119,7 +136,9 @@ export const Registration2 = () => {
                     type="email" 
                     placeholder="E-mail"
                     value={email} 
-                    onChange={(e) => setEmail(e.target.value)} 
+                    onBlur={handleBlur}
+                    onChange={handleChange} 
+                    $isIncorrect={!isCorrect}
                 />
                 <RadioButtonLabel $ratio={ratio}>
                     <InputRadioButton
@@ -141,7 +160,7 @@ export const Registration2 = () => {
                     </span>
                 </RadioButtonLabel>
             </Block>
-            <ButtonStyled color="green" onClick={handleClick} disabled={!name || !email || !isAgreed || !surname}>
+            <ButtonStyled color="green" onClick={handleClick} disabled={!name || !email || !isAgreed || !surname || !isCorrect}>
                 Отправить
             </ButtonStyled>
         </Wrapper>

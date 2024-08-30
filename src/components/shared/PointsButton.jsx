@@ -1,8 +1,10 @@
+import { useState } from "react";
 import styled from "styled-components";
 import { useProgress } from "../../contexts/ProgressContext";
 import { useSizeRatio } from "../../hooks/useSizeRatio";
 import { IconButton } from "./Button";
 import { Coin, Leaf } from "./icons";
+import { CoinsRulesModal, LeafsRulesModal } from "./modals";
 
 const StarWrapper = styled(IconButton)`
     border-radius: var(--border-radius-xl);
@@ -29,6 +31,7 @@ const StarWrapper = styled(IconButton)`
 export const PointsButton = ({text, type = "coin", isShowAmount = true, ...props}) => {
     const ratio = useSizeRatio();
     const { user, points, weekPoints, vipPoints } = useProgress();
+    const [modal, setModal] = useState(false);
 
     const getAmount = () => {
         if (user.isVip) {
@@ -38,11 +41,26 @@ export const PointsButton = ({text, type = "coin", isShowAmount = true, ...props
         return isShowAmount ? `${points}/151` : points;
     }
 
+    const handleClick = () => {
+        if (props.onClick) {
+            props.onClick();
+            return;
+        }
+
+        setModal(true);
+    }
+
     return (
-        <StarWrapper {...props} $ratio={ratio} $type={type}>
-            <p>{text ?? getAmount()}</p>
-            {type === 'coin' ? <Coin /> : <Leaf />}
-            {props.children}
-        </StarWrapper>
+        <>
+            <StarWrapper {...props} $ratio={ratio} $type={type} onClick={handleClick}>
+                <p>{text ?? getAmount()}</p>
+                {type === 'coin' ? <Coin /> : <Leaf />}
+                {props.children}
+            </StarWrapper>
+            {modal && (
+                type === 'coin' ? <CoinsRulesModal onClose={() => setModal(false)}/> : <LeafsRulesModal onClose={() => setModal(false)}/>
+            )}
+        </>
+        
     )
 }

@@ -2,7 +2,7 @@ import styled from "styled-components";
 import level1 from '../../assets/images/level1bg.png';
 import level2 from '../../assets/images/level2bg.png';
 import level3 from '../../assets/images/level3bg.png';
-import { WEEK_TO_LOBBY } from "../../constants/weekToLobby";
+import { WEEK_TO_LOBBY } from "../../constants/weekToScreens";
 import { useProgress } from "../../contexts/ProgressContext";
 import { BackButton } from "./BackButton";
 import { Block } from "./Block";

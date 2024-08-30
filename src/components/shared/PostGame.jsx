@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { WEEK_TO_LOBBY } from "../../constants/weekToLobby";
+import { WEEK_TO_LOBBY, WEEK_TO_SCREEN } from "../../constants/weekToScreens";
 import { CURRENT_WEEK, useProgress } from "../../contexts/ProgressContext";
 import { useSizeRatio } from "../../hooks/useSizeRatio";
 import { BackButton } from "./BackButton";
@@ -36,15 +36,23 @@ export const PostGame = ({ text, week }) => {
 
     const isLastWeek = week === CURRENT_WEEK;
 
-    const handleGoLobby = () => {
+    const setGameInfo = () => {
         setUserInfo({isFromGame: true});
         
         if (!isLastWeek || !user.isVip) {
             setWeekPoints(0);
         }
+    }
 
+    const handleGoLobby = () => {
+        setGameInfo();
         next(WEEK_TO_LOBBY[week])
     };
+
+    const handleNext = () => {
+        setGameInfo();
+        next(WEEK_TO_SCREEN[week + 1]);
+    }
 
     const handleLinkClick = () => {
         window.open('', '_blank');
@@ -76,7 +84,7 @@ export const PostGame = ({ text, week }) => {
                 {isLastWeek ? lastWeekText : continueText}
             </BlockStyled>
             {!isLastWeek && (
-                <ButtonStyled onClick={handleGoLobby} $ratio={ratio}>
+                <ButtonStyled onClick={handleNext} $ratio={ratio}>
                     Играть дальше
                 </ButtonStyled>
             )}

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { WEEK_TO_LOBBY } from "../../../constants/weekToLobby";
+import { WEEK_TO_LOBBY } from "../../../constants/weekToScreens";
 import { useProgress } from "../../../contexts/ProgressContext";
 import { Block } from "../Block";
 import { Button } from "../Button";

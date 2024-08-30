@@ -3,7 +3,7 @@ import { useMemo } from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import styled from "styled-components";
-import { WEEK_TO_LOBBY } from "../../constants/weekToLobby";
+import { WEEK_TO_LOBBY } from "../../constants/weekToScreens";
 import { useProgress } from "../../contexts/ProgressContext";
 import { useSizeRatio } from "../../hooks/useSizeRatio";
 import { BackButton } from "./BackButton";
@@ -28,6 +28,8 @@ const Header = styled(FlexWrapper)`
 `;
 
 const Title = styled.h3`
+    flex-grow: 1;
+    text-align: center;
     font-size: ${({$ratio}) => $ratio * 22}px;
 `;
 

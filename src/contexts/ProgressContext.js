@@ -9,12 +9,13 @@ const INITIAL_USER = {
     email: 'ivan2001@mail.ru',
     university: 'ННГУ им. Лобачевского',
     fac: 'Факультет химических технологий, промышленной экологии и биотехнологий',
-    isVip: false,
+    isVip: true,
     seenRules: false,
     isTgConnected: false,
     weekLeafes: [],
     isJustEntered: false,
     registerWeek: 2,
+    seenInfo: false,
 };
 
 export const CURRENT_WEEK = 2;

@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import styled from "styled-components";
-import { WEEK_TO_LOBBY } from "../../constants/weekToLobby";
+import { WEEK_TO_LOBBY } from "../../constants/weekToScreens";
 import { CURRENT_WEEK, useProgress } from "../../contexts/ProgressContext";
 import { useSizeRatio } from "../../hooks/useSizeRatio";
 import { Block } from "./Block";
@@ -9,25 +9,31 @@ import { Button } from "./Button";
 import { FlexWrapper } from "./FlexWrapper"
 import { LockWeek } from "./icons/LockWeek";
 import { LobbyHeader } from "./LobbyHeader"
-import { FirstRulesModal, MissedWeekModal, RefreshCoinsModal, WaitModal } from "./modals";
+import { FirstRulesModal, MissedWeekModal, RefreshCoinsModal, UnavailableModal, WaitModal } from "./modals";
 import { NewWeek } from "./modals/NewWeek";
 
 const currentShadow = 'inset -4px -4px 6px 0 rgba(0, 0, 0, 0.25), inset 4px 4px 6px 0 rgba(255, 255, 255, 0.25)';
 const passedShadow = 'inset -4px -4px 6px 0 rgba(0, 0, 0, 0.25), inset 4px 4px 6px 0 rgba(0, 0, 0, 0.25)';
-const Levels = styled.div`
+
+const Levels = styled(FlexWrapper)`
     margin-top: ${({$ratio}) => $ratio * 152}px;
     width: ${({$ratio}) => $ratio * 343}px;
+    flex-grow: 1;
 
     & button {
         width: 100%;
+    }
+
+    & button:last-child {
+        margin-top: auto;
+        margin-bottom: var(--spacing_x4);
     }
 `;
 
 const ButtonStyled = styled(Button)`
     color: var(--color-white);
     margin-bottom: var(--spacing_small);
-    ${({$unavailabe}) => $unavailabe ? 'background: #001418; opacity: 0.8; cursor: auto;' : ''};
-    ${({$passed}) => $passed ? 'cursor: auto;' : ''};
+    ${({$unavailabe}) => $unavailabe ? 'background: #001418; opacity: 0.8;' : ''};
     box-shadow: ${({$unavailabe, $passed}) => $unavailabe ? 'none' : $passed ? passedShadow : currentShadow};
 `;
 
@@ -48,8 +54,7 @@ const WeekButton = styled(Button)`
     ${({$unavailabe}) => $unavailabe ? 'background: #001418; opacity: 0.6' : ''};
     ${({$locked}) => $locked ? 'padding: 0; background: transparent' : ''};
     box-shadow: ${({$unavailabe, $current}) => $unavailabe ? 'none' : $current ? currentShadow : passedShadow};
-    cursor: ${({$unavailabe, $locked}) => $locked || $unavailabe ? 'auto' : 'pointer'};
-    
+
     & + & {
         margin-left: var(--spacing_small);
     }
@@ -76,15 +81,52 @@ export const Lobby = ({ activeWeek, levelScreens, isShowRules}) => {
     const currentLevel = passedLevels.length + 1 > 3 ? 3 : passedLevels.length + 1;
     const lastWeek = passedWeeks.length + 1 > 4 ? 4 : passedWeeks.length + 1;
     const [isMissedModal, setIsMissedModal] = useState(false);
+    const [unavailableModal, setUnavailableModal] = useState({visible: false, text: ''});
 
     const handleClickLevel = (level) => {
-        if (currentLevel !== level || passedLevels.includes(level)) return;
+        let text;
+
+        if (level > currentLevel) {
+            text = <p>
+                Этот <b>уровень ещё недоступен</b>.{'\n'}Пройди предыдущий.
+            </p>
+        }
+
+        if (passedLevels.includes(level)) {
+            text = <p>
+                Этот <b>уровень уже пройден</b>.
+            </p>
+        }
+
+        if (currentLevel !== level || passedLevels.includes(level)) {
+            setUnavailableModal({visible: true, text})
+            return;
+        }
 
         next(levelScreens[level]);
     }
 
     const handleClickWeek = (w) => {
-        if (w > lastWeek || w === activeWeek) return;
+        let text;
+
+        if (w > lastWeek) {
+            text = <p>
+                Эта <b>неделя ещё недоступна</b>.{'\n'}Пройди предыдущую.
+            </p>
+        }
+
+        if (w > CURRENT_WEEK) {
+            text = <p>
+                Эта <b>неделя ещё закрыта</b>,{'\n'}загляни в понедельник!
+            </p>
+        }
+
+        if (w > lastWeek) {
+            setUnavailableModal({visible: true, text})
+            return;
+        }
+
+        if (w === activeWeek) return;
 
         next(WEEK_TO_LOBBY[w]);
     };
@@ -166,6 +208,9 @@ export const Lobby = ({ activeWeek, levelScreens, isShowRules}) => {
             {isPrevWeekModal && <RefreshCoinsModal onClose={handleClosePrevWeekModal}/>}
             {isNextWeekModal && <WaitModal onClose={handleCloseNextWeekModal}/>}
             {newWeekModal && <NewWeek onClose={() => setNewWeekModal(false)}/>}
+            {unavailableModal.visible && (
+                <UnavailableModal text={unavailableModal.text} onClose={() => setUnavailableModal({visible: false})} />
+            )}
         </FlexWrapper>
     )
 }

@@ -41,9 +41,15 @@ const AnswerBlock = styled.div`
     align-items: center;
     margin-top: var(--spacing_x4);
     width: 100%;
+    flex-wrap: wrap;
+`;
 
-    & button {
-        width: calc((100% - var(--spacing_x2))/2);
+const AnswerButtonStyled = styled(Button)`
+    width: ${({$isFullWidth}) => $isFullWidth ? '100%' : 'calc((100% - var(--spacing_x2))/2)'};
+    ${({$isFullWidth}) => $isFullWidth ? 'font-size: var(--font_sm)' : ''};
+
+    & + & {
+        ${({$isFullWidth}) => $isFullWidth ? 'margin-top: calc(var(--spacing_x1) * 1.5)' : ''};
     }
 `;
 
@@ -90,8 +96,20 @@ export const CardInfo = ({isLast, card, onClose, finishLevel, points = 3}) => {
                                 <Result $color={taskResult.isCorrect ? 'green2' : 'red'}>{taskResult.text}</Result>
                             ) : (
                                 <>
-                                    <Button color="green2" onClick={() => handleClickButton(0)}>{buttons[0].text}</Button>
-                                    <Button color="green3" onClick={() => handleClickButton(1)}>{buttons[1].text}</Button>
+                                    <AnswerButtonStyled 
+                                        color="green2" 
+                                        $isFullWidth={buttons[0].isFullWidth} 
+                                        onClick={() => handleClickButton(0)}
+                                    >
+                                        {buttons[0].text}
+                                    </AnswerButtonStyled>
+                                    <AnswerButtonStyled 
+                                        color="green3" 
+                                        $isFullWidth={buttons[1].isFullWidth} 
+                                        onClick={() => handleClickButton(1)}
+                                    >
+                                        {buttons[1].text}
+                                    </AnswerButtonStyled>
                                 </>
                             )
                         }

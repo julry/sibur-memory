@@ -9,6 +9,7 @@ import { Input } from "../shared/Input";
 import { FlexWrapper } from "../shared/FlexWrapper";
 import { BackButton } from "../shared/BackButton";
 import { useSizeRatio } from "../../hooks/useSizeRatio";
+import { WEEK_TO_SCREEN } from "../../constants/weekToScreens";
 
 const Wrapper = styled(FlexWrapper)`
     padding: var(--spacing_x7) var(--spacing_x4) 0;
@@ -46,17 +47,19 @@ export const Login = () => {
     const ratio = useSizeRatio();
     const [email, setEmail] = useState('');
     const [isWrong, setIsWrong] = useState(false);
-    const { next, user, setUserInfo } = useProgress();
+    const { next, user, setUserInfo, passedWeeks } = useProgress();
 
     const handleNext = () => {
-        // get user info
-        // setUserInfo
-        // then
         if (!isWrong) {
             setIsWrong(true);
             return;
         }
-        if (user.seenInfo) next(SCREENS.WEEK1);
+
+        if (user.seenInfo || passedWeeks?.length > 0) {
+            next(WEEK_TO_SCREEN[passedWeeks?.length + 1]);
+
+            return;
+        }
         next(SCREENS.START);
     }
 

@@ -5,7 +5,7 @@ import { useProgress } from "../../contexts/ProgressContext";
 import { useSizeRatio } from "../../hooks/useSizeRatio";
 import { FlexWrapper } from "../shared/FlexWrapper";
 import { SCREENS } from "../../constants/screens";
-import { WEEK_TO_LOBBY } from "../../constants/weekToLobby";
+import { WEEK_TO_LOBBY } from "../../constants/weekToScreens";
 import { Block } from "../shared/Block";
 import { Input } from "../shared/Input";
 import { useState } from "react";

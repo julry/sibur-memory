@@ -5,6 +5,7 @@ import { Button } from "../Button";
 import { Modal } from "./Modal";
 
 const ModalStyled = styled(Modal)`
+    position: fixed;
     display: flex;
     flex-direction: column;
     align-items: center;
