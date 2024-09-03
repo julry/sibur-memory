@@ -48,9 +48,9 @@ const ProgressCircle  = styled.div`
 
 export const Start = () => {
     const ratio = useSizeRatio();
-    const [part, setPart] = useState(0);
-    const [rulesPart, setRulesPart] = useState(0);
     const {next, user, setVipPoints, setUserInfo} = useProgress();
+    const [part, setPart] = useState(user?.part ?? 0);
+    const [rulesPart, setRulesPart] = useState(user?.rulesPart ?? 0);
     const progress = Array.from({length: 3}, (v, i) => i);
 
     const Progress = () => (
@@ -147,7 +147,7 @@ export const Start = () => {
 
     return (
         <FlexWrapper>
-            <LobbyHeader />
+            <LobbyHeader additional={{part, rulesPart}}/>
             <BlockStyled $ratio={ratio}>
                 {!user?.isVip ? (
                     <p>

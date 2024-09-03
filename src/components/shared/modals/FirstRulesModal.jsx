@@ -133,8 +133,8 @@ export const FirstRulesModal = (props) => {
         } 
         
         if (part === 2)  {
-            return (
-                <BlockStyled hasCloseIcon onClose={() => setParts(prev => prev + 1)} $ratio={ratio}>
+            content = (
+                <>
                     <List>
                         <ul>
                             <li>
@@ -157,19 +157,17 @@ export const FirstRulesModal = (props) => {
                         Они суммируются в течение недели и в начале следующей сгорают.{'\n\n'}
                         Чтобы участвовать в розыгрыше, нужно набрать <b>минимум 20 монеток</b> за неделю.
                     </p>
-                </BlockStyled>
+                </>
             );
         } 
         
         if (part === 3)  {
-            return (
-                <BlockStyled $ratio={ratio} hasCloseIcon onClose={() => setParts(prev => prev + 1)}>
+            content = (
                     <p>
                         Листики ты получаешь за первый заход на каждой неделе, когда появляются новые уровни.{' '}
                         Чем больше листиков, тем больше шанс выйграть IPhone 16.{'\n\n'}
                         Чтобы участвовать в розыгрыше, нужно набрать <b>минимум 2 листика</b> за все четыре недели игры.
                     </p>
-                </BlockStyled>
             )
         } 
         if (part === 4) {

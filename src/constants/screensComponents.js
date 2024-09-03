@@ -2,8 +2,6 @@
 import { Intro } from "../components/screens/Intro";
 import { Lobby1, Week1, Game11, Game12, Game13, PostGame1, PostLevel11, PostLevel12, PostLevel13, Library1 } from "../components/screens/week1";
 import { Lobby2, Week2, Game21, Game22, Game23, PostGame2, PostLevel21, PostLevel22, PostLevel23, Library2 } from "../components/screens/week2";
-import { Lobby3 } from "../components/screens/Lobby3";
-import { Lobby4 } from "../components/screens/Lobby4";
 import { Login } from "../components/screens/Login";
 import { Registration1 } from "../components/screens/Registration1";
 import { Registration2 } from "../components/screens/Registration2";
@@ -73,8 +71,8 @@ export const screens = {
     [SCREENS.WEEK2]: Week2,
     [SCREENS.LOBBY1]: Lobby1,
     [SCREENS.LOBBY2]: Lobby2,
-    [SCREENS.LOBBY3]: Lobby3,
-    [SCREENS.LOBBY4]: Lobby4,
+    // [SCREENS.LOBBY3]: Lobby3,
+    // [SCREENS.LOBBY4]: Lobby4,
     [SCREENS.GAME1_1]: Game11,
     [SCREENS.GAME1_2]: Game12,
     [SCREENS.GAME1_3]: Game13,

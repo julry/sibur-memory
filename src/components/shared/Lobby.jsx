@@ -134,7 +134,7 @@ export const Lobby = ({ activeWeek, levelScreens, isShowRules}) => {
     const handleCloseModal = () => {
         setIsModal(false);
         setUserInfo({seenRules: true});
-        if (passedWeeks.length + 1 < CURRENT_WEEK) setIsMissedModal(true);
+        if ((passedWeeks.length + 1 < CURRENT_WEEK) && user.isVip) setIsMissedModal(true);
     }
 
     const handleClosePrevWeekModal = () => {
@@ -157,7 +157,7 @@ export const Lobby = ({ activeWeek, levelScreens, isShowRules}) => {
             setModal({visible: true, type: 'tg'});
         }
 
-        if (!(isShowRules || user.seenWeekInfo) && passedWeeks.length + 1 < CURRENT_WEEK && !newWeekModal && modal.type !== 'tg') {
+        if (user.isVip && !(isShowRules || user.seenWeekInfo) && passedWeeks.length + 1 < CURRENT_WEEK && !newWeekModal && modal.type !== 'tg') {
             setIsMissedModal(true);
         }
     }, [user.registerWeek, newWeekModal]);

@@ -31,11 +31,11 @@ const VipPoints = styled(PointsButton)`
     margin-left: calc(var(--spacing_x1) * 1.5);
 `;
 
-export const LobbyHeader = () => {
+export const LobbyHeader = ({ additional }) => {
     const { user, setModal, next, setUserInfo, currentScreen, } = useProgress();
 
     const handleClick = () => {
-        setUserInfo({lastPage: currentScreen});
+        setUserInfo({lastPage: currentScreen, ...additional});
         next(SCREENS.PROFILE);
     }
 
