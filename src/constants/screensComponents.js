@@ -142,4 +142,5 @@ export const preloadImages = [adaptation,
     worker,
     workers,
     working,
-    worktravelling,];
+    worktravelling,
+];

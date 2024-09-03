@@ -18,6 +18,39 @@ const INITIAL_USER = {
     seenInfo: false,
 };
 
+// const USER = {
+//     id: '13526413',
+//     name: 'Иванов Иван',
+//     email: 'ivan2001@mail.ru',
+//     university: 'ННГУ им. Лобачевского',
+//     fac: 'Факультет химических технологий, промышленной экологии и биотехнологий',
+//     isTarget: true,
+//     seenRules: false,
+//     isTgConnected: false,
+//     weekLeafes: '1, 2, 3',
+//     isJustEntered: false,
+//     registerWeek: 2,
+//     seenInfo: false,
+//     points: 0,
+//     weekPoints: 0,
+//     targetPoints: 0,
+//     passedWeeks: '1, 2, 3',
+//     setPassedLevelsWeek1: '1, 2, 3',
+//     setPassedLevelsWeek2: '1, 2, 3',
+//     setPassedLevelsWeek3: '1, 2, 3',
+//     setPassedLevelsWeek4: '1, 2, 3',
+// };
+
+// const getCurrentWeek = () => {
+//     const today = new Date();
+
+//     if (today < new Date(2024, 8, 16)) return 1;
+//     if (today < new Date(2024, 8, 23)) return 2;
+//     if (today < new Date(2024, 8, 30)) return 3;
+
+//     return 4;
+// }
+
 export const CURRENT_WEEK = 2;
 
 const INITIAL_STATE = {

@@ -12,14 +12,14 @@ const Wrapper = styled(Modal)`
     align-items: center;
     justify-content: center;
     text-align: center;
-    font-size: var(--font-md);
+    & p {
+        font-size: var(--font_md);
+    }
 `;
 
 const BlockStyled = styled(Block)`
     padding-left: var(--spacing_x5);
     padding-right: var(--spacing_x5);
-    max-height: calc(100% - 5.5 *  var(--spacing_x5));
-    overflow-y: scroll;
 `;
 
 const Image = styled.img`
