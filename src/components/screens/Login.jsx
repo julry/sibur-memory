@@ -10,6 +10,8 @@ import { FlexWrapper } from "../shared/FlexWrapper";
 import { BackButton } from "../shared/BackButton";
 import { useSizeRatio } from "../../hooks/useSizeRatio";
 import { WEEK_TO_SCREEN } from "../../constants/weekToScreens";
+import { getUserInfo } from "../../utils/getUserInfo";
+import { emailRegExp } from "../../constants/regexp";
 
 const Wrapper = styled(FlexWrapper)`
     padding: var(--spacing_x7) var(--spacing_x4) 0;
@@ -47,19 +49,41 @@ export const Login = () => {
     const ratio = useSizeRatio();
     const [email, setEmail] = useState('');
     const [isWrong, setIsWrong] = useState(false);
-    const { next, user, setUserInfo, passedWeeks } = useProgress();
+    const { 
+        next, setUserInfo, setPassedWeeks, setPoints, setVipPoints, setWeekPoints,
+        setPassedLevelsWeek1, setPassedLevelsWeek2, setPassedLevelsWeek3, setPassedLevelsWeek4,
+    } = useProgress();
 
-    const handleNext = () => {
-        if (!isWrong) {
+    const handleNext = async () => {
+        if (!!email && !email.match(emailRegExp)) {
             setIsWrong(true);
             return;
         }
+        
+        const info = await getUserInfo(email);
 
-        if (user.seenInfo || passedWeeks?.length > 0) {
+        if (info.isError) {
+            setIsWrong(true);
+            return;
+        }
+        const { userInfo, passedWeeks: passedWeeks, points, weekPoints, vipPoints, passedLevels } = info;
+
+        // setUserInfo({...userInfo});
+        // setPassedWeeks(passedWeeks);
+        // setPoints(points);
+        // setWeekPoints(weekPoints);
+        // setVipPoints(vipPoints);
+        // setPassedLevelsWeek1(passedLevels[1]);
+        // setPassedLevelsWeek4(passedLevels[2]);
+        // setPassedLevelsWeek3(passedLevels[3]);
+        // setPassedLevelsWeek2(passedLevels[4]);
+
+        if (userInfo.seenInfo || passedWeeks?.length > 0) {
             next(WEEK_TO_SCREEN[passedWeeks?.length + 1]);
 
             return;
         }
+
         next(SCREENS.START);
     }
 
@@ -69,9 +93,9 @@ export const Login = () => {
             <BackButtonStyled onClick={()=> next(SCREENS.INTRO)}/>
             <Block>
                 <Text>
-                        Рады видеть тебя снова!{'\n\n'}
-                        Введи свою почту, чтобы оказаться{' '}
-                        в месте, где ты закончил в прошлый раз:
+                    Рады видеть тебя снова!{'\n\n'}
+                    Введи свою почту, чтобы оказаться{' '}
+                    в месте, где ты закончил в прошлый раз:
                 </Text>
                 <Input placeholder="E-mail" value={email} onChange={(e) => setEmail(e.target.value)} />
                 {isWrong && <SmallText>Ой! Такой почты нет. Попробуй ввести снова или зарегистрируйся, чтобы начать играть.</SmallText>}

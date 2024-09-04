@@ -4,6 +4,7 @@ import level2 from '../../assets/images/level2bg.png';
 import level3 from '../../assets/images/level3bg.png';
 import { WEEK_TO_LOBBY } from "../../constants/weekToScreens";
 import { useProgress } from "../../contexts/ProgressContext";
+import { updateUser } from "../../utils/updateUser";
 import { BackButton } from "./BackButton";
 import { Block } from "./Block";
 import { Button } from "./Button";
@@ -40,22 +41,40 @@ const CoinsStyled = styled(PointsButton)`
 `;
 
 export const PostLevelScreen = ({ level, text, week, isLast }) => {
-    const { passLevel, user, setPoints, setWeekPoints, next, gamePoints, setGamePoints, setPassedWeeks } = useProgress();
+    const { passLevel, passedWeekLevels, user, setPoints, setWeekPoints, next, gamePoints, setGamePoints, setPassedWeeks } = useProgress();
 
 
     const setLevelPoints = () => {
+        const data = {
+            [`passedLevelsWeek${week}`]: [...passedWeekLevels[week], level].join(',')
+        };
+        
         if (!user.isVip) {
-            setPoints(prev => prev + gamePoints);
+            setPoints(prev => {
+                data.points = prev + gamePoints;
+
+                return  prev + gamePoints;
+            });
         }
 
-        setWeekPoints(prev => prev + gamePoints);
+        setWeekPoints(prev => {
+            if (user.isVip) data.weekPoints = prev + gamePoints;
+
+            return prev + gamePoints;
+        });
+
         setGamePoints(0);
 
         if (isLast) {
-            setPassedWeeks(prev => prev.includes(week) ? prev : [...prev, week]);
+            setPassedWeeks(prev => {
+                data.passedWeeks =  prev.includes(week) ? prev : [...prev, week];
+
+                return prev.includes(week) ? prev : [...prev, week];
+            });
         }
         
         passLevel(level, week);
+        updateUser(user.recordId, data);
     }
 
     const handleNext = () => {

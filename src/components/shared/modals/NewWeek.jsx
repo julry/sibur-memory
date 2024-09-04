@@ -5,6 +5,7 @@ import { Modal } from "./Modal";
 import { Button } from "../Button";
 import { PointsButton } from "../PointsButton";
 import { useSizeRatio } from "../../../hooks/useSizeRatio";
+import { updateUser } from "../../../utils/updateUser";
 
 const Wrapper = styled.div`
     position: absolute;
@@ -30,12 +31,25 @@ const ButtonStyled = styled(Button)`
 
 export const NewWeek = (props) => {
     const ratio = useSizeRatio();
-    const { user, setVipPoints, setUserInfo } = useProgress();
+    const { user, setVipPoints, setUserInfo, setModal } = useProgress();
 
     const handleClick = () => {
-        setVipPoints(prev => prev + 1);
-        setUserInfo({weekLeafes: [...user.weekLeafes, CURRENT_WEEK]});
+        if (!user.weekLeafes.includes(CURRENT_WEEK)) {
+            const data = {
+                weekStars: [...user.weekStars, CURRENT_WEEK].join(',')
+            };
 
+            setVipPoints(prev => {
+                data.targetPoints = prev + 1;
+
+                return prev + 1
+            });
+
+            setUserInfo({weekStars: [...user.weekStars, CURRENT_WEEK]});
+            updateUser(user.recordId, data);
+        }
+
+        setModal({visible: false});
         props.onClose();
     }
 

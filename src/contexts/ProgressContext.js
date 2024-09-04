@@ -63,6 +63,7 @@ const INITIAL_STATE = {
     passedLevelsWeek1: [],
     passedLevelsWeek2: [],
     passedLevelsWeek3: [],
+    passedLevelsWeek4: [],
 }
 
 const ProgressContext = createContext(INITIAL_STATE);
@@ -83,6 +84,7 @@ export function ProgressProvider(props) {
     const [passedLevelsWeek1, setPassedLevelsWeek1] = useState(INITIAL_STATE.passedLevelsWeek1);
     const [passedLevelsWeek2, setPassedLevelsWeek2] = useState(INITIAL_STATE.passedLevelsWeek2);
     const [passedLevelsWeek3, setPassedLevelsWeek3] = useState(INITIAL_STATE.passedLevelsWeek3);
+    const [passedLevelsWeek4, setPassedLevelsWeek4] = useState(INITIAL_STATE.passedLevelsWeek4);
     const [hasPassedThisTry, setHasPassedThisTry] = useState(false); 
     const screen = screens[currentScreen];
     const $whiteStarRef = useRef();
@@ -149,8 +151,13 @@ export function ProgressProvider(props) {
             1: passedLevelsWeek1,
             2: passedLevelsWeek2,
             3: passedLevelsWeek3,
+            4: passedLevelsWeek4,
         },
-        passLevel
+        passLevel,
+        setPassedLevelsWeek1,
+        setPassedLevelsWeek2,
+        setPassedLevelsWeek3,
+        setPassedLevelsWeek4,
     }
 
     return (

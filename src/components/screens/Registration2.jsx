@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { SCREENS } from "../../constants/screens";
+import { uid } from "uid";
 import { Button } from "../shared/Button";
 import { Input } from "../shared/Input";
 import { CURRENT_WEEK, useProgress } from "../../contexts/ProgressContext";
@@ -87,6 +87,7 @@ const Link = styled.a`
 export const Registration2 = () => {
     const ratio = useSizeRatio();
     const { next, setUserInfo, user } = useProgress();
+    const [isSending, setIsSending] = useState(false);
     const [name, setName] = useState('');
     const [surname, setSurname] = useState('');
     const [email, setEmail] = useState('');
@@ -102,13 +103,27 @@ export const Registration2 = () => {
     };
 
     const handleChange = (e) => {
-        // if (isSending) return;
+        if (isSending) return;
         setIsCorrect(true);
         setEmail(e.target.value);
     };
 
     const handleClick = () => {
-        setUserInfo({name: `${surname} ${name}`, email, registerWeek: CURRENT_WEEK});
+        if (isSending) return;
+        const { isVip, ...userProps } = user;
+        const id = uid(7);
+
+        setIsSending(true);
+        //const recordId = await ftClient.addRecord({
+            // ...userProps, isTarget: isVip, name: `${name} ${surname}`, email, registerWeek: CURRENT_WEEK,
+            // id, weekLeafs: '', points: 0, weekPoints: 0, targetPoints: 0, passedWeeks: '', passedLevelsWeek1: '',
+            // passedLevelsWeek2: '', passedLevelsWeek3: '', passedLevelsWeek4: '',
+        // });
+        // setUserInfo({recordId, name: `${name} ${surname}`, email, registerWeek: CURRENT_WEEK, id});
+        setIsSending(false);
+        setUserInfo({name: `${name} ${surname}`, email, registerWeek: CURRENT_WEEK, id});
+
+        //send data to serv => user + name, email
         //send data to serv => user + name, email
         next();
     }
@@ -123,12 +138,14 @@ export const Registration2 = () => {
                 <Input
                     type="text" 
                     value={surname} 
+                    disabled={isSending}
                     onChange={(e) => setSurname(e.target.value)} 
                     placeholder="Фамилия"
                 />
                 <InputStyled 
                     type="text" 
                     value={name} 
+                    disabled={isSending}
                     onChange={(e) => setName(e.target.value)} 
                     placeholder="Имя"
                 />
@@ -136,6 +153,7 @@ export const Registration2 = () => {
                     type="email" 
                     placeholder="E-mail"
                     value={email} 
+                    disabled={isSending}
                     onBlur={handleBlur}
                     onChange={handleChange} 
                     $isIncorrect={!isCorrect}
@@ -143,6 +161,7 @@ export const Registration2 = () => {
                 <RadioButtonLabel $ratio={ratio}>
                     <InputRadioButton
                         type="checkbox"
+                        disabled={isSending}
                         value={isAgreed}
                         checked={isAgreed}
                         onChange={() => setIsAgreed((prevAgreed) => !prevAgreed)}
