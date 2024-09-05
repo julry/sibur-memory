@@ -41,17 +41,17 @@ const INITIAL_USER = {
 //     setPassedLevelsWeek4: '1, 2, 3',
 // };
 
-// const getCurrentWeek = () => {
-//     const today = new Date();
+const getCurrentWeek = () => {
+    const today = new Date();
 
-//     if (today < new Date(2024, 8, 16)) return 1;
-//     if (today < new Date(2024, 8, 23)) return 2;
-//     if (today < new Date(2024, 8, 30)) return 3;
+    if (today < new Date(2024, 8, 16)) return 1;
+    if (today < new Date(2024, 8, 23)) return 2;
+    if (today < new Date(2024, 8, 30)) return 3;
 
-//     return 4;
-// }
+    return 4;
+}
 
-export const CURRENT_WEEK = 2;
+export const CURRENT_WEEK = getCurrentWeek();
 
 const INITIAL_STATE = {
     screen: SCREENS.INTRO,

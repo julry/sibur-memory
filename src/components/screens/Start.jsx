@@ -2,6 +2,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import { useProgress } from "../../contexts/ProgressContext";
 import { useSizeRatio } from "../../hooks/useSizeRatio";
+import { updateUser } from "../../utils/updateUser";
 import { Block } from "../shared/Block";
 import { Button } from "../shared/Button";
 import { FlexWrapper } from "../shared/FlexWrapper";
@@ -48,7 +49,7 @@ const ProgressCircle  = styled.div`
 
 export const Start = () => {
     const ratio = useSizeRatio();
-    const {next, user, setVipPoints, setUserInfo} = useProgress();
+    const {next, user, setVipPoints, vipPoints, setUserInfo} = useProgress();
     const [part, setPart] = useState(user?.part ?? 0);
     const [rulesPart, setRulesPart] = useState(user?.rulesPart ?? 0);
     const progress = Array.from({length: 3}, (v, i) => i);
@@ -121,7 +122,14 @@ export const Start = () => {
     };
 
     const handleNextPage = () => {
+        const data = {
+            weekLeafes: user.weekLeafes.join(','),
+            targetPoints: vipPoints,
+            seenInfo: true,
+        };
+
         setUserInfo({seenInfo: true});
+        updateUser(user.recordId, data);
         next();
     }
 
