@@ -4,7 +4,6 @@ import level2 from '../../assets/images/level2bg.png';
 import level3 from '../../assets/images/level3bg.png';
 import { WEEK_TO_LOBBY } from "../../constants/weekToScreens";
 import { useProgress } from "../../contexts/ProgressContext";
-import { updateUser } from "../../utils/updateUser";
 import { BackButton } from "./BackButton";
 import { Block } from "./Block";
 import { Button } from "./Button";
@@ -41,40 +40,42 @@ const CoinsStyled = styled(PointsButton)`
 `;
 
 export const PostLevelScreen = ({ level, text, week, isLast }) => {
-    const { passLevel, passedWeekLevels, user, setPoints, setWeekPoints, next, gamePoints, setGamePoints, setPassedWeeks } = useProgress();
+    const { 
+        passLevel, passedWeekLevels, user, setPoints, currentWeek, weekPoints, points,
+        setWeekPoints, next, gamePoints, setGamePoints, setPassedWeeks, updateUser, passedWeeks
+    } = useProgress();
 
 
     const setLevelPoints = () => {
         const data = {
             [`passedLevelsWeek${week}`]: [...passedWeekLevels[week], level].join(',')
         };
+
+        const vipData = {
+            weekPoints: currentWeek === week ? weekPoints + gamePoints : 0
+        }
         
         if (!user.isVip) {
-            setPoints(prev => {
-                data.points = prev + gamePoints;
-
-                return  prev + gamePoints;
-            });
+            data.points = points + gamePoints;
+            
+            setPoints(prev =>  prev + gamePoints);
+        }
+        if (user.isVip && currentWeek === week) {
+            data[`week${week}Points`] = weekPoints + gamePoints;
         }
 
-        setWeekPoints(prev => {
-            if (user.isVip) data.weekPoints = prev + gamePoints;
-
-            return prev + gamePoints;
-        });
+        setWeekPoints(prev => prev + gamePoints);
 
         setGamePoints(0);
 
         if (isLast) {
-            setPassedWeeks(prev => {
-                data.passedWeeks =  prev.includes(week) ? prev : [...prev, week];
+            data.passedWeeks = (passedWeeks.includes(week) ? passedWeeks : [...passedWeeks, week]).join(',');
 
-                return prev.includes(week) ? prev : [...prev, week];
-            });
+            setPassedWeeks(prev => prev.includes(week) ? prev : [...prev, week]);
         }
         
         passLevel(level, week);
-        updateUser(user.recordId, data);
+        updateUser(data);
     }
 
     const handleNext = () => {

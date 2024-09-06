@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { uid } from "uid";
 import { Button } from "../shared/Button";
 import { Input } from "../shared/Input";
-import { CURRENT_WEEK, useProgress } from "../../contexts/ProgressContext";
+import { useProgress } from "../../contexts/ProgressContext";
 import { useState } from "react";
 import { Block } from "../shared/Block";
 import { Logo } from "../shared/Logo";
@@ -86,7 +86,7 @@ const Link = styled.a`
 
 export const Registration2 = () => {
     const ratio = useSizeRatio();
-    const { next, setUserInfo, user } = useProgress();
+    const { next, setUserInfo, registrateUser, currentWeek } = useProgress();
     const [isSending, setIsSending] = useState(false);
     const [name, setName] = useState('');
     const [surname, setSurname] = useState('');
@@ -108,23 +108,14 @@ export const Registration2 = () => {
         setEmail(e.target.value);
     };
 
-    const handleClick = () => {
+    const handleClick = async() => {
         if (isSending) return;
-        const { isVip, ...userProps } = user;
         const id = uid(7);
 
         setIsSending(true);
-        //const recordId = await ftClient.addRecord({
-            // ...userProps, isTarget: isVip, name: `${name} ${surname}`, email, registerWeek: CURRENT_WEEK,
-            // id, weekLeafs: '', points: 0, weekPoints: 0, targetPoints: 0, passedWeeks: '', passedLevelsWeek1: '',
-            // passedLevelsWeek2: '', passedLevelsWeek3: '', passedLevelsWeek4: '',
-        // });
-        // setUserInfo({recordId, name: `${name} ${surname}`, email, registerWeek: CURRENT_WEEK, id});
         setIsSending(false);
-        setUserInfo({name: `${name} ${surname}`, email, registerWeek: CURRENT_WEEK, id});
-
-        //send data to serv => user + name, email
-        //send data to serv => user + name, email
+        setUserInfo({name: `${name} ${surname}`, email, registerWeek: currentWeek, id});
+        await registrateUser({name: `${name} ${surname}`, email, id})
         next();
     }
 

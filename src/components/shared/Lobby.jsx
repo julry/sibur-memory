@@ -72,11 +72,11 @@ const WeekButton = styled(Button)`
 
 export const Lobby = ({ activeWeek, levelScreens, isShowRules}) => {
     const ratio = useSizeRatio();
-    const {next, passedWeeks, passedWeekLevels, user, setUserInfo, setModal, modal} = useProgress();
+    const {next, passedWeeks, passedWeekLevels, user, setUserInfo, setModal, modal, currentWeek} = useProgress();
     const [isModal, setIsModal] = useState(isShowRules && !user.seenRules);
-    const [newWeekModal, setNewWeekModal] = useState(user.isVip && user.registerWeek !== CURRENT_WEEK && !user.weekLeafes.includes(CURRENT_WEEK))
-    const [isNextWeekModal, setIsNextWeekModal] = useState(user.isFromGame && activeWeek === CURRENT_WEEK && passedWeeks.includes(activeWeek));
-    const [isPrevWeekModal, setIsPrevWeekModal] = useState(user.isVip && user.isFromGame && passedWeeks.includes(activeWeek) && activeWeek < CURRENT_WEEK);
+    const [newWeekModal, setNewWeekModal] = useState(user.isVip && user.registerWeek !== currentWeek && !user.weekLeafs.includes(currentWeek))
+    const [isNextWeekModal, setIsNextWeekModal] = useState(!user.seenNext && activeWeek === currentWeek && passedWeeks.includes(activeWeek));
+    const [isPrevWeekModal, setIsPrevWeekModal] = useState(user.isVip && user.isFromGame && passedWeeks.includes(activeWeek) && !!user.lastWeek && user.lastWeek !== currentWeek);
     const passedLevels = passedWeekLevels[activeWeek];
     const currentLevel = passedLevels.length + 1 > 3 ? 3 : passedLevels.length + 1;
     const lastWeek = passedWeeks.length + 1 > 4 ? 4 : passedWeeks.length + 1;
@@ -114,14 +114,13 @@ export const Lobby = ({ activeWeek, levelScreens, isShowRules}) => {
                 Эта <b>неделя ещё недоступна</b>.{'\n'}Пройди предыдущую.
             </p>
         }
-
-        if (w > CURRENT_WEEK) {
+        if (w > currentWeek) {
             text = <p>
                 Эта <b>неделя ещё закрыта</b>,{'\n'}загляни в понедельник!
             </p>
         }
 
-        if (w > lastWeek) {
+        if (w > lastWeek || w > currentWeek) {
             setUnavailableModal({visible: true, text})
             return;
         }
@@ -134,11 +133,11 @@ export const Lobby = ({ activeWeek, levelScreens, isShowRules}) => {
     const handleCloseModal = () => {
         setIsModal(false);
         setUserInfo({seenRules: true});
-        if ((passedWeeks.length + 1 < CURRENT_WEEK) && user.isVip) setIsMissedModal(true);
+        if ((passedWeeks.length + 1 < currentWeek) && user.isVip) setIsMissedModal(true);
     }
 
     const handleClosePrevWeekModal = () => {
-        setUserInfo({isFromGame: false});
+        setUserInfo({isFromGame: false, lastWeek: null});
         setIsPrevWeekModal(false);
     }
 
@@ -148,16 +147,17 @@ export const Lobby = ({ activeWeek, levelScreens, isShowRules}) => {
     }
 
     const handleCloseNextWeekModal = () => {
-        setUserInfo({isFromGame: false});
+        setUserInfo({isFromGame: false, seenNext: true});
         setIsNextWeekModal(false);
     }
 
     useEffect(() => {
-        if (!user.isTgConnected && !newWeekModal && user.registerWeek !== CURRENT_WEEK) {
+        if (!user.isTgConnected && !newWeekModal && user.registerWeek !== currentWeek && !user.seenTg) {
             setModal({visible: true, type: 'tg'});
+            setUserInfo({seenTg: true});
         }
 
-        if (user.isVip && !(isShowRules || user.seenWeekInfo) && passedWeeks.length + 1 < CURRENT_WEEK && !newWeekModal && modal.type !== 'tg') {
+        if (user.isVip && !(isShowRules || user.seenWeekInfo) && passedWeeks.length + 1 < currentWeek && !newWeekModal && modal.type !== 'tg') {
             setIsMissedModal(true);
         }
     }, [user.registerWeek, newWeekModal]);
@@ -191,12 +191,12 @@ export const Lobby = ({ activeWeek, levelScreens, isShowRules}) => {
                         <WeekButton 
                             key={`week${w}`}
                             $ratio={ratio}
-                            $current={w === activeWeek}
-                            $unavailabe={w > lastWeek}
-                            $locked={w > CURRENT_WEEK}
+                            $current={w === activeWeek && w <= currentWeek}
+                            $unavailabe={w > lastWeek && w <= currentWeek}
+                            $locked={w > currentWeek}
                             onClick={() => handleClickWeek(w)}
                         >
-                            {w > CURRENT_WEEK ? (
+                            {w > currentWeek ? (
                                 <LockWeek />
                             ) : <p>{w}</p>}
                         </WeekButton>

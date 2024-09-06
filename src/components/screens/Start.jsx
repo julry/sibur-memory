@@ -2,7 +2,6 @@ import { useState } from "react";
 import styled from "styled-components";
 import { useProgress } from "../../contexts/ProgressContext";
 import { useSizeRatio } from "../../hooks/useSizeRatio";
-import { updateUser } from "../../utils/updateUser";
 import { Block } from "../shared/Block";
 import { Button } from "../shared/Button";
 import { FlexWrapper } from "../shared/FlexWrapper";
@@ -49,7 +48,7 @@ const ProgressCircle  = styled.div`
 
 export const Start = () => {
     const ratio = useSizeRatio();
-    const {next, user, setVipPoints, vipPoints, setUserInfo} = useProgress();
+    const {next, user, setVipPoints, setUserInfo, updateUser} = useProgress();
     const [part, setPart] = useState(user?.part ?? 0);
     const [rulesPart, setRulesPart] = useState(user?.rulesPart ?? 0);
     const progress = Array.from({length: 3}, (v, i) => i);
@@ -121,15 +120,9 @@ export const Start = () => {
         )
     };
 
-    const handleNextPage = () => {
-        const data = {
-            weekLeafes: user.weekLeafes.join(','),
-            targetPoints: vipPoints,
-            seenInfo: true,
-        };
-
+    const handleNextPage = async () => {
         setUserInfo({seenInfo: true});
-        updateUser(user.recordId, data);
+        await updateUser({seenInfo: true});
         next();
     }
 
@@ -142,9 +135,9 @@ export const Start = () => {
         if (part === 0) {
             setPart((prev) => prev + 1);
 
-            if (!user.weekLeafes.includes(1)) {
+            if (!user.weekLeafs.includes(1)) {
                 setVipPoints(prev => prev + 1);
-                setUserInfo({weekLeafes: [...user.weekLeafes, 1]});
+                setUserInfo({weekLeafs: [...user.weekLeafs, 1]});
             }
 
             return;

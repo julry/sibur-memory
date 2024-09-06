@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { WEEK_TO_LOBBY, WEEK_TO_SCREEN } from "../../constants/weekToScreens";
-import { CURRENT_WEEK, useProgress } from "../../contexts/ProgressContext";
+import { useProgress } from "../../contexts/ProgressContext";
 import { useSizeRatio } from "../../hooks/useSizeRatio";
 import { BackButton } from "./BackButton";
 import { Block } from "./Block";
@@ -32,12 +32,12 @@ const BackButtonStyled = styled(BackButton)`
 
 export const PostGame = ({ text, week }) => {
     const ratio = useSizeRatio();
-    const { weekPoints, next, user, setWeekPoints, setUserInfo } = useProgress();
+    const { weekPoints, next, user, setWeekPoints, setUserInfo, currentWeek } = useProgress();
 
-    const isLastWeek = week === CURRENT_WEEK;
+    const isLastWeek = week === currentWeek;
 
     const setGameInfo = () => {
-        setUserInfo({isFromGame: true});
+        setUserInfo({isFromGame: true, lastWeek: week});
         
         if (!isLastWeek || !user.isVip) {
             setWeekPoints(0);
@@ -55,7 +55,7 @@ export const PostGame = ({ text, week }) => {
     }
 
     const handleLinkClick = () => {
-        window.open('', '_blank');
+        window.open('https://career.sibur.ru', '_blank');
     };
 
     const lastWeekText = (

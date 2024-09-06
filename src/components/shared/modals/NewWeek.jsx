@@ -1,11 +1,10 @@
 import styled from "styled-components";
-import { CURRENT_WEEK, useProgress } from "../../../contexts/ProgressContext";
+import { useProgress } from "../../../contexts/ProgressContext";
 import { Block } from "../Block";
 import { Modal } from "./Modal";
 import { Button } from "../Button";
 import { PointsButton } from "../PointsButton";
 import { useSizeRatio } from "../../../hooks/useSizeRatio";
-import { updateUser } from "../../../utils/updateUser";
 
 const Wrapper = styled.div`
     position: absolute;
@@ -31,12 +30,12 @@ const ButtonStyled = styled(Button)`
 
 export const NewWeek = (props) => {
     const ratio = useSizeRatio();
-    const { user, setVipPoints, setUserInfo, setModal } = useProgress();
+    const { user, setVipPoints, setUserInfo, setModal, updateUser, currentWeek } = useProgress();
 
     const handleClick = () => {
-        if (!user.weekLeafes.includes(CURRENT_WEEK)) {
+        if (!user.weekLeafs.includes(currentWeek)) {
             const data = {
-                weekStars: [...user.weekStars, CURRENT_WEEK].join(',')
+                weekLeafs: [...user.weekLeafs, currentWeek].join(',')
             };
 
             setVipPoints(prev => {
@@ -45,8 +44,8 @@ export const NewWeek = (props) => {
                 return prev + 1
             });
 
-            setUserInfo({weekStars: [...user.weekStars, CURRENT_WEEK]});
-            updateUser(user.recordId, data);
+            setUserInfo({weekLeafs: [...user.weekLeafs, currentWeek]});
+            updateUser(data);
         }
 
         setModal({visible: false});

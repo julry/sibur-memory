@@ -17,7 +17,6 @@ export default function useMemoryGame(
   selectedDeck = [],
 ) {
     const [deck, setDeck] = useState(initBoard(selectedDeck));
-    const [isPicked, setIsPicked] = useState(false);
     const [cardSelectedOne, setCardSelectedOne] = useState(null);
     const [cardSelectedTwo, setCardSelectedTwo] = useState(null);
     const [matches, setMatches] = useState(0);

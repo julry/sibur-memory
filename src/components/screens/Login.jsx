@@ -10,7 +10,6 @@ import { FlexWrapper } from "../shared/FlexWrapper";
 import { BackButton } from "../shared/BackButton";
 import { useSizeRatio } from "../../hooks/useSizeRatio";
 import { WEEK_TO_SCREEN } from "../../constants/weekToScreens";
-import { getUserInfo } from "../../utils/getUserInfo";
 import { emailRegExp } from "../../constants/regexp";
 
 const Wrapper = styled(FlexWrapper)`
@@ -49,10 +48,7 @@ export const Login = () => {
     const ratio = useSizeRatio();
     const [email, setEmail] = useState('');
     const [isWrong, setIsWrong] = useState(false);
-    const { 
-        next, setUserInfo, setPassedWeeks, setPoints, setVipPoints, setWeekPoints,
-        setPassedLevelsWeek1, setPassedLevelsWeek2, setPassedLevelsWeek3, setPassedLevelsWeek4,
-    } = useProgress();
+    const { next, getUserInfo } = useProgress();
 
     const handleNext = async () => {
         if (!!email && !email.match(emailRegExp)) {
@@ -62,24 +58,16 @@ export const Login = () => {
         
         const info = await getUserInfo(email);
 
+        const {userInfo, passed} = info;
+
         if (info.isError) {
             setIsWrong(true);
             return;
         }
-        const { userInfo, passedWeeks: passedWeeks, points, weekPoints, vipPoints, passedLevels } = info;
 
-        // setUserInfo({...userInfo});
-        // setPassedWeeks(passedWeeks);
-        // setPoints(points);
-        // setWeekPoints(weekPoints);
-        // setVipPoints(vipPoints);
-        // setPassedLevelsWeek1(passedLevels[1]);
-        // setPassedLevelsWeek4(passedLevels[2]);
-        // setPassedLevelsWeek3(passedLevels[3]);
-        // setPassedLevelsWeek2(passedLevels[4]);
-
-        if (userInfo.seenInfo || passedWeeks?.length > 0) {
-            next(WEEK_TO_SCREEN[passedWeeks?.length + 1]);
+        if (userInfo.seenInfo || passed?.length > 0) {
+            const week = passed?.length > 0 ? passed[passed.length - 1] : 1;
+            next(WEEK_TO_SCREEN[week]);
 
             return;
         }

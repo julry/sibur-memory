@@ -4,7 +4,6 @@ import { Block } from "../Block";
 import { Modal } from "./Modal";
 import { Button } from "../Button";
 import { BackButton } from "../BackButton";
-import { getUserInfo } from "../../../utils/getUserInfo";
 import { useEffect, useState } from "react";
 
 const Content = styled(Block)`
@@ -28,7 +27,7 @@ const BackButtonStyled = styled(BackButton)`
 `;
 
 export const TgModal = () => {
-    const { user, setVipPoints, modal, setUserInfo, setModal } = useProgress();
+    const { user, modal, getUserInfo, setModal } = useProgress();
 
     const [checkTg, setCheckTg] = useState(false);
 
@@ -43,13 +42,7 @@ export const TgModal = () => {
             if (checkTg) return;
             setCheckTg(true);
 
-            getUserInfo(user.email).then((res) => {
-                if (!res || !res.userInfo) return;
-                setUserInfo({isTgConnected: res?.userInfo?.isTgConnected});
-                if (user.isVip) {
-                    setVipPoints(prev => res?.vipPoints ?? prev);
-                }
-            }).finally(() => {
+            getUserInfo(user.email, true).finally(() => {
                 setCheckTg(false);
             });
         }
