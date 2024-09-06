@@ -95,6 +95,7 @@ export const screens = {
     [SCREENS.START]: Start,
     [SCREENS.WEEK1]: Week1,
     [SCREENS.WEEK2]: Week2,
+    [SCREENS.WEEK3]: Week3,
     [SCREENS.LOBBY1]: Lobby1,
     [SCREENS.LOBBY2]: Lobby2,
     [SCREENS.LOBBY3]: Lobby3,

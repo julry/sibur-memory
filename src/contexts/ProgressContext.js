@@ -29,7 +29,7 @@ const getCurrentWeek = () => {
     return 4;
 }
 
-export const CURRENT_WEEK = 3;
+export const CURRENT_WEEK = getCurrentWeek();
 
 const INITIAL_STATE = {
     screen: SCREENS.INTRO,
@@ -217,7 +217,7 @@ export function ProgressProvider(props) {
         setPoints(data?.points ?? 0);
         setVipPoints(data?.targetPoints ?? 0);
         setWeekPoints(data?.[`week${currentWeek}Points`] ?? 0);
-        
+
         return {userInfo, passed};
     }
 
