@@ -29,7 +29,7 @@ const getCurrentWeek = () => {
     return 4;
 }
 
-export const CURRENT_WEEK = getCurrentWeek();
+export const CURRENT_WEEK = 3;
 
 const INITIAL_STATE = {
     screen: SCREENS.INTRO,
@@ -37,9 +37,9 @@ const INITIAL_STATE = {
     vipPoints: 0,
     weekPoints: 0,
     user: INITIAL_USER,
-    passedWeeks: [1,2],
-    passedLevelsWeek1: [1,2,3],
-    passedLevelsWeek2: [1,2,3],
+    passedWeeks: [],
+    passedLevelsWeek1: [],
+    passedLevelsWeek2: [],
     passedLevelsWeek3: [],
     passedLevelsWeek4: [],
 }
