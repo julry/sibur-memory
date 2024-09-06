@@ -54,7 +54,7 @@ export const faculties = [
     {
         id: 'fac-amgu',
         university: 'amgu',
-        name: 'Инженерно-физический факультет',
+        name: 'Институт компьютерных и инженерных наук',
     },
     {
         id: 'fac-vgu',
@@ -89,7 +89,7 @@ export const faculties = [
     {
         id: 'fac-tumgu',
         university: 'tumgu',
-        name: 'Институт химии'
+        name: 'Школа естественных наук'
     },
     {
         id: 'fac-pnipu',

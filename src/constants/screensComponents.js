@@ -2,6 +2,7 @@
 import { Intro } from "../components/screens/Intro";
 import { Lobby1, Week1, Game11, Game12, Game13, PostGame1, PostLevel11, PostLevel12, PostLevel13, Library1 } from "../components/screens/week1";
 import { Lobby2, Week2, Game21, Game22, Game23, PostGame2, PostLevel21, PostLevel22, PostLevel23, Library2 } from "../components/screens/week2";
+import { Lobby3, Week3, Game31, Game32, Game33, PostGame3, PostLevel31, PostLevel32, PostLevel33, Library3 } from "../components/screens/week3";
 import { Login } from "../components/screens/Login";
 import { Registration1 } from "../components/screens/Registration1";
 import { Registration2 } from "../components/screens/Registration2";
@@ -61,6 +62,31 @@ import motivation from '../assets/images/motivation.png';
 import review from '../assets/images/review.png';
 import forums from '../assets/images/forums.png';
 
+import engenier31 from '../assets/images/engenier31.png';
+import operator3 from '../assets/images/operator3.png';
+import engenier312 from '../assets/images/engenier312.png';
+import pilot3 from '../assets/images/pilot3.png';
+import defect3 from '../assets/images/defect3.png';
+import energetic3 from '../assets/images/energetic3.png';
+import slesar from '../assets/images/slesar.png';
+import device3 from '../assets/images/device3.png';
+import water32 from '../assets/images/water32.png';
+import emissions from '../assets/images/emissions.png';
+import trees32 from '../assets/images/trees32.png';
+import greenPrize from '../assets/images/greenPrize.png';
+import invest from '../assets/images/invest.png';
+import edu32 from '../assets/images/edu32.png';
+import wastes from '../assets/images/wastes.png';
+import greenhouse from '../assets/images/greenhouse.png';
+import age33 from '../assets/images/age33.png';
+import boddy33 from '../assets/images/boddy33.png';
+import career33 from '../assets/images/career33.png';
+import directions33 from '../assets/images/directions33.png';
+import enterprises33 from '../assets/images/enterprises33.png';
+import goods3 from '../assets/images/goods3.png';
+import women33 from '../assets/images/women33.png';
+import young33 from '../assets/images/young33.png';
+
 export const screens = {
     [SCREENS.INTRO]: Intro,
     [SCREENS.REG_1]: Registration1,
@@ -71,7 +97,7 @@ export const screens = {
     [SCREENS.WEEK2]: Week2,
     [SCREENS.LOBBY1]: Lobby1,
     [SCREENS.LOBBY2]: Lobby2,
-    // [SCREENS.LOBBY3]: Lobby3,
+    [SCREENS.LOBBY3]: Lobby3,
     // [SCREENS.LOBBY4]: Lobby4,
     [SCREENS.GAME1_1]: Game11,
     [SCREENS.GAME1_2]: Game12,
@@ -92,55 +118,33 @@ export const screens = {
     [SCREENS.PROFILE]: Profile,
 };
 
-export const preloadImages = [adaptation,
-    animals,
-    animals2,
-    art,
-    balance,
-    bus,
-    cinema,
-    cinema2,
-    clock,
-    communication,
-    conference,
-    coworker,
-    coworking2,
-    culture,
-    ecology,
-    edu,
-    engenier,
-    forums,
-    gaming,
-    graf,
-    help,
-    hobby,
-    lab,
-    leaf,
-    level1bg,
-    level2bg,
-    level3bg,
-    meetings,
-    mission,
-    money,
-    motivation,
-    nature,
-    nature2,
-    parties,
-    plain,
-    prof,
-    respect,
-    review,
-    safity,
-    seasons,
-    sport,
-    sport2,
-    sport3,
-    sport4,
-    team,
-    value,
-    work,
-    worker,
-    workers,
-    working,
-    worktravelling,
+export const preloadImages = [
+    adaptation, animals, animals2, art, balance, bus, cinema, cinema2,  clock, communication, conference, coworker,
+    coworking2, culture, ecology, edu, engenier, forums, gaming, graf, help, hobby, lab, leaf, level1bg, level2bg, level3bg, 
+    meetings, mission, money, motivation, nature, nature2, parties, plain, prof, respect, review, safity, seasons, sport, 
+    sport2, sport3, sport4, team, value, work, worker, workers, working, worktravelling,
+    engenier31,
+    operator3,
+    engenier312,
+    pilot3,
+    defect3,
+    energetic3,
+    slesar,
+    device3,
+    water32,
+    emissions,
+    trees32,
+    greenPrize,
+    invest,
+    edu32,
+    wastes,
+    greenhouse,
+    age33,
+    boddy33,
+    career33,
+    directions33,
+    enterprises33,
+    goods3,
+    women33,
+    young33,
 ];

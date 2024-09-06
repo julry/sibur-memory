@@ -101,7 +101,7 @@ export const Login = () => {
                 {isWrong && <SmallText>Ой! Такой почты нет. Попробуй ввести снова или зарегистрируйся, чтобы начать играть.</SmallText>}
                 <ButtonsWrapper $isWrong={isWrong}>
                     {isWrong && (<ButtonStyled color="green2" onClick={() => next(SCREENS.REG_1)}>Регистрация</ButtonStyled>)}
-                    <ButtonStyled $ratio={ratio} color="green" onClick={handleNext}>Готово</ButtonStyled>
+                    <ButtonStyled disabled={!email} $ratio={ratio} color="green" onClick={handleNext}>Готово</ButtonStyled>
                 </ButtonsWrapper>
             </Block>
         </Wrapper>
