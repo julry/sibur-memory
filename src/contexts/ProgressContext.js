@@ -29,7 +29,7 @@ const getCurrentWeek = () => {
     return 4;
 }
 
-export const CURRENT_WEEK = 3;
+export const CURRENT_WEEK = getCurrentWeek();
 
 const INITIAL_STATE = {
     screen: SCREENS.INTRO,
@@ -119,19 +119,30 @@ export function ProgressProvider(props) {
     const addGamePoint = () => setGamePoints(prev => prev + 1);
 
     const updateUser = async (changed) => {
-        const {isVip, recordId, weekLeafs, ...userProps} = user;
+        const { 
+            isVip, recordId, weekLeafs, id, name, email, registerWeek,
+            university, fac, isTgConnected, seenRules, seenInfo
+        } = user;
         const data = {
-            ...userProps,
+            id,
+            name,
+            email,
+            university,
+            fac,
             isTarget: isVip,
+            isTgConnected: isTgConnected,
             weekLeafs: weekLeafs.join(','),
             points,
-            [`week${currentWeek}Points`]: weekPoints,
             targetPoints: vipPoints,
+            [`week${currentWeek}Points`]: weekPoints,
+            seenRules, 
+            registerWeek,
             passedWeeks: passedWeeks.join(','),
             passedLevelsWeek1: passedLevelsWeek1.join(','),
             passedLevelsWeek2: passedLevelsWeek2.join(','),
             passedLevelsWeek3: passedLevelsWeek3.join(','),
             passedLevelsWeek4: passedLevelsWeek4.join(','),
+            seenInfo,
             ...changed,
         };
 
@@ -186,7 +197,6 @@ export function ProgressProvider(props) {
             seenInfo: data.seenInfo,
             isTgConnected: data.isTgConnected,
             weekLeafs: data.weekLeafs.length > 0 ? data.weekLeafs.replace(' ', '').split(',').map((l) => +l.trim()) : [],
-            seenWeekInfo:  data.seenWeekInfo,
             registerWeek: data.registerWeek,
         };
 
