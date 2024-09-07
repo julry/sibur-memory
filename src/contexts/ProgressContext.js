@@ -6,11 +6,11 @@ import {getUrlParam} from "../utils/getUrlParam";
 
 const INITIAL_USER = {
     recordId: '',
-    id: '13526413',
-    name: 'Иванов Иван',
-    email: 'ivan2001@mail.ru',
-    university: 'ННГУ им. Лобачевского',
-    fac: 'Факультет химических технологий, промышленной экологии и биотехнологий',
+    id: '',
+    name: '',
+    email: '',
+    university: '',
+    fac: '',
     isVip: true,
     seenRules: false,
     isTgConnected: false,
@@ -175,8 +175,31 @@ export function ProgressProvider(props) {
             passedLevelsWeek4: '',
         };
 
+        const userInfo = {
+            id,
+            name,
+            email,
+            university: user.university,
+            fac: user.fac,
+            isVip: user.isVip,
+            isTgConnected: false,
+            seenRules: false,
+            registerWeek: currentWeek,
+            seenInfo: false,
+            weekLeafs: [],
+        };
+
         const record = await client?.current.createRecord(data);
-        setUserInfo({recordId: record.id});
+        setUser({...userInfo, recordId: record.id});
+        setPoints(INITIAL_STATE.points);
+        setVipPoints(INITIAL_STATE.vipPoints);
+        setWeekPoints(INITIAL_STATE.weekPoints);
+        setPassedLevelsWeek1(INITIAL_STATE.passedLevelsWeek1);
+        setPassedLevelsWeek2(INITIAL_STATE.passedLevelsWeek2);
+        setPassedLevelsWeek3(INITIAL_STATE.passedLevelsWeek3);
+        setPassedLevelsWeek4(INITIAL_STATE.passedLevelsWeek4);
+
+        setPassedWeeks(INITIAL_STATE.passedWeeks);
     };
 
     const getUserInfo = async (email, isAfterTg) => {

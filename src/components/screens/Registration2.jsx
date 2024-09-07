@@ -9,6 +9,8 @@ import { Logo } from "../shared/Logo";
 import { useSizeRatio } from "../../hooks/useSizeRatio";
 import { FlexWrapper } from "../shared/FlexWrapper";
 import { emailRegExp } from "../../constants/regexp";
+import { WEEK_TO_SCREEN } from "../../constants/weekToScreens";
+import { SCREENS } from "../../constants/screens";
 
 const Wrapper = styled(FlexWrapper)`
     padding: var(--spacing_x7) var(--spacing_x4) 0;
@@ -24,8 +26,17 @@ const InputStyled = styled(Input)`
     ${({$isIncorrect}) => $isIncorrect ? 'border: 1px solid var(--color-red); color: var(--color-red)' : ''}
 `;
 
-const ButtonStyled = styled(Button)`
+const ButtonsWrapper = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
     margin-top: var(--spacing_x8);
+`;
+
+const ButtonStyled = styled(Button)`
+    & + & {
+        margin-left:  var(--spacing_x4);
+    }
 `;
 
 const InputRadioButton = styled.input`
@@ -84,16 +95,24 @@ const Link = styled.a`
   color: inherit;
 `;
 
+const SmallText = styled.p`
+    margin-top: var(--spacing_x2);
+    font-weight: 300;
+    font-size: var(--font_xs);
+`;
+
 export const Registration2 = () => {
     const ratio = useSizeRatio();
-    const { next, setUserInfo, registrateUser, currentWeek } = useProgress();
+    const { next, setUserInfo, registrateUser, currentWeek, getUserInfo, user, passedWeeks } = useProgress();
     const [isSending, setIsSending] = useState(false);
+    const [isAlreadyHas, setIsAlreadyHas] = useState(false);
     const [name, setName] = useState('');
     const [surname, setSurname] = useState('');
     const [email, setEmail] = useState('');
     const [isAgreed, setIsAgreed] = useState('');
     const [isCorrect, setIsCorrect] = useState(true);
     
+    const link = user.isVip ? 'https://memo-sibur.fut.ru/agreement_ff.pdf' : 'https://memo-sibur.fut.ru/agreement.pdf';
     const handleBlur = () => {
         if (email.match(emailRegExp) || !email) {
             setIsCorrect(true);
@@ -105,11 +124,20 @@ export const Registration2 = () => {
     const handleChange = (e) => {
         if (isSending) return;
         setIsCorrect(true);
+        setIsAlreadyHas(false);
         setEmail(e.target.value);
     };
 
-    const handleClick = async() => {
+    const handleClick = async () => {
         if (isSending) return;
+        const res = await getUserInfo(email);
+
+        if (!res.isError) {
+            setIsCorrect(false);
+            setIsAlreadyHas(true);
+
+            return;
+        }
         const id = uid(7);
 
         setIsSending(true);
@@ -117,6 +145,17 @@ export const Registration2 = () => {
         setUserInfo({name: `${name} ${surname}`, email, registerWeek: currentWeek, id});
         await registrateUser({name: `${name} ${surname}`, email, id})
         next();
+    }
+
+    const handleEnter = async () => {
+        if (user.seenInfo || passedWeeks?.length > 0) {
+            const week = passedWeeks?.length > 0 ? passedWeeks[passedWeeks.length - 1] : 1;
+            next(WEEK_TO_SCREEN[week]);
+
+            return;
+        }
+
+        next(SCREENS.START);
     }
 
     return (
@@ -149,6 +188,9 @@ export const Registration2 = () => {
                     onChange={handleChange} 
                     $isIncorrect={!isCorrect}
                 />
+                {isAlreadyHas && (
+                    <SmallText>Ой! Эта почта уже зарегистрирована. Попробуй ввести снова или войди, чтобы начать играть.</SmallText>
+                )}
                 <RadioButtonLabel $ratio={ratio}>
                     <InputRadioButton
                         type="checkbox"
@@ -160,19 +202,30 @@ export const Registration2 = () => {
                     <RadioIconStyled/>
                     <span>
                         Я согласен(а) на{"\u00A0"}
-                        {/* <Link
-                        href={"https://fut.ru/personal_data_policy/"}
-                        target="_blank"
-                        > */}
+                        <Link
+                            href={"https://doc.fut.ru/personal_data_policy.pdf"}
+                            target="_blank"
+                        >
                         обработку персональных данных
-                        {/* </Link>{" "} */}
-                        {" "}и получение информационных сообщений, а также с правилами проведения акции.
+                        </Link>
+                        {" "}и получение информационных сообщений, а также с{' '}
+                        <Link
+                            href={link}
+                            target="_blank"
+                        >правилами проведения акции</Link>.
                     </span>
                 </RadioButtonLabel>
             </Block>
-            <ButtonStyled color="green" onClick={handleClick} disabled={!name || !email || !isAgreed || !surname || !isCorrect}>
-                Отправить
-            </ButtonStyled>
+            <ButtonsWrapper>
+                <ButtonStyled color="green" onClick={handleClick} disabled={!name || !email || !isAgreed || !surname || !isCorrect || isAlreadyHas}>
+                    Отправить
+                </ButtonStyled>
+                {isAlreadyHas && (
+                    <ButtonStyled color="green2" onClick={handleEnter}>
+                        Войти
+                    </ButtonStyled>
+                )}
+            </ButtonsWrapper>
         </Wrapper>
     )
 }

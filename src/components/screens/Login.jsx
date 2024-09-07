@@ -44,6 +44,10 @@ const SmallText = styled.p`
     font-size: var(--font_xs);
 `;
 
+const InputStyled = styled(Input)`
+    ${({$isIncorrect}) => $isIncorrect ? 'border: 1px solid var(--color-red); color: var(--color-red)' : ''}
+`;
+
 export const Login = () => {
     const ratio = useSizeRatio();
     const [email, setEmail] = useState('');
@@ -85,7 +89,7 @@ export const Login = () => {
                     Введи свою почту, чтобы оказаться{' '}
                     в месте, где ты закончил в прошлый раз:
                 </Text>
-                <Input placeholder="E-mail" value={email} onChange={(e) => setEmail(e.target.value)} />
+                <InputStyled $isIncorrect={isWrong} placeholder="E-mail" value={email} onChange={(e) => setEmail(e.target.value)} />
                 {isWrong && <SmallText>Ой! Такой почты нет. Попробуй ввести снова или зарегистрируйся, чтобы начать играть.</SmallText>}
                 <ButtonsWrapper $isWrong={isWrong}>
                     {isWrong && (<ButtonStyled color="green2" onClick={() => next(SCREENS.REG_1)}>Регистрация</ButtonStyled>)}

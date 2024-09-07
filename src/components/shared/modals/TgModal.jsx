@@ -33,7 +33,7 @@ export const TgModal = () => {
 
     const handleClick = () => {
         if (checkTg) return;
-        window.open('', '_blank');
+        window.open('https://t.me/siburgamebot', '_blank');
         setModal({visible: false});
     }
 
