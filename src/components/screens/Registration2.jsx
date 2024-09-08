@@ -111,6 +111,7 @@ export const Registration2 = () => {
     const [email, setEmail] = useState('');
     const [isAgreed, setIsAgreed] = useState('');
     const [isCorrect, setIsCorrect] = useState(true);
+    const [isNetworkError, setIsNetworkError] = useState(false);
     
     const link = user.isVip ? 'https://memo-sibur.fut.ru/agreement_ff.pdf' : 'https://memo-sibur.fut.ru/agreement.pdf';
     const handleBlur = () => {
@@ -143,7 +144,13 @@ export const Registration2 = () => {
         setIsSending(true);
         setIsSending(false);
         setUserInfo({name: `${name} ${surname}`, email, registerWeek: currentWeek, id});
-        await registrateUser({name: `${name} ${surname}`, email, id})
+        const reg = await registrateUser({name: `${name} ${surname}`, email, id});
+
+        if (reg.isError) {
+            setIsNetworkError(true);
+            return;
+        }
+
         next();
     }
 
@@ -215,6 +222,9 @@ export const Registration2 = () => {
                         >правилами проведения акции</Link>.
                     </span>
                 </RadioButtonLabel>
+                {isNetworkError && (
+                    <SmallText>Ой! Что-то пошло не так. Попробуй позже</SmallText>
+                )}
             </Block>
             <ButtonsWrapper>
                 <ButtonStyled color="green" onClick={handleClick} disabled={!name || !email || !isAgreed || !surname || !isCorrect || isAlreadyHas}>

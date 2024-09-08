@@ -70,7 +70,7 @@ export const Login = () => {
         }
 
         if (userInfo.seenInfo || passed?.length > 0) {
-            const week = passed?.length > 0 ? passed[passed.length - 1] : 1;
+            const week = passed?.length > 0 ? passed[passed.length - 1] + 1 : 1;
             next(WEEK_TO_SCREEN[week]);
 
             return;

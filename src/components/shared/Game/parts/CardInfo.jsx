@@ -60,7 +60,7 @@ const Result = styled.p`
 export const CardInfo = ({isLast, card, onClose, finishLevel, points = 3}) => {
     const ratio = useSizeRatio();
     const [taskResult, setTaskResult] = useState({});
-    const { next, setGamePoints } = useProgress();
+    const { next, setGamePoints, gamePoints } = useProgress();
     const { isTask, infoText, buttons } = card;
 
     const isAnswered = isTask && taskResult.text;
@@ -68,7 +68,7 @@ export const CardInfo = ({isLast, card, onClose, finishLevel, points = 3}) => {
 
     const handleNext = () => {
         if (isLast) {
-            finishLevel?.();
+            finishLevel?.(gamePoints + points);
             setGamePoints(prev => prev + points);
             next();
         } else onClose?.();

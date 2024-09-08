@@ -63,16 +63,19 @@ export function ProgressProvider(props) {
     const [passedLevelsWeek2, setPassedLevelsWeek2] = useState(INITIAL_STATE.passedLevelsWeek2);
     const [passedLevelsWeek3, setPassedLevelsWeek3] = useState(INITIAL_STATE.passedLevelsWeek3);
     const [passedLevelsWeek4, setPassedLevelsWeek4] = useState(INITIAL_STATE.passedLevelsWeek4);
-    const [hasPassedThisTry, setHasPassedThisTry] = useState(false); 
     const [currentWeek, setCurrentWeek] = useState(CURRENT_WEEK);
 
     const screen = screens[currentScreen];
     const client = useRef();
 
     const getDbCurrentWeek = async () => {
-        const { week } = await client.current.loadProjectState();
-        if (week && !isNaN(+week)) {
-            setCurrentWeek(+week);
+        try {
+            const { week } = await client.current.loadProjectState();
+            if (week && !isNaN(+week)) {
+                setCurrentWeek(+week);
+            }
+        } catch (e) {
+            console.log(e);
         }
     }
 
@@ -147,113 +150,168 @@ export function ProgressProvider(props) {
         };
 
 
-        const result = await client.current.updateRecord(recordId, data);
+        try {
+            const result = await client.current.updateRecord(recordId, data);
 
-        return result;
+            return result;
+        } catch(e) {
+            console.log(e);
+
+            return {isError: true, ...data};
+        }
     }
 
     const registrateUser = async ({id, name, email}) => {
-        const data = {
-            id,
-            name,
-            email,
-            university: user.university,
-            fac: user.fac,
-            isTarget: user.isVip,
-            points: 0,
-            [`week${currentWeek}Points`]: 0,
-            targetPoints: 0,
-            isTgConnected: false,
-            seenRules: false,
-            registerWeek: currentWeek,
-            seenInfo: false,
-            weekLeafs: '',
-            passedWeeks: '',
-            passedLevelsWeek1: '',
-            passedLevelsWeek2: '',
-            passedLevelsWeek3: '',
-            passedLevelsWeek4: '',
-        };
-
-        const userInfo = {
-            id,
-            name,
-            email,
-            university: user.university,
-            fac: user.fac,
-            isVip: user.isVip,
-            isTgConnected: false,
-            seenRules: false,
-            registerWeek: currentWeek,
-            seenInfo: false,
-            weekLeafs: [],
-        };
-
-        const record = await client?.current.createRecord(data);
-        setUser({...userInfo, recordId: record.id});
-        setPoints(INITIAL_STATE.points);
-        setVipPoints(INITIAL_STATE.vipPoints);
-        setWeekPoints(INITIAL_STATE.weekPoints);
-        setPassedLevelsWeek1(INITIAL_STATE.passedLevelsWeek1);
-        setPassedLevelsWeek2(INITIAL_STATE.passedLevelsWeek2);
-        setPassedLevelsWeek3(INITIAL_STATE.passedLevelsWeek3);
-        setPassedLevelsWeek4(INITIAL_STATE.passedLevelsWeek4);
-
-        setPassedWeeks(INITIAL_STATE.passedWeeks);
+        try {
+            const data = {
+                id,
+                name,
+                email,
+                university: user.university,
+                fac: user.fac,
+                isTarget: user.isVip,
+                points: 0,
+                [`week${currentWeek}Points`]: 0,
+                targetPoints: 0,
+                isTgConnected: false,
+                seenRules: false,
+                registerWeek: currentWeek,
+                seenInfo: false,
+                weekLeafs: '',
+                passedWeeks: '',
+                passedLevelsWeek1: '',
+                passedLevelsWeek2: '',
+                passedLevelsWeek3: '',
+                passedLevelsWeek4: '',
+            };
+    
+            const userInfo = {
+                id,
+                name,
+                email,
+                university: user.university,
+                fac: user.fac,
+                isVip: user.isVip,
+                isTgConnected: false,
+                seenRules: false,
+                registerWeek: currentWeek,
+                seenInfo: false,
+                weekLeafs: [],
+            };
+    
+            const record = await client?.current.createRecord(data);
+            setUser({...userInfo, recordId: record.id});
+            setPoints(INITIAL_STATE.points);
+            setVipPoints(INITIAL_STATE.vipPoints);
+            setWeekPoints(INITIAL_STATE.weekPoints);
+            setPassedLevelsWeek1(INITIAL_STATE.passedLevelsWeek1);
+            setPassedLevelsWeek2(INITIAL_STATE.passedLevelsWeek2);
+            setPassedLevelsWeek3(INITIAL_STATE.passedLevelsWeek3);
+            setPassedLevelsWeek4(INITIAL_STATE.passedLevelsWeek4);
+    
+            setPassedWeeks(INITIAL_STATE.passedWeeks);
+        } catch (e) {
+            return {isError: true};
+        }
     };
 
     const getUserInfo = async (email, isAfterTg) => {
-        const record = await client?.current.findRecord('email', email);
-        if (!record) return {isError: true}; 
-        const {data, id} = record;
-        let userInfo = {};
-
-        userInfo = {
-            recordId: id,
-            id: data.id,
-            name: data.name,
-            email,
-            university: data.university,
-            fac: data.fac,
-            isVip: data.isTarget,
-            seenRules: data.seenRules,
-            seenInfo: data.seenInfo,
-            isTgConnected: data.isTgConnected,
-            weekLeafs: data.weekLeafs.length > 0 ? data.weekLeafs.replace(' ', '').split(',').map((l) => +l.trim()) : [],
-            registerWeek: data.registerWeek,
-        };
-
-        if (isAfterTg) {
-            setUser(prev=> ({...prev, isTgConnected: data.isTgConnected}));
+        try {
+            const record = await client?.current.findRecord('email', email);
+            if (!record) return {isError: true}; 
+            const {data, id} = record;
+            let userInfo = {};
+    
+            userInfo = {
+                recordId: id,
+                id: data.id,
+                name: data.name,
+                email,
+                university: data.university,
+                fac: data.fac,
+                isVip: data.isTarget,
+                seenRules: data.seenRules,
+                seenInfo: data.seenInfo,
+                isTgConnected: data.isTgConnected,
+                weekLeafs: data.weekLeafs.length > 0 ? data.weekLeafs.replace(' ', '').split(',').map((l) => +l.trim()) : [],
+                registerWeek: data.registerWeek,
+            };
+    
+            if (isAfterTg) {
+                setUser(prev=> ({...prev, isTgConnected: data.isTgConnected}));
+                setPoints(data?.points ?? 0);
+                setVipPoints(data?.targetPoints ?? 0);
+    
+                return;
+            }
+    
+            setUser(userInfo);
+            setPassedLevelsWeek1(data?.passedLevelsWeek1?.length > 0 ? 
+                data.passedLevelsWeek1.replace(' ', '').split(',').map((l) => +l.trim()) 
+                : []);
+            setPassedLevelsWeek2(data?.passedLevelsWeek2?.length > 0 ? 
+                data.passedLevelsWeek2.replace(' ', '').split(',').map((l) => +l.trim()) 
+                : []);
+            setPassedLevelsWeek3(data?.passedLevelsWeek3?.length > 0 ? 
+                data.passedLevelsWeek3.replace(' ', '').split(',').map((l) => +l.trim()) 
+                : []);
+            setPassedLevelsWeek4(data?.passedLevelsWeek4?.length > 0 ? 
+                data.passedLevelsWeek4.replace(' ', '').split(',').map((l) => +l.trim()) 
+                : []);
+    
+            const passed = data?.passedWeeks?.length > 0 ? data.passedWeeks.replace(' ', '').split(',').map((l) => +l.trim()) : [];
+            const lastWeek = passed.length > 0 ? passed[passed.length - 1] : 1;
+            const gameWeek = data[`passedLevelsWeek${lastWeek}`].split(',').map((l) => +l.trim()).length === 3 ? lastWeek + 1 : lastWeek;
+            setPassedWeeks(passed);
             setPoints(data?.points ?? 0);
             setVipPoints(data?.targetPoints ?? 0);
-
-            return;
+            setWeekPoints(data?.[`week${currentWeek}Points`] ?? 0);
+            setGamePoints(data?.[`week${gameWeek}Points`] ?? 0);
+    
+            return {userInfo, passed};
+        } catch(e) {
+            return {isError: true};
         }
-
-        setUser(userInfo);
-        setPassedLevelsWeek1(data?.passedLevelsWeek1?.length > 0 ? 
-            data.passedLevelsWeek1.replace(' ', '').split(',').map((l) => +l.trim()) 
-            : []);
-        setPassedLevelsWeek2(data?.passedLevelsWeek2?.length > 0 ? 
-            data.passedLevelsWeek2.replace(' ', '').split(',').map((l) => +l.trim()) 
-            : []);
-        setPassedLevelsWeek3(data?.passedLevelsWeek3?.length > 0 ? 
-            data.passedLevelsWeek3.replace(' ', '').split(',').map((l) => +l.trim()) 
-            : []);
-        setPassedLevelsWeek4(data?.passedLevelsWeek4?.length > 0 ? 
-            data.passedLevelsWeek4.replace(' ', '').split(',').map((l) => +l.trim()) 
-            : []);
-
-        const passed = data?.passedWeeks?.length > 0 ? data.passedWeeks.replace(' ', '').split(',').map((l) => +l.trim()) : [];
-        setPassedWeeks(passed);
-        setPoints(data?.points ?? 0);
-        setVipPoints(data?.targetPoints ?? 0);
-        setWeekPoints(data?.[`week${currentWeek}Points`] ?? 0);
-
-        return {userInfo, passed};
     }
 
+
+    const setLevelPoints = (level, week, isLastLevel, curPoints) => {
+        const passedWeekLevels = {
+            1: passedLevelsWeek1,
+            2: passedLevelsWeek2,
+            3: passedLevelsWeek3,
+            4: passedLevelsWeek4,
+        };
+
+        const data = {
+            [`passedLevelsWeek${week}`]: [...passedWeekLevels[week], level].join(',')
+        };
+        
+        if (!user.isVip) {
+            data.points = points + curPoints;
+            
+            setPoints(prev =>  prev + curPoints);
+        }
+
+        if (user.isVip) {
+            if (week === currentWeek) {
+                data[`week${week}Points`] = weekPoints + curPoints;
+            }
+            setUserInfo({[`week${week}Points`]: user[`week${week}Points`] + curPoints});
+        }
+
+        setWeekPoints(prev => prev + curPoints);
+
+        if (isLastLevel) {
+            data.passedWeeks = (passedWeeks.includes(week) ? passedWeeks : [...passedWeeks, week]).join(',');
+
+            setPassedWeeks(prev => prev.includes(week) ? prev : [...prev, week]);
+        }
+        
+        passLevel(level, week);
+        updateUser(data);
+    };
+    
     const state = {
         screen,
         currentScreen,
@@ -273,8 +331,6 @@ export function ProgressProvider(props) {
         modal,
         passedWeeks,
         setPassedWeeks,
-        hasPassedThisTry,
-        setHasPassedThisTry,
         passedWeekLevels: {
             1: passedLevelsWeek1,
             2: passedLevelsWeek2,
@@ -282,14 +338,11 @@ export function ProgressProvider(props) {
             4: passedLevelsWeek4,
         },
         passLevel,
-        setPassedLevelsWeek1,
-        setPassedLevelsWeek2,
-        setPassedLevelsWeek3,
-        setPassedLevelsWeek4,
         updateUser,
         getUserInfo,
         registrateUser,
-        currentWeek
+        currentWeek,
+        setLevelPoints
     }
 
     return (

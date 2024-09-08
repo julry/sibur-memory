@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { useProgress } from "../../contexts/ProgressContext"
 import { useSizeRatio } from "../../hooks/useSizeRatio";
+import { reachMetrikaGoal } from "../../utils/reachMetrikaGoal";
 import { Block } from "./Block";
 import { Button } from "./Button";
 import { FlexWrapper } from "./FlexWrapper";
@@ -21,9 +22,14 @@ const ButtonStyled = styled(Button)`
     margin-top: var(--spacing_x5);
 `;
 
-export const WeekScreen = ({weekName, text, ...props}) => {
+export const WeekScreen = ({weekName, week, text, metrika, ...props}) => {
     const ratio = useSizeRatio();
-    const {next} = useProgress();
+    const {next, user} = useProgress();
+
+    const handleNext = () => {
+        reachMetrikaGoal(metrika ?? `${user.isVip ? '' : 'non'}target_lobby${week}`);
+        next();
+    }
 
     return (
         <FlexWrapper {...props}>
@@ -31,7 +37,7 @@ export const WeekScreen = ({weekName, text, ...props}) => {
             <BlockStyled $ratio={ratio}>
                 <Title>{weekName}</Title>
                 <p>{text}</p>
-                <ButtonStyled onClick={() => next()}>Начать</ButtonStyled>
+                <ButtonStyled onClick={handleNext}>Начать</ButtonStyled>
             </BlockStyled>
         </FlexWrapper>
     )

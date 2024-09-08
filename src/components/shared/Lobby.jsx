@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import styled from "styled-components";
-import { WEEK_TO_LOBBY } from "../../constants/weekToScreens";
-import { CURRENT_WEEK, useProgress } from "../../contexts/ProgressContext";
+import { WEEK_TO_LOBBY, WEEK_TO_SCREEN } from "../../constants/weekToScreens";
+import { useProgress } from "../../contexts/ProgressContext";
 import { useSizeRatio } from "../../hooks/useSizeRatio";
 import { Block } from "./Block";
 import { Button } from "./Button";
@@ -72,7 +72,7 @@ const WeekButton = styled(Button)`
 
 export const Lobby = ({ activeWeek, levelScreens, isShowRules}) => {
     const ratio = useSizeRatio();
-    const {next, passedWeeks, passedWeekLevels, user, setUserInfo, setModal, modal, currentWeek} = useProgress();
+    const {next, passedWeeks, passedWeekLevels, user, setUserInfo, setModal, modal, currentWeek, setWeekPoints} = useProgress();
     const [isModal, setIsModal] = useState(isShowRules && !user.seenRules);
     const [newWeekModal, setNewWeekModal] = useState(user.isVip && user.registerWeek !== currentWeek && !user.weekLeafs.includes(currentWeek))
     const [isNextWeekModal, setIsNextWeekModal] = useState(!user.seenNext && activeWeek === currentWeek && passedWeeks.includes(activeWeek));
@@ -127,6 +127,14 @@ export const Lobby = ({ activeWeek, levelScreens, isShowRules}) => {
 
         if (w === activeWeek) return;
 
+        if (passedWeekLevels[w]?.length === 0 && !user[`seenStart${w}`]) {
+            setUserInfo({[`seenStart${w}`]: true});
+            
+            next(WEEK_TO_SCREEN[w]);
+
+            return;
+        }
+
         next(WEEK_TO_LOBBY[w]);
     };
 
@@ -137,6 +145,7 @@ export const Lobby = ({ activeWeek, levelScreens, isShowRules}) => {
     }
 
     const handleClosePrevWeekModal = () => {
+        if (user.lastWeek !== currentWeek || !user.isVip) setWeekPoints(0);
         setUserInfo({isFromGame: false, lastWeek: null});
         setIsPrevWeekModal(false);
     }
@@ -157,7 +166,7 @@ export const Lobby = ({ activeWeek, levelScreens, isShowRules}) => {
             setUserInfo({seenTg: true});
         }
 
-        if (user.isVip && !(isShowRules || user.seenWeekInfo) && passedWeeks.length + 1 < currentWeek && !newWeekModal && modal.type !== 'tg') {
+        if (user.isVip && !isModal && !user.seenWeekInfo && passedWeeks.length + 1 < currentWeek && !newWeekModal && modal.type !== 'tg') {
             setIsMissedModal(true);
         }
     }, [user.registerWeek, newWeekModal]);

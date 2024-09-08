@@ -1,6 +1,8 @@
 import { useState } from "react";
 import styled from "styled-components";
+import { useProgress } from "../../../contexts/ProgressContext";
 import { useSizeRatio } from "../../../hooks/useSizeRatio";
+import { reachMetrikaGoal } from "../../../utils/reachMetrikaGoal";
 import { FlexWrapper } from "../FlexWrapper";
 import { GameHeader } from "../GameHeader";
 import { GameRulesModal } from "../modals";
@@ -23,8 +25,9 @@ const Title = styled.p`
     left: 0;
 `;
 
-export const Game = ({level, week, showRules, initialCards, points}) => {
+export const Game = ({level, week, showRules, initialCards, points = 3, isLastLevel}) => {
     const ratio = useSizeRatio();
+    const {user, setLevelPoints} = useProgress();
     const [isExitModal, setIsExitModal] = useState(false);
     const [isRulesModal, setIsRulesModal] = useState(showRules);
     const [isFirstTime, setIsFirstTime] = useState(showRules);
@@ -33,10 +36,6 @@ export const Game = ({level, week, showRules, initialCards, points}) => {
         if (isFirstTime) setIsFirstTime(false);
 
         setIsRulesModal(false);
-    };
-
-    const handleFinishLevel = () => {
-
     };
 
     const {
@@ -50,6 +49,11 @@ export const Game = ({level, week, showRules, initialCards, points}) => {
         matches
     } = useMemoryGame(initialCards);
 
+    const handleFinishLevel = (curPoints) => {
+        setLevelPoints(level, week, isLastLevel, curPoints);
+        reachMetrikaGoal(`${user.isVip ? '' : 'non'}target_week${week}_quest${level}`);
+    };
+
     return (
         <Wrapper>
             <GameHeader onBack={()=>setIsExitModal(true)} onClickRules={()=>setIsRulesModal(true)} matches={matches}/>
@@ -59,7 +63,15 @@ export const Game = ({level, week, showRules, initialCards, points}) => {
                 onCardClick={handleSelection}
                 cards={deck}
             />
-            {cardInfo && <CardInfo card={cardInfo} isLast={isLast} onClose={() => setCardInfo()} points={points}/>}
+            {cardInfo && (
+                <CardInfo 
+                    card={cardInfo} 
+                    isLast={isLast} 
+                    onClose={() => setCardInfo()} 
+                    finishLevel={handleFinishLevel} 
+                    points={points}
+                />
+            )}
             {isRulesModal && <GameRulesModal isFirstTime={isFirstTime} onClose={handleCloseRules} />}
             {isExitModal && <ExitModal week={week} onClose={() => setIsExitModal(false)} />}
         </Wrapper>

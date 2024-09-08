@@ -40,51 +40,25 @@ const CoinsStyled = styled(PointsButton)`
 `;
 
 export const PostLevelScreen = ({ level, text, week, isLast }) => {
+    const {setUserInfo} = useProgress();
     const { 
-        passLevel, passedWeekLevels, user, setPoints, currentWeek, weekPoints, points,
-        setWeekPoints, next, gamePoints, setGamePoints, setPassedWeeks, updateUser, passedWeeks
+        next, gamePoints, setGamePoints
     } = useProgress();
 
-
-    const setLevelPoints = () => {
-        const data = {
-            [`passedLevelsWeek${week}`]: [...passedWeekLevels[week], level].join(',')
-        };
-
-        const vipData = {
-            weekPoints: currentWeek === week ? weekPoints + gamePoints : 0
-        }
-        
-        if (!user.isVip) {
-            data.points = points + gamePoints;
-            
-            setPoints(prev =>  prev + gamePoints);
-        }
-        if (user.isVip && currentWeek === week) {
-            data[`week${week}Points`] = weekPoints + gamePoints;
-        }
-
-        setWeekPoints(prev => prev + gamePoints);
-
-        setGamePoints(0);
-
+    const updateInfo = () => {
         if (isLast) {
-            data.passedWeeks = (passedWeeks.includes(week) ? passedWeeks : [...passedWeeks, week]).join(',');
-
-            setPassedWeeks(prev => prev.includes(week) ? prev : [...prev, week]);
+            setUserInfo({isFromGame: true, lastWeek: week});
         }
-        
-        passLevel(level, week);
-        updateUser(data);
+        setGamePoints(0);
     }
 
     const handleNext = () => {
-        setLevelPoints();
+        updateInfo();
         next();
     }
 
     const handlePrev = () => {
-        setLevelPoints();
+        updateInfo();
         next(WEEK_TO_LOBBY[week])
     }
 

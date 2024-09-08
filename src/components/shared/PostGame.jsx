@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { WEEK_TO_LOBBY, WEEK_TO_SCREEN } from "../../constants/weekToScreens";
 import { useProgress } from "../../contexts/ProgressContext";
 import { useSizeRatio } from "../../hooks/useSizeRatio";
+import { reachMetrikaGoal } from "../../utils/reachMetrikaGoal";
 import { BackButton } from "./BackButton";
 import { Block } from "./Block";
 import { Button } from "./Button";
@@ -39,7 +40,7 @@ export const PostGame = ({ text, week }) => {
     const setGameInfo = () => {
         setUserInfo({isFromGame: true, lastWeek: week});
         
-        if (!isLastWeek || !user.isVip) {
+        if (!isLastWeek) {
             setWeekPoints(0);
         }
     }
@@ -55,6 +56,7 @@ export const PostGame = ({ text, week }) => {
     }
 
     const handleLinkClick = () => {
+        reachMetrikaGoal(user.isVip ? `site_visit${week}` : `nontarget_site${week}`);
         window.open('https://career.sibur.ru', '_blank');
     };
 
