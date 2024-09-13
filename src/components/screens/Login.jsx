@@ -53,7 +53,7 @@ export const Login = () => {
     const [email, setEmail] = useState('');
     const [isWrong, setIsWrong] = useState(false);
     const [isSending, setIsSending] = useState(false);
-    const { next, getUserInfo } = useProgress();
+    const { next, getUserInfo, currentWeek } = useProgress();
 
     const handleNext = async () => {
         if (isSending) return;
@@ -77,7 +77,8 @@ export const Login = () => {
         }
 
         if (userInfo.seenInfo || passed?.length > 0) {
-            const week = passed?.length > 0 ? passed[passed.length - 1] + 1 : 1;
+            let week = passed?.length > 0 ? passed[passed.length - 1] + 1 : 1;
+            week = week > currentWeek ? currentWeek : week;
             next(WEEK_TO_SCREEN[week]);
 
             return;
