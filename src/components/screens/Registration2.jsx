@@ -133,7 +133,7 @@ export const Registration2 = () => {
         if (isSending) return;
         const res = await getUserInfo(email);
 
-        if (!res.isError) {
+        if (res && !res?.isError) {
             setIsCorrect(false);
             setIsAlreadyHas(true);
 
@@ -142,11 +142,11 @@ export const Registration2 = () => {
         const id = uid(7);
 
         setIsSending(true);
+        setUserInfo({name: `${name} ${surname}`, email: email.toLowerCase(), registerWeek: currentWeek, id});
+        const reg = await registrateUser({name: `${name} ${surname}`, email: email.toLowerCase(), id});
         setIsSending(false);
-        setUserInfo({name: `${name} ${surname}`, email, registerWeek: currentWeek, id});
-        const reg = await registrateUser({name: `${name} ${surname}`, email, id});
 
-        if (reg.isError) {
+        if (reg?.isError) {
             setIsNetworkError(true);
             return;
         }

@@ -80,7 +80,7 @@ export const Card = ({
         )}
         
         <CardSide
-          src={card.isTask ? undefined : cardShirt}
+          src={cardShirt}
           alt=""
           onClick={handleClick}
         />

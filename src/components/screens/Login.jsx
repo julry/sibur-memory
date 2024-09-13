@@ -52,15 +52,22 @@ export const Login = () => {
     const ratio = useSizeRatio();
     const [email, setEmail] = useState('');
     const [isWrong, setIsWrong] = useState(false);
+    const [isSending, setIsSending] = useState(false);
     const { next, getUserInfo } = useProgress();
 
     const handleNext = async () => {
+        if (isSending) return;
+
         if (!!email && !email.match(emailRegExp)) {
             setIsWrong(true);
             return;
         }
+
+        setIsSending(true);
         
-        const info = await getUserInfo(email);
+        const info = await getUserInfo(email.toLowerCase());
+
+        setIsSending(false);
 
         const {userInfo, passed} = info;
 
@@ -93,7 +100,7 @@ export const Login = () => {
                 {isWrong && <SmallText>Ой! Такой почты нет. Попробуй ввести снова или зарегистрируйся, чтобы начать играть.</SmallText>}
                 <ButtonsWrapper $isWrong={isWrong}>
                     {isWrong && (<ButtonStyled color="green2" onClick={() => next(SCREENS.REG_1)}>Регистрация</ButtonStyled>)}
-                    <ButtonStyled disabled={!email} $ratio={ratio} color="green" onClick={handleNext}>Готово</ButtonStyled>
+                    <ButtonStyled disabled={!email || isSending} $ratio={ratio} color="green" onClick={handleNext}>Готово</ButtonStyled>
                 </ButtonsWrapper>
             </Block>
         </Wrapper>
