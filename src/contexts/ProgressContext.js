@@ -49,6 +49,7 @@ const ProgressContext = createContext(INITIAL_STATE);
 export function ProgressProvider(props) {
     const {children} = props;
     const [currentScreen, setCurrentScreen] = useState(getUrlParam('screen') || INITIAL_STATE.screen);
+    // const [currentScreen, setCurrentScreen] = useState(INITIAL_STATE.screen);
     // points za igru, сюда добавляем набранные общие звезды 
     const [points, setPoints] = useState(INITIAL_STATE.points);
     // points za недели, сюда добавляем набранные красные звезды для випов
@@ -260,13 +261,10 @@ export function ProgressProvider(props) {
                 : []);
     
             const passed = data?.passedWeeks?.length > 0 ? data.passedWeeks.replace(' ', '').split(',').map((l) => +l.trim()) : [];
-            const lastWeek = passed.length > 0 ? passed[passed.length - 1] : 1;
-            const gameWeek = data[`passedLevelsWeek${lastWeek}`].split(',').map((l) => +l.trim()).length === 3 ? lastWeek + 1 : lastWeek;
             setPassedWeeks(passed);
             setPoints(data?.points ?? 0);
             setVipPoints(data?.targetPoints ?? 0);
             setWeekPoints(data?.[`week${currentWeek}Points`] ?? 0);
-            setGamePoints(data?.[`week${gameWeek}Points`] ?? 0);
     
             return {userInfo, passed};
         } catch(e) {
@@ -342,7 +340,7 @@ export function ProgressProvider(props) {
         getUserInfo,
         registrateUser,
         currentWeek,
-        setLevelPoints
+        setLevelPoints,
     }
 
     return (

@@ -30,17 +30,16 @@ const ButtonStyled = styled(Button)`
 
 export const NewWeek = (props) => {
     const ratio = useSizeRatio();
-    const { user, setVipPoints, setUserInfo, setModal, updateUser, currentWeek } = useProgress();
+    const { user, setVipPoints, setUserInfo, setModal, updateUser, currentWeek, vipPoints } = useProgress();
 
     const handleClick = () => {
         if (!user.weekLeafs.includes(currentWeek)) {
             const data = {
-                weekLeafs: [...user.weekLeafs, currentWeek].join(',')
+                weekLeafs: [...user.weekLeafs, currentWeek].join(','),
+                targetPoints: vipPoints + 1,
             };
 
             setVipPoints(prev => {
-                data.targetPoints = prev + 1;
-
                 return prev + 1
             });
 
