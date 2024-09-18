@@ -57,7 +57,7 @@ const Result = styled.p`
     color: var(--color-${({$color}) => $color});
 `;
 
-export const CardInfo = ({isLast, card, onClose, finishLevel, points = 3}) => {
+export const CardInfo = ({isLast, card, onClose, finishLevel, onPickIncorrect, points = 3}) => {
     const ratio = useSizeRatio();
     const [taskResult, setTaskResult] = useState({});
     const { next, setGamePoints, gamePoints } = useProgress();
@@ -71,7 +71,10 @@ export const CardInfo = ({isLast, card, onClose, finishLevel, points = 3}) => {
             finishLevel?.(gamePoints + points);
             setGamePoints(prev => prev + points);
             next();
-        } else onClose?.();
+        } else {
+            // if (!taskResult.isCorrect) onPickIncorrect?.();
+            onClose?.();
+        }
     }
 
     const handleClickButton = (id) => {

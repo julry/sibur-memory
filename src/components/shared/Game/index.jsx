@@ -31,6 +31,7 @@ export const Game = ({level, week, showRules, initialCards, points = 3, isLastLe
     const [isExitModal, setIsExitModal] = useState(false);
     const [isRulesModal, setIsRulesModal] = useState(showRules);
     const [isFirstTime, setIsFirstTime] = useState(showRules);
+    const [isShuffling, setIsShuffling] = useState(false);
 
     const handleCloseRules = () => {
         if (isFirstTime) setIsFirstTime(false);
@@ -46,7 +47,8 @@ export const Game = ({level, week, showRules, initialCards, points = 3, isLastLe
         cardInfo, 
         isLast,
         setCardInfo,
-        matches
+        matches,
+        shuffleDeck
     } = useMemoryGame(initialCards);
 
     const handleFinishLevel = (curPoints) => {
@@ -54,6 +56,12 @@ export const Game = ({level, week, showRules, initialCards, points = 3, isLastLe
         reachMetrikaGoal(`${user.isVip ? '' : 'non'}target_week${week}_quest${level}`);
     };
 
+    const handlePickIncorrect = () => {
+        setIsShuffling(true);
+        shuffleDeck();
+        setTimeout(() => setIsShuffling(false), 1500);
+    }
+    
     return (
         <Wrapper>
             <GameHeader onBack={()=>setIsExitModal(true)} onClickRules={()=>setIsRulesModal(true)} matches={matches}/>
@@ -62,6 +70,7 @@ export const Game = ({level, week, showRules, initialCards, points = 3, isLastLe
                 flippedCards={[cardSelectedOne, cardSelectedTwo]}
                 onCardClick={handleSelection}
                 cards={deck}
+                isShuffling={isShuffling}
             />
             {cardInfo && (
                 <CardInfo 
@@ -70,6 +79,7 @@ export const Game = ({level, week, showRules, initialCards, points = 3, isLastLe
                     onClose={() => setCardInfo()} 
                     finishLevel={handleFinishLevel} 
                     points={points}
+                    onPickIncorrect={handlePickIncorrect}
                 />
             )}
             {isRulesModal && <GameRulesModal isFirstTime={isFirstTime} onClose={handleCloseRules} />}

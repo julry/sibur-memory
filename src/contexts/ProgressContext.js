@@ -115,6 +115,9 @@ export function ProgressProvider(props) {
             case 3: 
                 setPassedLevelsWeek3(addLevel)
                 break;
+            case 4: 
+                setPassedLevelsWeek4(addLevel)
+                break;
             default:
                 break;
         }

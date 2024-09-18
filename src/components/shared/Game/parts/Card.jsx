@@ -3,14 +3,13 @@ import styled from 'styled-components';
 
 import cardShirt from '../assets/cardShirt.svg';
 
-const CardWrapper = styled.div`
+const CardWrapper = styled(motion.div)`
     border-radius: calc(var(--cardSize) * 0.075);
     height: var(--cardSize);
     width: var(--cardSize);
     background-color: transparent;
     perspective: 1000px;
     cursor: pointer;
-    position: relative;
 `;
 
 const AnimatedWrapper = styled(motion.div)`
@@ -54,11 +53,20 @@ export const Card = ({
   card,
   onCardClick,
   flipped,
+  isShuffling,
 }) => {
   const handleClick = () => onCardClick(card);
 
   return (
-    <CardWrapper>
+    <CardWrapper
+        // animate={ isShuffling ? {
+        //   position: 'absolute',
+        //   top: '50%',
+        //   left: '50%',
+        //   translateX: '-50%',
+        //   translateY: '-50%',
+        // } : {position: 'relative'}}
+    >
       <AnimatedWrapper
         animate={{
           rotateY: flipped ? '180deg' : '0deg',

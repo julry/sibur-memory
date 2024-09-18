@@ -30,6 +30,11 @@ export default function useMemoryGame(
         setMatches(0)
     }, [selectedDeck])
 
+
+    const shuffleDeck = () => {
+        setDeck(prev => prev.sort(() => Math.random() - 0.5));
+    }
+
     const completePhase = () => {
         setTimeout(() => {
             setCardSelectedOne(null)
@@ -82,6 +87,7 @@ export default function useMemoryGame(
         matches,
         cardInfo,
         setCardInfo,
+        shuffleDeck,
         isLast
     }
 }

@@ -21,7 +21,7 @@ export const universities = [
     },
     {
         id: 'nngu',
-        name: 'ННГУ'
+        name: 'НГТУ им. Р.Е. Алексеева'
     },
     {
         id: 'vguit',
@@ -74,7 +74,7 @@ export const faculties = [
     {
         id: 'fac-nngu',
         university: 'nngu',
-        name: 'Химический факультет'
+        name: 'Дзержинский филиал'
     },
     {
         id: 'fac-vguit',

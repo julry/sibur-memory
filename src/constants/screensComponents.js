@@ -1,9 +1,9 @@
-// import { Game1 } from "../components/screens/Game1";
 import { Intro } from "../components/screens/Intro";
+import { Login } from "../components/screens/Login";
 import { Lobby1, Week1, Game11, Game12, Game13, PostGame1, PostLevel11, PostLevel12, PostLevel13, Library1 } from "../components/screens/week1";
 import { Lobby2, Week2, Game21, Game22, Game23, PostGame2, PostLevel21, PostLevel22, PostLevel23, Library2 } from "../components/screens/week2";
 import { Lobby3, Week3, Game31, Game32, Game33, PostGame3, PostLevel31, PostLevel32, PostLevel33, Library3 } from "../components/screens/week3";
-import { Login } from "../components/screens/Login";
+import { Lobby4, Week4, Game4, PostGame4, PostLevel4, Library4 } from "../components/screens/week4";
 import { Registration1 } from "../components/screens/Registration1";
 import { Registration2 } from "../components/screens/Registration2";
 import { Start } from "../components/screens/Start";
@@ -99,7 +99,7 @@ export const screens = {
     [SCREENS.LOBBY1]: Lobby1,
     [SCREENS.LOBBY2]: Lobby2,
     [SCREENS.LOBBY3]: Lobby3,
-    // [SCREENS.LOBBY4]: Lobby4,
+    [SCREENS.LOBBY4]: Lobby4,
     [SCREENS.GAME1_1]: Game11,
     [SCREENS.GAME1_2]: Game12,
     [SCREENS.GAME1_3]: Game13,
@@ -124,6 +124,10 @@ export const screens = {
     [SCREENS.POST_LEVEL3_1]: PostLevel31,
     [SCREENS.POST_LEVEL3_2]: PostLevel32,
     [SCREENS.POST_LEVEL3_3]: PostLevel33,
+    [SCREENS.POST_LEVEL3_3]: PostLevel33,
+    [SCREENS.GAME4]: Game4,
+    [SCREENS.POST_GAME4]: PostGame3,
+    [SCREENS.POST_LEVEL4]: PostLevel4,
     [SCREENS.PROFILE]: Profile,
 };
 

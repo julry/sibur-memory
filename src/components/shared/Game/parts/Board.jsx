@@ -12,7 +12,7 @@ const Wrapper = styled.div`
     grid-gap: var(--spacing_x2);
 `;
 
-export const Board = ({ cards, flippedCards, onCardClick }) => {
+export const Board = ({ cards, flippedCards, onCardClick, isShuffling }) => {
     const ratio = useSizeRatio();
 
     return (
@@ -22,6 +22,7 @@ export const Board = ({ cards, flippedCards, onCardClick }) => {
                     key={card.id}
                     card={card}
                     onCardClick={onCardClick}
+                    isShuffling={isShuffling}
                     flipped={Boolean(
                         card.matched ||
                           flippedCards.find(
