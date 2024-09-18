@@ -25,7 +25,7 @@ const Title = styled.p`
     left: 0;
 `;
 
-export const Game = ({level, week, showRules, initialCards, points = 3, isLastLevel}) => {
+export const Game = ({level, week, showRules, initialCards, points = 3, isLastLevel, isWrongShuffle}) => {
     const ratio = useSizeRatio();
     const {user, setLevelPoints} = useProgress();
     const [isExitModal, setIsExitModal] = useState(false);
@@ -57,9 +57,10 @@ export const Game = ({level, week, showRules, initialCards, points = 3, isLastLe
     };
 
     const handlePickIncorrect = () => {
+        if (!isWrongShuffle) return;
         setIsShuffling(true);
         shuffleDeck();
-        setTimeout(() => setIsShuffling(false), 1500);
+        setTimeout(() => setIsShuffling(false), 300);
     }
     
     return (

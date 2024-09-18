@@ -1,9 +1,11 @@
 import { motion } from 'framer-motion'
 import styled from 'styled-components';
+import { useSizeRatio } from '../../../../hooks/useSizeRatio';
 
 import cardShirt from '../assets/cardShirt.svg';
 
 const CardWrapper = styled(motion.div)`
+    position: 'relative';
     border-radius: calc(var(--cardSize) * 0.075);
     height: var(--cardSize);
     width: var(--cardSize);
@@ -54,18 +56,42 @@ export const Card = ({
   onCardClick,
   flipped,
   isShuffling,
+  index
 }) => {
+  const ratio = useSizeRatio();
   const handleClick = () => onCardClick(card);
+
+  const getShuffleInfo = () => {
+    const size = ratio * 80;
+    let x, y = 0;
+
+    if ([0, 1, 2, 3].includes(index)) {
+      y = size;
+    } else if ([8, 9, 10, 11].includes(index)) {
+      y = -size;
+    }
+
+    if ([0, 4, 8].includes(index)) {
+      x = 1.5 * size;
+    } else if ([3, 7, 11].includes(index)) {
+      x = -1.5 * size;
+    } else if ([1, 5, 9].includes(index)) {
+      x = 0.5 * size;
+    } else if ([2, 6, 10].includes(index)) {
+      x = -0.5 * size;
+    }
+
+    return {x, y}
+  }
+
+  const shuffleInfo = getShuffleInfo();
 
   return (
     <CardWrapper
-        // animate={ isShuffling ? {
-        //   position: 'absolute',
-        //   top: '50%',
-        //   left: '50%',
-        //   translateX: '-50%',
-        //   translateY: '-50%',
-        // } : {position: 'relative'}}
+        animate={{
+          x: isShuffling ? shuffleInfo.x : 0,
+          y: isShuffling ? shuffleInfo.y : 0,
+        }}
     >
       <AnimatedWrapper
         animate={{

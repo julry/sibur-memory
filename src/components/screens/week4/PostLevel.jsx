@@ -5,6 +5,7 @@ export const PostLevel4 = () => (
         level={1}
         week={4}
         isLast
+        metrika={'final'}
         text={'Супер, все карточки\nнашли свои пары!'} 
     />
 );

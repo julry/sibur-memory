@@ -4,6 +4,7 @@ import level2 from '../../assets/images/level2bg.png';
 import level3 from '../../assets/images/level3bg.png';
 import { WEEK_TO_LOBBY } from "../../constants/weekToScreens";
 import { useProgress } from "../../contexts/ProgressContext";
+import { reachMetrikaGoal } from "../../utils/reachMetrikaGoal";
 import { BackButton } from "./BackButton";
 import { Block } from "./Block";
 import { Button } from "./Button";
@@ -39,13 +40,14 @@ const CoinsStyled = styled(PointsButton)`
     margin-top: var(--spacing_x4);
 `;
 
-export const PostLevelScreen = ({ level, text, week, isLast }) => {
+export const PostLevelScreen = ({ level, text, week, isLast, metrika }) => {
     const {setUserInfo} = useProgress();
     const { 
-        next, gamePoints, setGamePoints
+        next, gamePoints, setGamePoints, user
     } = useProgress();
 
     const updateInfo = () => {
+        if (metrika) reachMetrikaGoal(`${user.isVip ? '' : 'non'}target_${metrika}`);
         if (isLast) {
             setUserInfo({isFromGame: true, lastWeek: week});
         }

@@ -17,10 +17,11 @@ export const Board = ({ cards, flippedCards, onCardClick, isShuffling }) => {
 
     return (
         <Wrapper $ratio={ratio}>
-            {cards.map((card) => (
+            {cards.map((card, ind) => (
                 <Card 
                     key={card.id}
                     card={card}
+                    index={ind}
                     onCardClick={onCardClick}
                     isShuffling={isShuffling}
                     flipped={Boolean(

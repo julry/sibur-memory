@@ -72,7 +72,7 @@ export const CardInfo = ({isLast, card, onClose, finishLevel, onPickIncorrect, p
             setGamePoints(prev => prev + points);
             next();
         } else {
-            // if (!taskResult.isCorrect) onPickIncorrect?.();
+            if (!taskResult.isCorrect) onPickIncorrect?.();
             onClose?.();
         }
     }
