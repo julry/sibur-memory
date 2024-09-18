@@ -30,12 +30,13 @@ const StarWrapper = styled(IconButton)`
 
 export const PointsButton = ({text, type = "coin", isShowAmount = true, ...props}) => {
     const ratio = useSizeRatio();
-    const { user, points, weekPoints, vipPoints } = useProgress();
+    const { user, points, weekPoints, vipPoints, passedWeeks } = useProgress();
     const [modal, setModal] = useState(false);
 
     const getAmount = () => {
         if (user.isVip) {
-            if (type === 'coin') return isShowAmount ? `${weekPoints}/34` : weekPoints;
+            const isLastWeek = ((passedWeeks[passedWeeks.length - 1] ?? 0) + 1) >= 4;
+            if (type === 'coin') return isShowAmount ? `${weekPoints}/${isLastWeek ? 49 : 34}` : weekPoints;
             else return isShowAmount ? `${vipPoints}/5` : vipPoints;
         }
         return isShowAmount ? `${points}/151` : points;
