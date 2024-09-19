@@ -183,10 +183,10 @@ export const Lobby = ({ activeWeek, levelScreens, isShowRules, hasOwnButton, chi
             showTgModal()
         }
        
-        if (user.isVip && !isModal && !user.seenWeekInfo && passedWeeks.length + 1 < currentWeek && !newWeekModal && modal.type !== 'tg') {
+        if (user.isVip && !isPrevWeekModal && !isModal && !user.seenWeekInfo && passedWeeks.length + 1 < currentWeek && !newWeekModal && modal.type !== 'tg') {
             setIsMissedModal(true);
         }
-    }, [user.registerWeek, newWeekModal, isPrevWeekModal, isModal]);
+    }, [user.registerWeek, newWeekModal, isPrevWeekModal, isModal, newWeekModal, modal.type]);
 
     const levels = Array.from({length: 3}, (v, i) => i + 1);
     const weeks = Array.from({length: 4}, (v, i) => i + 1);
