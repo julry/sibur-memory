@@ -72,7 +72,7 @@ const WeekButton = styled(Button)`
 
 export const Lobby = ({ activeWeek, levelScreens, isShowRules, hasOwnButton, children}) => {
     const ratio = useSizeRatio();
-    const {next, passedWeeks, passedWeekLevels, user, setUserInfo, setModal, modal, currentWeek, setWeekPoints} = useProgress();
+    const {next, passedWeeks, passedWeekLevels, user, setUserInfo, setModal, modal, currentWeek, setWeekPoints, updateUser} = useProgress();
     const [isModal, setIsModal] = useState(isShowRules && !user.seenRules);
     const [newWeekModal, setNewWeekModal] = useState(user.isVip && user.registerWeek !== currentWeek && !user.weekLeafs.includes(currentWeek))
     const [isNextWeekModal, setIsNextWeekModal] = useState(!user.seenNext && activeWeek === currentWeek && passedWeeks.includes(activeWeek) && currentWeek !== 4);
@@ -160,19 +160,33 @@ export const Lobby = ({ activeWeek, levelScreens, isShowRules, hasOwnButton, chi
         setIsNextWeekModal(false);
     }
 
+    const showTgModal = () => {
+        setModal({visible: true, type: 'tg', onClose: () => {
+            if (user.isVip && passedWeeks[passedWeeks.length - 1] < currentWeek) setIsMissedModal(true)
+        }});
+        setUserInfo({seenTg: true});
+        updateUser({seenTg: true});
+    }
+
     useEffect(() => {
-        if (!user.isTgConnected && !newWeekModal && user.registerWeek !== currentWeek && !user.seenTg) {
-            
-            setModal({visible: true, type: 'tg', onClose: () => {
-                if (user.isVip && passedWeeks[passedWeeks.length - 1] < currentWeek) setIsMissedModal(true)
-            }});
-            setUserInfo({seenTg: true});
+        if (
+            passedWeeks[passedWeekLevels.length - 1] < currentWeek 
+            && currentWeek > 1 
+            && !user.seenPrevInfo 
+            && passedLevels.length < 1
+        ) {
+            setIsPrevWeekModal(true);
+            setUserInfo({seenPrevInfo: true});
         }
 
+        if (!user.isTgConnected && !newWeekModal && activeWeek === 3 && !user.seenTg && !isPrevWeekModal) {
+            showTgModal()
+        }
+       
         if (user.isVip && !isModal && !user.seenWeekInfo && passedWeeks.length + 1 < currentWeek && !newWeekModal && modal.type !== 'tg') {
             setIsMissedModal(true);
         }
-    }, [user.registerWeek, newWeekModal]);
+    }, [user.registerWeek, newWeekModal, isPrevWeekModal, isModal]);
 
     const levels = Array.from({length: 3}, (v, i) => i + 1);
     const weeks = Array.from({length: 4}, (v, i) => i + 1);

@@ -129,7 +129,7 @@ export function ProgressProvider(props) {
     const updateUser = async (changed) => {
         const { 
             isVip, recordId, weekLeafs, id, name, email, registerWeek,
-            university, fac, isTgConnected, seenRules, seenInfo
+            university, fac, isTgConnected, seenRules, seenInfo, seenTg
         } = user;
        
         const data = {
@@ -152,6 +152,7 @@ export function ProgressProvider(props) {
             passedLevelsWeek3: passedLevelsWeek3.join(','),
             passedLevelsWeek4: passedLevelsWeek4.join(','),
             seenInfo,
+            seenTg, 
             ...changed,
         };
 
@@ -240,6 +241,7 @@ export function ProgressProvider(props) {
                 isTgConnected: data.isTgConnected,
                 weekLeafs: data.weekLeafs.length > 0 ? data.weekLeafs.replace(' ', '').split(',').map((l) => +l.trim()) : [],
                 registerWeek: data.registerWeek,
+                seenTg: data.seenTg,
             };
     
             if (isAfterTg) {

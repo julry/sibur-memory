@@ -65,7 +65,7 @@ export const Game = ({level, week, showRules, initialCards, points = 3, isLastLe
     
     return (
         <Wrapper>
-            <GameHeader onBack={()=>setIsExitModal(true)} onClickRules={()=>setIsRulesModal(true)} matches={matches}/>
+            <GameHeader onBack={()=>setIsExitModal(true)} onClickRules={()=>setIsRulesModal(true)} matches={matches} cardAmount={deck?.length / 2}/>
             <Title $ratio={ratio}>Уровень {level}</Title>
             <Board
                 flippedCards={[cardSelectedOne, cardSelectedTwo]}
