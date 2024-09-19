@@ -70,13 +70,13 @@ const WeekButton = styled(Button)`
     }
 `;
 
-export const Lobby = ({ activeWeek, levelScreens, isShowRules}) => {
+export const Lobby = ({ activeWeek, levelScreens, isShowRules, hasOwnButton, children}) => {
     const ratio = useSizeRatio();
     const {next, passedWeeks, passedWeekLevels, user, setUserInfo, setModal, modal, currentWeek, setWeekPoints} = useProgress();
     const [isModal, setIsModal] = useState(isShowRules && !user.seenRules);
     const [newWeekModal, setNewWeekModal] = useState(user.isVip && user.registerWeek !== currentWeek && !user.weekLeafs.includes(currentWeek))
     const [isNextWeekModal, setIsNextWeekModal] = useState(!user.seenNext && activeWeek === currentWeek && passedWeeks.includes(activeWeek) && currentWeek !== 4);
-    const [isPrevWeekModal, setIsPrevWeekModal] = useState(user.isVip && user.isFromGame && passedWeeks.includes(activeWeek) && !!user.lastWeek && user.lastWeek !== currentWeek);
+    const [isPrevWeekModal, setIsPrevWeekModal] = useState(user.isVip && user.isFromGame && !!user.lastWeek && passedWeeks.includes(user.lastWeek) && user.lastWeek !== currentWeek);
     const passedLevels = passedWeekLevels[activeWeek];
     const currentLevel = passedLevels.length + 1 > 3 ? 3 : passedLevels.length + 1;
     const lastWeek = passedWeeks.length + 1 > 4 ? 4 : passedWeeks.length + 1;
@@ -162,7 +162,10 @@ export const Lobby = ({ activeWeek, levelScreens, isShowRules}) => {
 
     useEffect(() => {
         if (!user.isTgConnected && !newWeekModal && user.registerWeek !== currentWeek && !user.seenTg) {
-            setModal({visible: true, type: 'tg'});
+            
+            setModal({visible: true, type: 'tg', onClose: () => {
+                if (user.isVip && passedWeeks[passedWeeks.length - 1] < currentWeek) setIsMissedModal(true)
+            }});
             setUserInfo({seenTg: true});
         }
 
@@ -178,7 +181,8 @@ export const Lobby = ({ activeWeek, levelScreens, isShowRules}) => {
         <FlexWrapper>
             <LobbyHeader/>
             <Levels $ratio={ratio}>
-                {
+                {children}
+                {!hasOwnButton &&
                     levels.map((level) => (
                         <ButtonStyled
                             key={level}

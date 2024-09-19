@@ -31,12 +31,6 @@ export const TgModal = () => {
 
     const [checkTg, setCheckTg] = useState(false);
 
-    const handleClick = () => {
-        if (checkTg) return;
-        window.open('https://t.me/siburgamebot', '_blank');
-        setModal({visible: false});
-    }
-
     useEffect(() => {
         const handleCheck = () => {
             if (checkTg) return;
@@ -53,9 +47,20 @@ export const TgModal = () => {
     },[]);
 
 
+    const handleClose = () => {
+        modal?.onClose();
+        setModal({visible: false});
+    }
+
+    const handleClick = () => {
+        if (checkTg) return;
+        window.open('https://t.me/siburgamebot', '_blank');
+        handleClose();
+    }
+
     return (
         <Modal isDarken isDisabledAnimation={modal.isDisabledAnimation}>
-            <BackButtonStyled onClick={() => setModal({visible: false})}/>
+            <BackButtonStyled onClick={handleClose}/>
             <Content>
                 <p>
                     В нашем <b>tg-боте</b> ты можешь следить за <b>обновлениями</b> игры 

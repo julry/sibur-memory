@@ -57,6 +57,7 @@ export function ProgressProvider(props) {
     const [modal, setModal] = useState({visible: false});
     // points za неделю, сюда добавляем набранные белые звезды для випов
     const [weekPoints, setWeekPoints] = useState(INITIAL_STATE.weekPoints);
+    const [currentWeekPoints, setCurrentWeekPoints] = useState(INITIAL_STATE.weekPoints);
     const [gamePoints, setGamePoints] = useState(0);
     const [user, setUser] = useState(INITIAL_STATE.user);
     const [passedWeeks, setPassedWeeks] = useState(INITIAL_STATE.passedWeeks);
@@ -130,6 +131,7 @@ export function ProgressProvider(props) {
             isVip, recordId, weekLeafs, id, name, email, registerWeek,
             university, fac, isTgConnected, seenRules, seenInfo
         } = user;
+       
         const data = {
             id,
             name,
@@ -141,7 +143,7 @@ export function ProgressProvider(props) {
             weekLeafs: weekLeafs.join(','),
             points,
             targetPoints: vipPoints,
-            [`week${currentWeek}Points`]: weekPoints,
+            [`week${currentWeek}Points`]: currentWeekPoints,
             seenRules, 
             registerWeek,
             passedWeeks: passedWeeks.join(','),
@@ -152,7 +154,6 @@ export function ProgressProvider(props) {
             seenInfo,
             ...changed,
         };
-
 
         try {
             const result = await client.current.updateRecord(recordId, data);
@@ -175,7 +176,6 @@ export function ProgressProvider(props) {
                 fac: user.fac,
                 isTarget: user.isVip,
                 points: 0,
-                [`week${currentWeek}Points`]: 0,
                 targetPoints: 0,
                 isTgConnected: false,
                 seenRules: false,
@@ -208,6 +208,7 @@ export function ProgressProvider(props) {
             setPoints(INITIAL_STATE.points);
             setVipPoints(INITIAL_STATE.vipPoints);
             setWeekPoints(INITIAL_STATE.weekPoints);
+            setCurrentWeekPoints(INITIAL_STATE.weekPoints);
             setPassedLevelsWeek1(INITIAL_STATE.passedLevelsWeek1);
             setPassedLevelsWeek2(INITIAL_STATE.passedLevelsWeek2);
             setPassedLevelsWeek3(INITIAL_STATE.passedLevelsWeek3);
@@ -268,6 +269,7 @@ export function ProgressProvider(props) {
             setPoints(data?.points ?? 0);
             setVipPoints(data?.targetPoints ?? 0);
             setWeekPoints(data?.[`week${currentWeek}Points`] ?? 0);
+            setCurrentWeekPoints(data?.[`week${currentWeek}Points`] ?? 0);
     
             return {userInfo, passed};
         } catch(e) {
@@ -276,7 +278,7 @@ export function ProgressProvider(props) {
     }
 
 
-    const setLevelPoints = (level, week, isLastLevel, curPoints) => {
+    const setLevelPoints = async (level, week, isLastLevel, curPoints) => {
         const passedWeekLevels = {
             1: passedLevelsWeek1,
             2: passedLevelsWeek2,
@@ -296,7 +298,8 @@ export function ProgressProvider(props) {
 
         if (user.isVip) {
             if (week === currentWeek) {
-                data[`week${week}Points`] = weekPoints + curPoints;
+                data[`week${week}Points`] = currentWeekPoints + curPoints;
+                setCurrentWeekPoints(prev => prev + curPoints);
             }
             setUserInfo({[`week${week}Points`]: user[`week${week}Points`] + curPoints});
         }

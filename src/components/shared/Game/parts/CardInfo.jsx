@@ -40,7 +40,7 @@ const AnswerBlock = styled.div`
     justify-content: space-between;
     align-items: center;
     margin-top: var(--spacing_x4);
-    width: 100%;
+    width: calc(100% + 2 * var(--spacing_small));
     flex-wrap: wrap;
 `;
 

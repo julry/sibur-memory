@@ -39,9 +39,7 @@ export const NewWeek = (props) => {
                 targetPoints: vipPoints + 1,
             };
 
-            setVipPoints(prev => {
-                return prev + 1
-            });
+            setVipPoints(prev => prev + 1);
 
             setUserInfo({weekLeafs: [...user.weekLeafs, currentWeek]});
             updateUser(data);
