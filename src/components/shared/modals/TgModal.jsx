@@ -54,7 +54,7 @@ export const TgModal = () => {
 
     const handleClick = () => {
         if (checkTg) return;
-        window.open('https://t.me/siburgamebot', '_blank');
+        window.open(`https://t.me/siburgamebot?start=${user.email}`, '_blank');
         handleClose();
     }
 
