@@ -162,7 +162,7 @@ export const Lobby = ({ activeWeek, levelScreens, isShowRules, hasOwnButton, chi
 
     const showTgModal = () => {
         setModal({visible: true, type: 'tg', onClose: () => {
-            if (user.isVip && passedWeeks[passedWeeks.length - 1] < currentWeek) setIsMissedModal(true)
+            if (user.isVip && passedWeeks[passedWeeks.length - 1] < currentWeek && !user.seenWeekInfo) setIsMissedModal(true)
         }});
         setUserInfo({seenTg: true});
         updateUser({seenTg: true});
