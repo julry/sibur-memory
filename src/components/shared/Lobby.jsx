@@ -160,10 +160,13 @@ export const Lobby = ({ activeWeek, levelScreens, isShowRules, hasOwnButton, chi
         setIsNextWeekModal(false);
     }
 
+
+    const handleShowMissed = () => {
+        if (user.isVip && passedWeeks[passedWeeks.length - 1] < currentWeek && !user.seenWeekInfo)  setIsMissedModal(true);
+    }
+
     const showTgModal = () => {
-        setModal({visible: true, type: 'tg', onClose: () => {
-            if (user.isVip && passedWeeks[passedWeeks.length - 1] < currentWeek && !user.seenWeekInfo) setIsMissedModal(true)
-        }});
+        setModal({visible: true, type: 'tg', closeFunc: handleShowMissed});
         setUserInfo({seenTg: true});
         updateUser({seenTg: true});
     }

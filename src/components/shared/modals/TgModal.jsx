@@ -48,13 +48,14 @@ export const TgModal = () => {
 
 
     const handleClose = () => {
-        modal?.onClose();
+        modal?.closeFunc?.();
         setModal({visible: false});
     }
 
     const handleClick = () => {
         if (checkTg) return;
-        window.open(`https://t.me/siburgamebot?start=${user.email}`, '_blank');
+        const link = `https://t.me/siburgamebot?start=email_${btoa(user.email)}`;
+        window.open(link, '_blank');
         handleClose();
     }
 
