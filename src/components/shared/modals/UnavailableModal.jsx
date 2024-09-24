@@ -8,8 +8,8 @@ const ModalStyled = styled(Modal)`
     align-items: center;
 `;
 
-export const UnavailableModal = ({ text, onClose }) => (
-    <ModalStyled onClick={onClose} isDarken>
+export const UnavailableModal = ({ text, onClose, ...props }) => (
+    <ModalStyled  {...props} onClick={onClose} isDarken>
         <Block hasCloseIcon onClose={onClose} isWhite>
             {text}
         </Block>
