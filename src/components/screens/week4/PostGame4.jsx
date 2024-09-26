@@ -53,7 +53,7 @@ export const PostGame4 = () => {
             <BackButtonStyled onClick={handleGoLobby}/>
             <BlockStyled>
                 <p>Все 4 недели завершены!</p>
-                <br/><br/>
+                <br/>
                 <p>
                     Накопленные баллы за неделю — {weekPoints}. 
                 </p>

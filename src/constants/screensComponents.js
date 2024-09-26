@@ -128,7 +128,7 @@ export const screens = {
     [SCREENS.POST_LEVEL3_3]: PostLevel33,
     [SCREENS.POST_LEVEL3_3]: PostLevel33,
     [SCREENS.GAME4]: Game4,
-    [SCREENS.POST_GAME4]: PostGame3,
+    [SCREENS.POST_GAME4]: PostGame4,
     [SCREENS.POST_LEVEL4]: PostLevel4,
     [SCREENS.PROFILE]: Profile,
 };
