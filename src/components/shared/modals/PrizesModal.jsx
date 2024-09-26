@@ -54,7 +54,7 @@ export const PrizesModal = () => {
     const ratio = useSizeRatio();
     const [part, setPart] = useState(0);
     const { user, setModal } = useProgress();
-    const amount = 3;
+    const amount = 4;
     const progress = Array.from({length: amount}, (v, i) => i);
 
     const Progress = () => (
@@ -101,7 +101,15 @@ export const PrizesModal = () => {
                     </p>
                 )
                 break;
-
+            case 3:
+                content = (
+                    <p>
+                        Ты можешь приглашать друзей со своего факультета в игру. Если пригласишь <b>трёх или больше</b> студентов{' '}
+                        своего факультета, получишь листик и увеличишь шанс выиграть IPhone 15 Pro Max.{'\n\n'} 
+                        Для того чтобы засчитать приглашение, новым игрокам надо ввести твой ID при регистрации.
+                    </p>
+                )
+                break;
             default: break;
         }
 
@@ -114,7 +122,7 @@ export const PrizesModal = () => {
                 ) : (
                     <ButtonsWrapper>
                         <Button color="green2" onClick={() => setPart(prev => prev - 1)}>Назад</Button>
-                        <Button onClick={() => part === 2 ? setModal({visible: false}) : setPart(prev => prev + 1)}>Далее</Button>
+                        <Button onClick={() => part === 3 ? setModal({visible: false}) : setPart(prev => prev + 1)}>Далее</Button>
                     </ButtonsWrapper>
                 )}
                 

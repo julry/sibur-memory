@@ -37,7 +37,7 @@ export const PointsButton = ({text, type = "coin", isShowAmount = true, ...props
         if (user.isVip) {
             const isLastWeek = ((passedWeeks[passedWeeks.length - 1] ?? 0) + 1) >= 4;
             if (type === 'coin') return isShowAmount ? `${weekPoints}/${isLastWeek ? 49 : 34}` : weekPoints;
-            else return isShowAmount ? `${vipPoints}/5` : vipPoints;
+            else return isShowAmount ? `${vipPoints}/6` : vipPoints;
         }
         return isShowAmount ? `${points}/151` : points;
     }

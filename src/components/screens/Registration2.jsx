@@ -23,7 +23,7 @@ const Text = styled.p`
 
 const InputStyled = styled(Input)`
     margin-top: var(--spacing_small);
-    ${({$isIncorrect}) => $isIncorrect ? 'border: 1px solid var(--color-red); color: var(--color-red)' : ''}
+    ${({$isIncorrect}) => $isIncorrect ? 'border: 1px solid var(--color-red); color: var(--color-red)' : ''};
 `;
 
 const ButtonsWrapper = styled.div`
@@ -111,6 +111,7 @@ export const Registration2 = () => {
     const [email, setEmail] = useState('');
     const [isAgreed, setIsAgreed] = useState('');
     const [isCorrect, setIsCorrect] = useState(true);
+    const [refId, setRefId] = useState('');
     const [isNetworkError, setIsNetworkError] = useState(false);
     
     const link = user.isVip ? 'https://memo-sibur.fut.ru/agreement_ff.pdf' : 'https://memo-sibur.fut.ru/agreement.pdf';
@@ -143,7 +144,7 @@ export const Registration2 = () => {
 
         setIsSending(true);
         setUserInfo({name: `${name} ${surname}`, email: email.toLowerCase(), registerWeek: currentWeek, id});
-        const reg = await registrateUser({name: `${name} ${surname}`, email: email.toLowerCase(), id});
+        const reg = await registrateUser({name: `${name} ${surname}`, email: email.toLowerCase(), id, refId});
         setIsSending(false);
 
         if (reg?.isError) {
@@ -177,18 +178,18 @@ export const Registration2 = () => {
                     value={surname} 
                     disabled={isSending}
                     onChange={(e) => setSurname(e.target.value)} 
-                    placeholder="Фамилия"
+                    placeholder="Фамилия*"
                 />
                 <InputStyled 
-                    type="text" 
+                    type="text"
                     value={name} 
                     disabled={isSending}
                     onChange={(e) => setName(e.target.value)} 
-                    placeholder="Имя"
+                    placeholder="Имя*"
                 />
                 <InputStyled 
                     type="email" 
-                    placeholder="E-mail"
+                    placeholder="E-mail*"
                     value={email} 
                     disabled={isSending}
                     onBlur={handleBlur}
@@ -198,6 +199,17 @@ export const Registration2 = () => {
                 {isAlreadyHas && (
                     <SmallText>Ой! Эта почта уже зарегистрирована. Попробуй ввести снова или войди, чтобы начать играть.</SmallText>
                 )}
+                {
+                    user.isVip && (
+                        <InputStyled 
+                            type="text" 
+                            placeholder="ID друга, если тебя пригласили"
+                            value={refId} 
+                            onChange={(e) => setRefId(e.target.value)}
+                            disabled={isSending}
+                        />
+                    )
+                }
                 <RadioButtonLabel $ratio={ratio}>
                     <InputRadioButton
                         type="checkbox"

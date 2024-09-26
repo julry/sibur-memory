@@ -51,7 +51,7 @@ export const Start = () => {
     const {next, user, setVipPoints, setUserInfo, updateUser} = useProgress();
     const [part, setPart] = useState(user?.part ?? 0);
     const [rulesPart, setRulesPart] = useState(user?.rulesPart ?? 0);
-    const progress = Array.from({length: 3}, (v, i) => i);
+    const progress = Array.from({length: 4}, (v, i) => i);
 
     const Progress = () => (
         <ProgressWrapper>
@@ -110,6 +110,15 @@ export const Start = () => {
                     </p>
                 )
             }
+            if (rulesPart === 3) {
+                content = (
+                    <p>
+                        Ты можешь приглашать друзей со своего факультета в игру. Если пригласишь <b>трёх или больше</b> студентов{' '}
+                        своего факультета, получишь листик и увеличишь шанс выиграть IPhone 15 Pro Max.{'\n\n'} 
+                        Для того чтобы засчитать приглашение, новым игрокам надо ввести твой ID при регистрации.
+                    </p>
+                )
+            }
         }
 
         return (
@@ -127,7 +136,7 @@ export const Start = () => {
     }
 
     const handleNext = () => {
-        if (rulesPart === 2 || !user.isVip) {
+        if (rulesPart === 3 || !user.isVip) {
             handleNextPage();
             return;
         }

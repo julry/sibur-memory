@@ -129,7 +129,7 @@ export function ProgressProvider(props) {
     const updateUser = async (changed) => {
         const { 
             isVip, recordId, weekLeafs, id, name, email, registerWeek,
-            university, fac, isTgConnected, seenRules, seenInfo, seenTg
+            university, fac, isTgConnected, seenRules, seenInfo, seenTg, refId
         } = user;
        
         const data = {
@@ -153,6 +153,7 @@ export function ProgressProvider(props) {
             passedLevelsWeek4: passedLevelsWeek4.join(','),
             seenInfo,
             seenTg, 
+            refId,
             ...changed,
         };
 
@@ -167,7 +168,7 @@ export function ProgressProvider(props) {
         }
     }
 
-    const registrateUser = async ({id, name, email}) => {
+    const registrateUser = async ({id, name, email, refId}) => {
         try {
             const data = {
                 id,
@@ -188,6 +189,7 @@ export function ProgressProvider(props) {
                 passedLevelsWeek2: '',
                 passedLevelsWeek3: '',
                 passedLevelsWeek4: '',
+                refId,
             };
     
             const userInfo = {
@@ -202,6 +204,7 @@ export function ProgressProvider(props) {
                 registerWeek: currentWeek,
                 seenInfo: false,
                 weekLeafs: [],
+                refId,
             };
     
             const record = await client?.current.createRecord(data);
@@ -242,6 +245,7 @@ export function ProgressProvider(props) {
                 weekLeafs: data.weekLeafs.length > 0 ? data.weekLeafs.replace(' ', '').split(',').map((l) => +l.trim()) : [],
                 registerWeek: data.registerWeek,
                 seenTg: data.seenTg,
+                refId: data.refId,
             };
     
             if (isAfterTg) {
