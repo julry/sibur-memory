@@ -132,17 +132,18 @@ export const Registration2 = () => {
 
     const handleClick = async () => {
         if (isSending) return;
+        setIsSending(true);
         const res = await getUserInfo(email);
 
         if (res && !res?.isError) {
             setIsCorrect(false);
             setIsAlreadyHas(true);
-
+            setIsSending(false);
+            
             return;
         }
         const id = uid(7);
 
-        setIsSending(true);
         setUserInfo({name: `${name} ${surname}`, email: email.toLowerCase(), registerWeek: currentWeek, id});
         const reg = await registrateUser({name: `${name} ${surname}`, email: email.toLowerCase(), id, refId});
         setIsSending(false);

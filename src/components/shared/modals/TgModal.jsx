@@ -33,7 +33,7 @@ export const TgModal = () => {
 
     useEffect(() => {
         const handleCheck = () => {
-            if (checkTg) return;
+            if (user.isTgConnected || checkTg) return;
             setCheckTg(true);
 
             getUserInfo(user.email, true).finally(() => {
@@ -59,20 +59,28 @@ export const TgModal = () => {
         handleClose();
     }
 
+
+    const contentAdditional = user?.isVip ? (
+        <>
+         Кстати, в боте можно подписаться на полезный канал про карьерные возможности и получить <b>дополнительный листик</b>.
+        </>
+    ) : (
+        <>
+            Кстати, в боте можно подписаться на <b>полезный</b> канал про карьерные возможности и быть в курсе классных стажировок!
+        </>
+    )
+  
     return (
         <Modal isDarken isDisabledAnimation={modal.isDisabledAnimation}>
             <BackButtonStyled onClick={handleClose}/>
             <Content>
                 <p>
                     В нашем <b>tg-боте</b> ты можешь следить за <b>обновлениями</b> игры 
-                    и находить ответы на возможные вопросы. Там же мы огласим ID <b>победителей</b> розыгрыша!{'\n\n'}
-                    {user?.isVip ? (
+                    и находить ответы на возможные вопросы. Там же мы огласим ID <b>победителей</b> розыгрыша!
+                    {!user.isTgConnected && (
                         <>
-                            Кстати, в боте можно подписаться на полезный канал про карьерные возможности и получить <b>дополнительный листик</b>.
-                        </>
-                    ) : (
-                        <>
-                            Кстати, в боте можно подписаться на <b>полезный</b> канал про карьерные возможности и быть в курсе классных стажировок!
+                            {'\n\n'}
+                            {contentAdditional}
                         </>
                     )}
                 </p>
