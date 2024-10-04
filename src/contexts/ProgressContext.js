@@ -25,8 +25,9 @@ const getCurrentWeek = () => {
     if (today < new Date(2024, 8, 16)) return 1;
     if (today < new Date(2024, 8, 23)) return 2;
     if (today < new Date(2024, 8, 30)) return 3;
+    if (today < new Date(2024, 9, 7)) return 4;
 
-    return 4;
+    return 5;
 }
 
 export const CURRENT_WEEK = getCurrentWeek();

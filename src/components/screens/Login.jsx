@@ -76,6 +76,12 @@ export const Login = () => {
             return;
         }
 
+        if (currentWeek === 5) {
+            next(SCREENS.LOBBY1);
+
+            return;
+        }
+
         if (userInfo.seenInfo || passed?.length > 0) {
             let week = passed?.length > 0 ? passed[passed.length - 1] + 1 : 1;
             week = week > currentWeek ? currentWeek : week;

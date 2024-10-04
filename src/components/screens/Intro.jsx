@@ -45,8 +45,18 @@ const ButtonWrapper = styled.div`
 `;
 
 export const Intro = () => {
-    const {next} = useProgress();
-    const ratio = useSizeRatio();
+    const {next, currentWeek} = useProgress();
+
+    const handleReg = () => {
+        let nextScr = SCREENS.REG_1;
+
+        if (currentWeek === 5) {
+            nextScr = SCREENS.PLUG;
+        }
+
+        next(nextScr);
+    }
+
     return (
         <Wrapper>
             <Logo />
@@ -58,7 +68,7 @@ export const Intro = () => {
                     <b>Ты тут в первый раз?</b>
                 </Text>
                 <ButtonWrapper>
-                    <Button color="green" onClick={() => next(SCREENS.REG_1)}>Да</Button>
+                    <Button color="green" onClick={handleReg}>Да</Button>
                     <Button color="red" onClick={() => next(SCREENS.LOGIN)}>Нет</Button>
                 </ButtonWrapper>
             </BlockStyled>

@@ -70,13 +70,29 @@ const WeekButton = styled(Button)`
     }
 `;
 
+const InfoBlockStyled = styled(Block)`
+    margin-top: ${({$ratio}) => $ratio * -50}px;
+    padding: var(--spacing_x5) var(--spacing_x3);
+    text-align: center;
+    
+    & a {
+        color: inherit;
+    }
+
+    & button:last-child {
+        margin-top: var(--spacing_x5);
+        margin-bottom: 0;
+    }
+`;
+
 export const Lobby = ({ activeWeek, levelScreens, isShowRules, hasOwnButton, children}) => {
     const ratio = useSizeRatio();
     const {next, passedWeeks, passedWeekLevels, user, setUserInfo, setModal, modal, currentWeek, setWeekPoints, updateUser} = useProgress();
-    const [isModal, setIsModal] = useState(isShowRules && !user.seenRules);
-    const [newWeekModal, setNewWeekModal] = useState(user.isVip && user.registerWeek !== currentWeek && !user.weekLeafs.includes(currentWeek))
-    const [isNextWeekModal, setIsNextWeekModal] = useState(!user.seenNext && activeWeek === currentWeek && passedWeeks.includes(activeWeek) && currentWeek !== 4);
-    const [isPrevWeekModal, setIsPrevWeekModal] = useState(user.isVip && user.isFromGame && !!user.lastWeek && passedWeeks.includes(user.lastWeek) && user.lastWeek !== currentWeek);
+    const isFinishedGame = currentWeek === 5;
+    const [isModal, setIsModal] = useState(!isFinishedGame && isShowRules && !user.seenRules);
+    const [newWeekModal, setNewWeekModal] = useState(!isFinishedGame && user.isVip && user.registerWeek !== currentWeek && !user.weekLeafs.includes(currentWeek))
+    const [isNextWeekModal, setIsNextWeekModal] = useState(!isFinishedGame && !user.seenNext && activeWeek === currentWeek && passedWeeks.includes(activeWeek) && currentWeek !== 4);
+    const [isPrevWeekModal, setIsPrevWeekModal] = useState(!isFinishedGame && user.isVip && user.isFromGame && !!user.lastWeek && passedWeeks.includes(user.lastWeek) && user.lastWeek !== currentWeek);
     const passedLevels = passedWeekLevels[activeWeek];
     const currentLevel = passedLevels.length + 1 > 3 ? 3 : passedLevels.length + 1;
     const lastWeek = passedWeeks.length + 1 > 4 ? 4 : passedWeeks.length + 1;
@@ -84,6 +100,8 @@ export const Lobby = ({ activeWeek, levelScreens, isShowRules, hasOwnButton, chi
     const [unavailableModal, setUnavailableModal] = useState({visible: false, text: ''});
 
     const handleClickLevel = (level) => {
+        if (isFinishedGame) return;
+
         let text;
 
         if (level > currentLevel) {
@@ -110,24 +128,29 @@ export const Lobby = ({ activeWeek, levelScreens, isShowRules, hasOwnButton, chi
         let text;
 
         if (w > lastWeek) {
+            if (isFinishedGame) return;
+
             text = <p>
                 Эта <b>неделя ещё недоступна</b>.{'\n'}Пройди предыдущую.
             </p>
         }
         if (w > currentWeek) {
+            if (isFinishedGame) return;
+
             text = <p>
                 Эта <b>неделя ещё закрыта</b>,{'\n'}загляни в понедельник!
             </p>
         }
 
         if (w > lastWeek || w > currentWeek) {
+            if (isFinishedGame) return;
             setUnavailableModal({visible: true, text})
             return;
         }
 
         if (w === activeWeek) return;
 
-        if (passedWeekLevels[w]?.length === 0 && !user[`seenStart${w}`]) {
+        if (passedWeekLevels[w]?.length === 0 && !user[`seenStart${w}`] && !isFinishedGame) {
             setUserInfo({[`seenStart${w}`]: true});
             
             next(WEEK_TO_SCREEN[w]);
@@ -160,7 +183,6 @@ export const Lobby = ({ activeWeek, levelScreens, isShowRules, hasOwnButton, chi
         setIsNextWeekModal(false);
     }
 
-
     const handleShowMissed = () => {
         if (user.isVip && passedWeeks[passedWeeks.length - 1] < currentWeek && !user.seenWeekInfo)  setIsMissedModal(true);
     }
@@ -172,6 +194,8 @@ export const Lobby = ({ activeWeek, levelScreens, isShowRules, hasOwnButton, chi
     }
 
     useEffect(() => {
+        if (isFinishedGame) return;
+
         if (
             passedWeeks[passedWeekLevels.length - 1] < currentWeek 
             && currentWeek > 1 
@@ -198,8 +222,8 @@ export const Lobby = ({ activeWeek, levelScreens, isShowRules, hasOwnButton, chi
         <FlexWrapper>
             <LobbyHeader/>
             <Levels $ratio={ratio}>
-                {children}
-                {!hasOwnButton &&
+                {!isFinishedGame && children}
+                {!hasOwnButton && !isFinishedGame &&
                     levels.map((level) => (
                         <ButtonStyled
                             key={level}
@@ -212,6 +236,19 @@ export const Lobby = ({ activeWeek, levelScreens, isShowRules, hasOwnButton, chi
                         </ButtonStyled>
                     ))
                 }
+                {isFinishedGame && (
+                    <InfoBlockStyled $ratio={ratio}>
+                        <p>
+                            <b>Игра подошла к концу!</b>{'\n\n'}
+                            Здесь ты можешь посмотреть накопленные баллы и данные профиля. 
+                            Следи за <b>оповещениями <a href={`https://t.me/siburgamebot?start=email_${btoa(user.email)}`}>в боте</a></b>, чтобы не пропустить результаты розыгрыша.
+                            {'\n\n'}Следи за карьерными возможностями и мероприятиями СИБУРА в ТГ-канале:
+                        </p>
+                        <Button color="red" onClick={() => window.open('https://t.me/sibur_dao', '_blank')}>
+                            Перейти
+                        </Button>
+                    </InfoBlockStyled>
+                )}
                 <Button color="white" onClick={() => next(levelScreens.cards)}>Собранные карточки недели</Button>
             </Levels>
             <BlockStyled>

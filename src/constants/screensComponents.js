@@ -86,6 +86,7 @@ import enterprises33 from '../assets/images/enterprises33.png';
 import goods3 from '../assets/images/goods3.png';
 import women33 from '../assets/images/women33.png';
 import young33 from '../assets/images/young33.png';
+import { Plug } from "../components/screens/Plug";
 
 export const screens = {
     [SCREENS.INTRO]: Intro,
@@ -131,6 +132,7 @@ export const screens = {
     [SCREENS.POST_GAME4]: PostGame4,
     [SCREENS.POST_LEVEL4]: PostLevel4,
     [SCREENS.PROFILE]: Profile,
+    [SCREENS.PLUG]: Plug,
 };
 
 export const preloadImages = [

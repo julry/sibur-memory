@@ -42,6 +42,7 @@ export const SCREENS = {
     LIBRARY3: 'LIBRARY3',
     LIBRARY4: 'LIBRARY4',
     FINISH: 'FINISH',
+    PLUG: 'PLUG',
 }
 
 export const NEXT_SCREENS = {
