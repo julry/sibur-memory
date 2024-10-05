@@ -144,7 +144,7 @@ export function ProgressProvider(props) {
             weekLeafs: weekLeafs.join(','),
             points,
             targetPoints: vipPoints,
-            [`week${currentWeek}Points`]: currentWeekPoints,
+            [`week${currentWeek > 4 ? 4 : currentWeek}Points`]: currentWeekPoints,
             seenRules, 
             registerWeek,
             passedWeeks: passedWeeks.join(','),
@@ -275,8 +275,8 @@ export function ProgressProvider(props) {
             setPassedWeeks(passed);
             setPoints(data?.points ?? 0);
             setVipPoints(data?.targetPoints ?? 0);
-            setWeekPoints(data?.[`week${currentWeek}Points`] ?? 0);
-            setCurrentWeekPoints(data?.[`week${currentWeek}Points`] ?? 0);
+            setWeekPoints(data?.[`week${currentWeek > 4 ? 4 : currentWeek}Points`] ?? 0);
+            setCurrentWeekPoints(data?.[`week${currentWeek > 4 ? 4 : currentWeek}Points`] ?? 0);
     
             return {userInfo, passed};
         } catch(e) {
