@@ -76,7 +76,7 @@ export const Login = () => {
             return;
         }
 
-        if (currentWeek === 5) {
+        if (currentWeek >= 5) {
             next(SCREENS.LOBBY1);
 
             return;

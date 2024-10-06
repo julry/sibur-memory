@@ -88,7 +88,7 @@ const InfoBlockStyled = styled(Block)`
 export const Lobby = ({ activeWeek, levelScreens, isShowRules, hasOwnButton, children}) => {
     const ratio = useSizeRatio();
     const {next, passedWeeks, passedWeekLevels, user, setUserInfo, setModal, modal, currentWeek, setWeekPoints, updateUser} = useProgress();
-    const isFinishedGame = currentWeek === 5;
+    const isFinishedGame = currentWeek >= 5;
     const [isModal, setIsModal] = useState(!isFinishedGame && isShowRules && !user.seenRules);
     const [newWeekModal, setNewWeekModal] = useState(!isFinishedGame && user.isVip && user.registerWeek !== currentWeek && !user.weekLeafs.includes(currentWeek))
     const [isNextWeekModal, setIsNextWeekModal] = useState(!isFinishedGame && !user.seenNext && activeWeek === currentWeek && passedWeeks.includes(activeWeek) && currentWeek !== 4);

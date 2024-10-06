@@ -50,7 +50,7 @@ export const Intro = () => {
     const handleReg = () => {
         let nextScr = SCREENS.REG_1;
 
-        if (currentWeek === 5) {
+        if (currentWeek >= 5) {
             nextScr = SCREENS.PLUG;
         }
 
