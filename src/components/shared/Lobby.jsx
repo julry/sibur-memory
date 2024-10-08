@@ -242,7 +242,7 @@ export const Lobby = ({ activeWeek, levelScreens, isShowRules, hasOwnButton, chi
                             <b>Игра подошла к концу!</b>{'\n\n'}
                             Здесь ты можешь посмотреть накопленные баллы и данные профиля. 
                             Следи за <b>оповещениями <a href={`https://t.me/siburgamebot?start=email_${btoa(user.email)}`}>в боте</a></b>, чтобы не пропустить результаты розыгрыша.
-                            {'\n\n'}Следи за карьерными возможностями и мероприятиями СИБУРА в ТГ-канале:
+                            {'\n\n'}Узнавай о карьерных возможностях и мероприятиях СИБУРа в ТГ-канале:
                         </p>
                         <Button color="red" onClick={() => window.open('https://t.me/sibur_dao', '_blank')}>
                             Перейти

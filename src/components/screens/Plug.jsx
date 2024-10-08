@@ -43,7 +43,7 @@ export const Plug = () => (
             <Text>
                 <b>Упс, игра уже закончилась</b>
                 {'\n\n'}
-                Следи за другими мероприятиями и проектами СИБУРа на канале!
+                Следи за карьерными возможностями и мероприятиями СИБУРа в ТГ-канале!
             </Text>
             <ButtonStyled color="red" onClick={() => window.open('https://t.me/sibur_dao', '_blank')}>Перейти</ButtonStyled>
         </BlockStyled>
